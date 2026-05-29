@@ -399,6 +399,30 @@ export default function App() {
               Página de Información de Envíos
             </div>
           } />
+          <Route path="/gracias" element={
+    <div className="py-16 text-center flex-grow flex flex-col items-center justify-center gap-4">
+        <span className="text-5xl">🎉</span>
+        <h1 className="text-2xl font-semibold text-foreground">¡Pago exitoso!</h1>
+        <p className="text-muted-foreground">Gracias por tu compra. Te contactaremos pronto.</p>
+        <a href="/" className="mt-4 px-6 py-2 bg-black text-white rounded-xl">Volver al inicio</a>
+    </div>
+} />
+    <Route path="/error" element={
+        <div className="py-16 text-center flex-grow flex flex-col items-center justify-center gap-4">
+            <span className="text-5xl">❌</span>
+            <h1 className="text-2xl font-semibold text-foreground">Hubo un error en el pago</h1>
+            <p className="text-muted-foreground">Por favor intentá de nuevo.</p>
+            <a href="/" className="mt-4 px-6 py-2 bg-black text-white rounded-xl">Volver al inicio</a>
+        </div>
+    } />
+    <Route path="/pendiente" element={
+        <div className="py-16 text-center flex-grow flex flex-col items-center justify-center gap-4">
+            <span className="text-5xl">⏳</span>
+            <h1 className="text-2xl font-semibold text-foreground">Pago pendiente</h1>
+            <p className="text-muted-foreground">Tu pago está siendo procesado.</p>
+            <a href="/" className="mt-4 px-6 py-2 bg-black text-white rounded-xl">Volver al inicio</a>
+        </div>
+    } />
         </Routes>
       </main>
 
