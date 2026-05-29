@@ -38,21 +38,31 @@ export default function CarritoSidebar() {
 
 
     const handlePagar = async () => {
-    const items = cart.map(item => ({
-        title: item.nombre,
-        quantity: item.cantidad,
-        unit_price: item.precioOriginal,
-        currency_id: 'ARS'
-    }));
+    try {
+        const items = cart.map(item => ({
+            title: item.nombre,
+            quantity: item.cantidad,
+            unit_price: item.descuento > 0 ? item.precioOferta : item.precioOriginal,
+            currency_id: 'ARS'
+        }));
 
-    const res = await fetch('/api/crear-preferencia', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items })
-    });
+        const res = await fetch('/api/crear-preferencia', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items })
+        });
 
-    const data = await res.json();
-    window.location.href = data.init_point;
+        const data = await res.json();
+        console.log('Respuesta MP:', data);
+
+        if (data.init_point) {
+            window.location.href = data.init_point;
+        } else {
+            alert('Error: ' + JSON.stringify(data));
+        }
+    } catch (error) {
+        alert('Error de conexión: ' + error.message);
+    }
 };
 
     const calcularEnvio = () => {
