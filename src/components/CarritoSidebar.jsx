@@ -36,6 +36,25 @@ export default function CarritoSidebar() {
         }
     };
 
+
+    const handlePagar = async () => {
+    const items = cart.map(item => ({
+        title: item.nombre,
+        quantity: item.cantidad,
+        unit_price: item.precioOriginal,
+        currency_id: 'ARS'
+    }));
+
+    const res = await fetch('/api/crear-preferencia', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items })
+    });
+
+    const data = await res.json();
+    window.location.href = data.init_point;
+};
+
     const calcularEnvio = () => {
         if (codigoPostal.trim()) {
             setCostoEnvio(1500);
@@ -206,13 +225,10 @@ export default function CarritoSidebar() {
                 {/* Botones de acción */}
                 <div className="space-y-2.5">
                     <button 
-                        type="button"
-                        onClick={() => alert("Yendo a la pasarela de pagos...")}
-                        className="w-full bg-black text-white text-center py-3.5 font-bold uppercase tracking-widest text-sm hover:opacity-90 transition-opacity"
-                    >
-                        Iniciar Compra
-                    </button>
-                    
+                    onClick={handlePagar}
+                    className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-xl transition-colors">
+                    Pagar con Mercado Pago
+                </button>
                     <button 
                         type="button"
                         onClick={cerrarCarrito}
