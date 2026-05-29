@@ -222,11 +222,17 @@ export default function ProductoDetalle() {
                                         <button
                                             key={hex}
                                             onClick={() => setColorActivo(hex)}
-                                            style={{ backgroundColor: hex }}
-                                            className={`w-10 h-10 rounded-full relative transition-all duration-200 transform hover:scale-110 shadow-inner ${
+                                            style={producto.id === 8 ? {} : { backgroundColor: hex }}
+                                            className={`w-10 h-10 rounded-full relative transition-all duration-200 transform hover:scale-110 shadow-inner overflow-hidden ${
                                                 esSeleccionado ? "ring-2 ring-offset-2 ring-blue-600 scale-105" : "ring-1 ring-black/10"
                                             } ${sinStock ? "opacity-40" : ""}`}
                                         >
+                                            {producto.id === 8 && (
+                                                <>
+                                                    <span className="absolute inset-0 w-1/2 left-0" style={{ backgroundColor: '#1f2324' }} />
+                                                    <span className="absolute inset-0 w-1/2 left-1/2" style={{ backgroundColor: '#e94f1c' }} />
+                                                </>
+                                            )}
                                             {sinStock && (
                                                 <div className="absolute inset-0 flex items-center justify-center">
                                                     <div className="w-full h-[2px] bg-red-600 transform -rotate-45"></div>

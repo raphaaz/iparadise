@@ -55,7 +55,7 @@
         "/images/products/peque/adaptOrig4.webp",
         ],
         colores: {
-        "#FFFFFF": { nombre: "Blanco", stock: 31},
+        "#FFFFFF": { nombre: "Blanco", stock: 29},
         
         }
     },
@@ -184,7 +184,7 @@
         "/images/products/peque/cableL2.webp",
         ],
         colores: {
-        "#FFFFFF": { nombre: "Blanco", stock: 30 },
+        "#FFFFFF": { nombre: "Blanco", stock: 40 },
         }
     },
     {
@@ -207,7 +207,7 @@
         "/images/products/peque/cableC2.webp",
         ],
         colores: {
-        "#FFFFFF": { nombre: "Blanco", stock: 30 },
+        "#FFFFFF": { nombre: "Blanco", stock: 88 },
         }
     },
 
