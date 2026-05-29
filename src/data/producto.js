@@ -234,7 +234,7 @@
             "#111d36": { id: 4, nombre: "Azul Marino", stock: 2 },
             "#b683a7": { id: 5, nombre: "Rosa Viejo / Mauve", stock: 1 },
             "#a1b3c3": { id: 6, nombre: "Gris Celeste", stock: 1 },
-            "#d1c3e8": { id: 7, nombre: "Lila / Violeta Claro", stock: 1 },
+            "#d1c3e8": { id: 7, nombre: "Verde Agua / Menta", stock: 1 },
             "#ff7e4f": { id: 8, nombre: "Naranja / Coral", stock: 1 },
             "#492d80": { id: 9, nombre: "Violeta Oscuro", stock: 1 },
             "#d32f2f": { id: 10, nombre: "Rojo", stock: 1 }
@@ -451,7 +451,7 @@
         descripcion: "Funda de alta calidad de silicona, tenemos diferentes colores disponibles, es material de alta durabilidad.",
         imgAll: Array.from({ length: 10 }, (_, i) => `/images/products/fundas/16/fundaSilicona16_${i + 1}.webp`),
         colores: {
-            "#e1ac01": { id: 1, nombre: "Amarillo Ocre / Mostaza", stock: 2 },
+            "#e1ac01": { id: 1, nombre: "Fucsia / Rosa Intenso", stock: 1 },
             "#0046aa": { id: 2, nombre: "Azul Francia / Eléctrico", stock: 2 },
             "#004b23": { id: 3, nombre: "Verde Inglés", stock: 1 },
             "#111d36": { id: 4, nombre: "Azul Noche / Oscuro", stock: 1 },
@@ -460,7 +460,7 @@
             "#31cd31": { id: 7, nombre: "Verde Loro / Manzana", stock: 1 },
             "#ff7e4f": { id: 8, nombre: "Naranja / Coral", stock: 1 },
             "#ff0000": { id: 9, nombre: "Rojo Vivo", stock: 1 },
-            "#ccff00": { id: 10, nombre: "Amarillo Flúor / Lima", stock: 1 }
+            "#ccff00": { id: 10, nombre: "Negro / Gris Oscuro", stock: 1 }
         }
     },
     {
