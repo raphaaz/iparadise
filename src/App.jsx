@@ -204,11 +204,12 @@ function IParadiceLanding() {
     <div className="w-full"> 
       {/* HERO SECTION */}
       <section className="pb-16">
-        <div className="relative w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-[#f5f5f7]">
-          <img src="/images/heroImg1.png" alt="iPhone con accesorios premium iParadice" className="w-full h-full object-cover" loading="eager" />
-        </div>
+          <Link to="/catalogo">
+              <div className="relative w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-[#f5f5f7]">
+                  <img src="/images/heroImg1.png" alt="iPhone con accesorios premium iParadice" className="w-full h-full object-cover cursor-pointer" loading="eager" />
+              </div>
+          </Link>
       </section>
-
       {/* CATEGORÍAS SECTION */}
       <section id="categorias" className="hidden md:block py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-card">
         <div className="max-w-7xl mx-auto">
