@@ -164,7 +164,6 @@ function Header() {
               Ofertas y Promociones 🔥
             </Link>
             <Link to="/como-comprar" className="hover:text-foreground transition-colors py-3">Cómo comprar</Link>
-            <Link to="/envios" className="hover:text-foreground transition-colors py-3">Envíos</Link>
             <Link to="/#contacto" className="hover:text-foreground transition-colors py-3">Contacto</Link>
           </div>
         </div>
@@ -391,9 +390,55 @@ export default function App() {
           <Route path="/catalogo" element={<Catalogo />} />
           
           <Route path="/como-comprar" element={
-            <div className="py-16 text-center text-foreground flex-grow flex items-center justify-center text-xl font-medium">
-              Página de Instrucciones de Compra
-            </div>
+              <div className="max-w-3xl mx-auto px-4 py-12 space-y-10 text-foreground">
+                  
+                  <div>
+                      <h1 className="text-3xl font-semibold tracking-tight">¿Cómo comprar?</h1>
+                      <p className="text-muted-foreground mt-2">Todo lo que necesitás saber para hacer tu compra de forma fácil y segura.</p>
+                  </div>
+
+                  <div className="space-y-3">
+                      <h2 className="text-xl font-semibold">Paso a paso</h2>
+                      <ol className="space-y-4 text-sm text-muted-foreground leading-relaxed list-none">
+                          <li className="flex gap-3"><span className="font-black text-foreground text-base">1.</span> Explorá nuestro catálogo y elegí el producto que más te guste.</li>
+                          <li className="flex gap-3"><span className="font-black text-foreground text-base">2.</span> Seleccioná el color o variante que prefieras y hacé clic en <strong className="text-foreground">Agregar al carrito</strong>.</li>
+                          <li className="flex gap-3"><span className="font-black text-foreground text-base">3.</span> Cuando termines de elegir, abrí el carrito y revisá tu pedido.</li>
+                          <li className="flex gap-3"><span className="font-black text-foreground text-base">4.</span> Hacé clic en <strong className="text-foreground">Pagar con Mercado Pago</strong> y completá el pago de forma segura.</li>
+                          <li className="flex gap-3"><span className="font-black text-foreground text-base">5.</span> Una vez confirmado el pago, nos pondremos en contacto con vos para coordinar el envío.</li>
+                      </ol>
+                  </div>
+
+                  <div className="space-y-3">
+                      <h2 className="text-xl font-semibold">Métodos de pago</h2>
+                      <p className="text-sm text-muted-foreground leading-relaxed">Aceptamos todos los medios de pago disponibles a través de <strong className="text-foreground">Mercado Pago</strong>, incluyendo:</p>
+                      <ul className="text-sm text-muted-foreground space-y-2 leading-relaxed">
+                          <li>💳 Tarjetas de crédito (Visa, Mastercard, American Express, y más)</li>
+                          <li>💳 Tarjetas de débito</li>
+                          <li>💵 Dinero en cuenta de Mercado Pago</li>
+                          <li>🏦 Transferencia bancaria</li>
+                          <li>📱 Mercado Pago app (QR, saldo)</li>
+                      </ul>
+                  </div>
+
+                  <div className="space-y-3">
+                      <h2 className="text-xl font-semibold">¿Es seguro comprar?</h2>
+                      <p className="text-sm text-muted-foreground leading-relaxed">Sí. Todos los pagos se procesan a través de <strong className="text-foreground">Mercado Pago</strong>, una plataforma líder en pagos online en Argentina que protege tus datos y garantiza transacciones seguras. Nunca almacenamos información de tu tarjeta.</p>
+                  </div>
+
+                  <div className="space-y-3">
+                      <h2 className="text-xl font-semibold">¿Tenés dudas?</h2>
+                      <p className="text-sm text-muted-foreground leading-relaxed">Podés contactarnos por WhatsApp y te respondemos al instante.</p>
+                      <a 
+                          href="https://wa.me/3454193823" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#25D366] text-white text-sm font-medium rounded-full hover:bg-[#22c55e] transition-colors"
+                      >
+                          Escribinos por WhatsApp
+                      </a>
+                  </div>
+
+              </div>
           } />
           <Route path="/envios" element={
             <div className="py-16 text-center text-foreground flex-grow flex items-center justify-center text-xl font-medium">
