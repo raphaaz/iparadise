@@ -146,7 +146,7 @@ export default function ProductoDetalle() {
                             />
                         </picture>
 
-                        {stockDisponible <= 0 && (
+                        {stockFinal <= 0 && (
                             <div className="absolute inset-0 bg-white/70 backdrop-blur-sm flex items-center justify-center">
                                 <span className="bg-gray-900 text-white font-bold px-6 py-3 rounded-full shadow-lg tracking-wide uppercase text-sm">
                                     Sin Stock Disponible
