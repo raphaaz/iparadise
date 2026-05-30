@@ -1,44 +1,34 @@
 import { useParams, Link } from "react-router-dom";
-import { productos } from '../data/producto'; 
+import { productos } from '../data/producto';
 import { useState, useEffect } from "react";
-import { useCart } from "../context/CartContext"; 
+import { useCart } from "../context/CartContext";
 
 export default function ProductoDetalle() {
-    const { id } = useParams(); 
-    // Traemos las funciones y estados globales necesarios del Context
-    const { addToCart, cart, totalGeneral, subtotalCarrito, codigoPostal, setCodigoPostal, calcularEnvio, costoEnvio } = useCart(); 
-    
+    const { id } = useParams();
+    const { addToCart, cart, totalGeneral, subtotalCarrito, codigoPostal, setCodigoPostal, calcularEnvio, costoEnvio } = useCart();
+
     const producto = productos.find((p) => p.id === Number(id));
 
-    // Si el producto no existe
-    if (!producto) {
-        return (
-            <div className="flex flex-col items-center justify-center h-screen">
-                <h2 className="text-2xl font-bold">Producto no encontrado</h2>
-                <Link to="/" className="mt-4 text-blue-600 underline">Volver al inicio</Link>
-            </div>
-        );
-    }
-
-    const esFunda = producto.categoria?.toLowerCase().includes('funda') || producto.imgAll;
-    const tieneColores = producto.colores && Object.keys(producto.colores).length > 0;
+    const esFunda = producto?.categoria?.toLowerCase().includes('funda') || producto?.imgAll;
+    const tieneColores = producto?.colores && Object.keys(producto.colores).length > 0;
     const primerColorHex = tieneColores ? Object.keys(producto.colores)[0] : null;
-    const tieneModelos = producto.modelos && Object.keys(producto.modelos).length > 0;
+    const tieneModelos = producto?.modelos && Object.keys(producto.modelos).length > 0;
     const primerModelo = tieneModelos ? Object.keys(producto.modelos)[0] : null;
+
+    // ✅ FIX 1: Todos los hooks ANTES del return condicional
     const [modeloActivo, setModeloActivo] = useState(primerModelo);
-    const stockModelo = tieneModelos ? producto.modelos[modeloActivo] : null;
-    const stockFinal = tieneModelos ? stockModelo : stockDisponible;
-    
     const [colorActivo, setColorActivo] = useState(primerColorHex);
     const [imagenActiva, setImagenActiva] = useState(0);
     const [cantidad, setCantidad] = useState(1);
     const [errorStock, setErrorStock] = useState("");
     const [mensajeStock, setMensajeStock] = useState("");
 
-    const datosColorActual = tieneColores ? producto.colores[colorActivo] : null;
-    const stockDisponible = tieneColores ? datosColorActual?.stock : (producto.stock || 0);
+    // ✅ FIX 2: stockDisponible definido ANTES de stockFinal
+    const datosColorActual = tieneColores ? producto?.colores[colorActivo] : null;
+    const stockDisponible = tieneColores ? datosColorActual?.stock : (producto?.stock || 0);
+    const stockModelo = tieneModelos ? producto?.modelos[modeloActivo] : null;
+    const stockFinal = tieneModelos ? stockModelo : stockDisponible;
 
-    // Sincronizar imágenes por color
     useEffect(() => {
         if (tieneColores && datosColorActual) {
             const indiceImagen = datosColorActual.id - 1;
@@ -48,10 +38,19 @@ export default function ProductoDetalle() {
         }
     }, [colorActivo, tieneColores, datosColorActual]);
 
-    // Forzar la carga inicial de la imagen si no tiene colores activos de entrada
     useEffect(() => {
         setImagenActiva(0);
     }, [id]);
+
+    // ✅ FIX 1 (continuación): return condicional DESPUÉS de todos los hooks
+    if (!producto) {
+        return (
+            <div className="flex flex-col items-center justify-center h-screen">
+                <h2 className="text-2xl font-bold">Producto no encontrado</h2>
+                <Link to="/" className="mt-4 text-blue-600 underline">Volver al inicio</Link>
+            </div>
+        );
+    }
 
     const usarListaMovil = producto.imgMobile && producto.imgMobile.length > 0;
     const usarListaDesktop = producto.imgDesktop && producto.imgDesktop.length > 0;
@@ -76,10 +75,10 @@ export default function ProductoDetalle() {
         setCantidad(nuevaCantidad);
     };
 
-    // CORRECCIÓN CRÍTICA: Mapeamos el objeto para que el carrito lo entienda de forma nativa
+    // ✅ FIX 3: Lógica de añadir al carrito corregida (sin llave de más)
     const añadirAlCarritoOk = () => {
         if (stockDisponible <= 0) return;
-        if (cantidadEnCarrito + cantidad > stockDisponible) {
+
         // 1. Buscamos si este mismo producto (y color si tiene) ya está en el carrito
         const itemEnCarrito = cart.find(
             (item) => item.id === producto.id && (!tieneColores || item.color?.nombre === datosColorActual?.nombre)
@@ -87,65 +86,58 @@ export default function ProductoDetalle() {
 
         const cantidadEnCarrito = itemEnCarrito ? itemEnCarrito.cantidad : 0;
 
-        // 2. VALIDACIÓN: Si lo que ya hay en el carrito + lo que quiere meter ahora supera el stock disponible
+        // 2. Validación de stock considerando lo que ya hay en el carrito
         if (cantidadEnCarrito + cantidad > stockDisponible) {
-            setMensajeStock("no tenemos mas stock disponible");
-            
-            // Borra el mensaje a los 4 segundos para limpiar la pantalla
+            setMensajeStock("No tenemos más stock disponible.");
             setTimeout(() => setMensajeStock(""), 4000);
-            return; // Frenamos la ejecución acá para que NO se ejecute el addToCart con el alert viejo
+            return;
         }
 
-        // 3. Resolvemos cuál es el precio real (Si hay descuento o no)
+        // 3. Precio real
         const precioReal = producto.descuento > 0 ? producto.precioOferta : producto.precioOriginal;
 
-        // 4. Extraemos la URL de la imagen que el usuario está viendo actualmente en la galería
+        // 4. Imagen activa
         const imagenReal = listaImagenes[imagenActiva] || (producto.imagenes && producto.imagenes[0]) || '';
 
-        // 5. Armamos el objeto limpio esperado por el carrito
+        // 5. Objeto formateado para el carrito
         const productoFormateado = {
             id: producto.id,
             nombre: producto.nombre,
-            precio: precioReal,          
+            precio: precioReal,
             precioOriginal: producto.precioOriginal,
             precioOferta: producto.precioOferta,
             descuento: producto.descuento,
-            imagen: imagenReal,          
+            imagen: imagenReal,
             categoria: producto.categoria,
-            modelo: modeloActivo || null  // 👈 NUEVO
+            modelo: modeloActivo || null
         };
 
-        // 6. Lo enviamos al context y limpiamos el cartel de error
+        // 6. Enviamos al context
         addToCart(productoFormateado, cantidad, datosColorActual);
-        setMensajeStock(""); 
+        setMensajeStock("");
     };
 
     return (
-        // Mantuvimos pt-24 para que en desktop no baje demasiado, la magia está abajo
         <div className="min-h-screen bg-white p-4 md:p-8 pt-24 md:pt-32 relative overflow-x-hidden">
-            
+
             <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-12 items-start">
-                
+
                 {/* COLUMNA IZQUIERDA: Galería de Imágenes */}
                 <div className="space-y-6 md:sticky md:top-24 w-full">
-                    {/* Quitamos aspect-square rígido en móviles y le dimos una altura máxima controlada (h-72) */}
                     <div className="w-full h-72 md:h-auto md:aspect-square rounded-3xl overflow-hidden bg-gray-50 border border-gray-100 relative flex items-center justify-center">
                         <picture className="w-full h-full flex items-center justify-center">
-                            <source 
-                                media="(max-width: 767px)" 
-                                srcSet={usarListaAll ? producto.imgAll[imagenActiva] : (usarListaMovil ? producto.imgMobile[imagenActiva] : (producto.imagenes ? producto.imagenes[imagenActiva] : ''))} 
+                            <source
+                                media="(max-width: 767px)"
+                                srcSet={usarListaAll ? producto.imgAll[imagenActiva] : (usarListaMovil ? producto.imgMobile[imagenActiva] : (producto.imagenes ? producto.imagenes[imagenActiva] : ''))}
                             />
-                            <source 
-                                media="(min-width: 768px)" 
-                                srcSet={usarListaAll ? producto.imgAll[imagenActiva] : (usarListaDesktop ? producto.imgDesktop[imagenActiva] : (producto.imagenes ? producto.imagenes[imagenActiva] : ''))} 
+                            <source
+                                media="(min-width: 768px)"
+                                srcSet={usarListaAll ? producto.imgAll[imagenActiva] : (usarListaDesktop ? producto.imgDesktop[imagenActiva] : (producto.imagenes ? producto.imagenes[imagenActiva] : ''))}
                             />
                             <img
-                                src={listaImagenes[imagenActiva] || (producto.imagenes && producto.imagenes[0]) || ''} 
+                                src={listaImagenes[imagenActiva] || (producto.imagenes && producto.imagenes[0]) || ''}
                                 alt={producto.nombre}
-                                // Evitamos que la imagen rompa las proporciones en celu con max-h-full y p-4
-                                className={`object-contain transition-all duration-300 w-full h-full max-h-full ${
-                                    esFunda ? "p-4" : "p-8 md:p-12 max-h-[90%]"
-                                }`}
+                                className={`object-contain transition-all duration-300 w-full h-full max-h-full ${esFunda ? "p-4" : "p-8 md:p-12 max-h-[90%]"}`}
                                 decoding="sync"
                                 fetchpriority="high"
                             />
@@ -159,7 +151,7 @@ export default function ProductoDetalle() {
                             </div>
                         )}
                     </div>
-                    
+
                     {!esFunda && (
                         <div className="grid grid-cols-4 gap-4">
                             {listaImagenes.map((img, index) => (
@@ -178,7 +170,6 @@ export default function ProductoDetalle() {
                 </div>
 
                 {/* COLUMNA DERECHA: Info del Producto */}
-                {/* Añadido un margen superior (mt-4 md:mt-0) para distanciarlo prolijamente de la imagen de arriba en celulares */}
                 <div className="flex flex-col mt-4 md:mt-0">
                     <span className="text-blue-600 font-semibold uppercase tracking-widest text-xs">
                         {producto.categoria}
@@ -186,7 +177,7 @@ export default function ProductoDetalle() {
                     <h1 className="text-3xl md:text-4xl font-extrabold mt-1 text-gray-900 tracking-tight">
                         {producto.nombre}
                     </h1>
-                    
+
                     {/* Precios */}
                     <div className="mt-3 flex items-baseline gap-3">
                         {producto.descuento > 0 ? (
@@ -209,7 +200,7 @@ export default function ProductoDetalle() {
                     </div>
 
                     <p className="mt-6 text-gray-600 leading-relaxed text-base border-b border-gray-100 pb-6">
-                        {producto.descripcion || "Sin descripción disponible."} 
+                        {producto.descripcion || "Sin descripción disponible."}
                     </p>
 
                     {/* Colores */}
@@ -251,7 +242,7 @@ export default function ProductoDetalle() {
                         </div>
                     )}
 
-                    {/* Modelos - solo para productos con modelos como el templado */}
+                    {/* Modelos */}
                     {tieneModelos && (
                         <div className="mt-6 border-b border-gray-100 pb-6">
                             <p className="text-sm font-medium text-gray-700 mb-3">
@@ -282,13 +273,12 @@ export default function ProductoDetalle() {
                         </div>
                     )}
 
-
                     {/* Cantidad */}
                     {stockDisponible > 0 && (
                         <div className="mt-6">
                             <h3 className="text-sm font-bold text-gray-900 mb-2">Cantidad</h3>
                             <div className="flex items-center gap-3">
-                                <button 
+                                <button
                                     onClick={() => cambiarCantidad(cantidad - 1)}
                                     className="w-10 h-10 border border-gray-300 rounded-xl flex items-center justify-center font-bold text-lg hover:bg-gray-50 active:scale-95 transition-all"
                                 >
@@ -297,7 +287,7 @@ export default function ProductoDetalle() {
                                 <span className="w-12 text-center font-bold text-gray-900 text-lg">
                                     {cantidad}
                                 </span>
-                                <button 
+                                <button
                                     onClick={() => cambiarCantidad(cantidad + 1)}
                                     className="w-10 h-10 border border-gray-300 rounded-xl flex items-center justify-center font-bold text-lg hover:bg-gray-50 active:scale-95 transition-all"
                                 >
@@ -315,7 +305,7 @@ export default function ProductoDetalle() {
                         </div>
                     )}
 
-                    {/* Botón único de acción y renderizado del error de stock del carrito */}
+                    {/* Botón añadir al carrito */}
                     <div className="mt-8">
                         <button
                             onClick={añadirAlCarritoOk}
@@ -329,11 +319,14 @@ export default function ProductoDetalle() {
                             Añadir al carrito
                         </button>
 
-                    
+                        {mensajeStock && (
+                            <p className="text-red-500 font-medium text-xs mt-2 bg-red-50 p-2 rounded-lg border border-red-100 text-center">
+                                {mensajeStock}
+                            </p>
+                        )}
                     </div>
                 </div>
             </div>
         </div>
     );
-}
 }
