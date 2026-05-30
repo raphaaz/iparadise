@@ -1,12 +1,12 @@
 import { useParams, Link } from "react-router-dom";
-import { productos } from '../data/producto';
+import { productos } from '../data/producto'; 
 import { useState, useEffect } from "react";
-import { useCart } from "../context/CartContext";
+import { useCart } from "../context/CartContext"; 
 
 export default function ProductoDetalle() {
-    const { id } = useParams();
-    const { addToCart, cart, totalGeneral, subtotalCarrito, codigoPostal, setCodigoPostal, calcularEnvio, costoEnvio } = useCart();
-
+    const { id } = useParams(); 
+    const { addToCart, cart, totalGeneral, subtotalCarrito, codigoPostal, setCodigoPostal, calcularEnvio, costoEnvio } = useCart(); 
+    
     const producto = productos.find((p) => p.id === Number(id));
 
     const esFunda = producto?.categoria?.toLowerCase().includes('funda') || producto?.imgAll;
@@ -15,7 +15,7 @@ export default function ProductoDetalle() {
     const tieneModelos = producto?.modelos && Object.keys(producto.modelos).length > 0;
     const primerModelo = tieneModelos ? Object.keys(producto.modelos)[0] : null;
 
-    // ✅ FIX 1: Todos los hooks ANTES del return condicional
+    // ✅ FIX: Todos los hooks ANTES del return condicional
     const [modeloActivo, setModeloActivo] = useState(primerModelo);
     const [colorActivo, setColorActivo] = useState(primerColorHex);
     const [imagenActiva, setImagenActiva] = useState(0);
@@ -23,12 +23,13 @@ export default function ProductoDetalle() {
     const [errorStock, setErrorStock] = useState("");
     const [mensajeStock, setMensajeStock] = useState("");
 
-    // ✅ FIX 2: stockDisponible definido ANTES de stockFinal
+    // ✅ FIX: stockDisponible definido ANTES de stockFinal (que lo necesita)
     const datosColorActual = tieneColores ? producto?.colores[colorActivo] : null;
     const stockDisponible = tieneColores ? datosColorActual?.stock : (producto?.stock || 0);
     const stockModelo = tieneModelos ? producto?.modelos[modeloActivo] : null;
     const stockFinal = tieneModelos ? stockModelo : stockDisponible;
 
+    // Sincronizar imágenes por color
     useEffect(() => {
         if (tieneColores && datosColorActual) {
             const indiceImagen = datosColorActual.id - 1;
@@ -38,11 +39,12 @@ export default function ProductoDetalle() {
         }
     }, [colorActivo, tieneColores, datosColorActual]);
 
+    // Forzar la carga inicial de la imagen si no tiene colores activos de entrada
     useEffect(() => {
         setImagenActiva(0);
     }, [id]);
 
-    // ✅ FIX 1 (continuación): return condicional DESPUÉS de todos los hooks
+    // ✅ FIX: return condicional DESPUÉS de todos los hooks
     if (!producto) {
         return (
             <div className="flex flex-col items-center justify-center h-screen">
@@ -75,10 +77,9 @@ export default function ProductoDetalle() {
         setCantidad(nuevaCantidad);
     };
 
-    // ✅ FIX 3: Lógica de añadir al carrito corregida (sin llave de más)
     const añadirAlCarritoOk = () => {
         if (stockDisponible <= 0) return;
-
+        
         // 1. Buscamos si este mismo producto (y color si tiene) ya está en el carrito
         const itemEnCarrito = cart.find(
             (item) => item.id === producto.id && (!tieneColores || item.color?.nombre === datosColorActual?.nombre)
@@ -86,14 +87,14 @@ export default function ProductoDetalle() {
 
         const cantidadEnCarrito = itemEnCarrito ? itemEnCarrito.cantidad : 0;
 
-        // 2. Validación de stock considerando lo que ya hay en el carrito
-        if (cantidadEnCarrito + cantidad > stockDisponible) {
-            setMensajeStock("No tenemos más stock disponible.");
+        // 2. VALIDACIÓN usando stockFinal (contempla modelos)
+        if (cantidadEnCarrito + cantidad > stockFinal) {
+            setMensajeStock("no tenemos mas stock disponible");
             setTimeout(() => setMensajeStock(""), 4000);
             return;
         }
 
-        // 3. Precio real
+        // 3. Resolvemos cuál es el precio real
         const precioReal = producto.descuento > 0 ? producto.precioOferta : producto.precioOriginal;
 
         // 4. Imagen activa
@@ -103,41 +104,43 @@ export default function ProductoDetalle() {
         const productoFormateado = {
             id: producto.id,
             nombre: producto.nombre,
-            precio: precioReal,
+            precio: precioReal,          
             precioOriginal: producto.precioOriginal,
             precioOferta: producto.precioOferta,
             descuento: producto.descuento,
-            imagen: imagenReal,
+            imagen: imagenReal,          
             categoria: producto.categoria,
             modelo: modeloActivo || null
         };
 
-        // 6. Enviamos al context
+        // 6. Enviamos al context y limpiamos error
         addToCart(productoFormateado, cantidad, datosColorActual);
-        setMensajeStock("");
+        setMensajeStock(""); 
     };
 
     return (
         <div className="min-h-screen bg-white p-4 md:p-8 pt-24 md:pt-32 relative overflow-x-hidden">
-
+            
             <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-12 items-start">
-
+                
                 {/* COLUMNA IZQUIERDA: Galería de Imágenes */}
                 <div className="space-y-6 md:sticky md:top-24 w-full">
                     <div className="w-full h-72 md:h-auto md:aspect-square rounded-3xl overflow-hidden bg-gray-50 border border-gray-100 relative flex items-center justify-center">
                         <picture className="w-full h-full flex items-center justify-center">
-                            <source
-                                media="(max-width: 767px)"
-                                srcSet={usarListaAll ? producto.imgAll[imagenActiva] : (usarListaMovil ? producto.imgMobile[imagenActiva] : (producto.imagenes ? producto.imagenes[imagenActiva] : ''))}
+                            <source 
+                                media="(max-width: 767px)" 
+                                srcSet={usarListaAll ? producto.imgAll[imagenActiva] : (usarListaMovil ? producto.imgMobile[imagenActiva] : (producto.imagenes ? producto.imagenes[imagenActiva] : ''))} 
                             />
-                            <source
-                                media="(min-width: 768px)"
-                                srcSet={usarListaAll ? producto.imgAll[imagenActiva] : (usarListaDesktop ? producto.imgDesktop[imagenActiva] : (producto.imagenes ? producto.imagenes[imagenActiva] : ''))}
+                            <source 
+                                media="(min-width: 768px)" 
+                                srcSet={usarListaAll ? producto.imgAll[imagenActiva] : (usarListaDesktop ? producto.imgDesktop[imagenActiva] : (producto.imagenes ? producto.imagenes[imagenActiva] : ''))} 
                             />
                             <img
-                                src={listaImagenes[imagenActiva] || (producto.imagenes && producto.imagenes[0]) || ''}
+                                src={listaImagenes[imagenActiva] || (producto.imagenes && producto.imagenes[0]) || ''} 
                                 alt={producto.nombre}
-                                className={`object-contain transition-all duration-300 w-full h-full max-h-full ${esFunda ? "p-4" : "p-8 md:p-12 max-h-[90%]"}`}
+                                className={`object-contain transition-all duration-300 w-full h-full max-h-full ${
+                                    esFunda ? "p-4" : "p-8 md:p-12 max-h-[90%]"
+                                }`}
                                 decoding="sync"
                                 fetchpriority="high"
                             />
@@ -151,7 +154,7 @@ export default function ProductoDetalle() {
                             </div>
                         )}
                     </div>
-
+                    
                     {!esFunda && (
                         <div className="grid grid-cols-4 gap-4">
                             {listaImagenes.map((img, index) => (
@@ -177,7 +180,7 @@ export default function ProductoDetalle() {
                     <h1 className="text-3xl md:text-4xl font-extrabold mt-1 text-gray-900 tracking-tight">
                         {producto.nombre}
                     </h1>
-
+                    
                     {/* Precios */}
                     <div className="mt-3 flex items-baseline gap-3">
                         {producto.descuento > 0 ? (
@@ -200,7 +203,7 @@ export default function ProductoDetalle() {
                     </div>
 
                     <p className="mt-6 text-gray-600 leading-relaxed text-base border-b border-gray-100 pb-6">
-                        {producto.descripcion || "Sin descripción disponible."}
+                        {producto.descripcion || "Sin descripción disponible."} 
                     </p>
 
                     {/* Colores */}
@@ -242,7 +245,7 @@ export default function ProductoDetalle() {
                         </div>
                     )}
 
-                    {/* Modelos */}
+                    {/* Modelos - solo para productos con modelos como el templado */}
                     {tieneModelos && (
                         <div className="mt-6 border-b border-gray-100 pb-6">
                             <p className="text-sm font-medium text-gray-700 mb-3">
@@ -278,7 +281,7 @@ export default function ProductoDetalle() {
                         <div className="mt-6">
                             <h3 className="text-sm font-bold text-gray-900 mb-2">Cantidad</h3>
                             <div className="flex items-center gap-3">
-                                <button
+                                <button 
                                     onClick={() => cambiarCantidad(cantidad - 1)}
                                     className="w-10 h-10 border border-gray-300 rounded-xl flex items-center justify-center font-bold text-lg hover:bg-gray-50 active:scale-95 transition-all"
                                 >
@@ -287,7 +290,7 @@ export default function ProductoDetalle() {
                                 <span className="w-12 text-center font-bold text-gray-900 text-lg">
                                     {cantidad}
                                 </span>
-                                <button
+                                <button 
                                     onClick={() => cambiarCantidad(cantidad + 1)}
                                     className="w-10 h-10 border border-gray-300 rounded-xl flex items-center justify-center font-bold text-lg hover:bg-gray-50 active:scale-95 transition-all"
                                 >
@@ -305,7 +308,7 @@ export default function ProductoDetalle() {
                         </div>
                     )}
 
-                    {/* Botón añadir al carrito */}
+                    {/* Botón único de acción */}
                     <div className="mt-8">
                         <button
                             onClick={añadirAlCarritoOk}
