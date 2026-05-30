@@ -23,6 +23,11 @@ export default function ProductoDetalle() {
     const esFunda = producto.categoria?.toLowerCase().includes('funda') || producto.imgAll;
     const tieneColores = producto.colores && Object.keys(producto.colores).length > 0;
     const primerColorHex = tieneColores ? Object.keys(producto.colores)[0] : null;
+    const tieneModelos = producto.modelos && Object.keys(producto.modelos).length > 0;
+    const primerModelo = tieneModelos ? Object.keys(producto.modelos)[0] : null;
+    const [modeloActivo, setModeloActivo] = useState(primerModelo);
+    const stockModelo = tieneModelos ? producto.modelos[modeloActivo] : null;
+    const stockFinal = tieneModelos ? stockModelo : stockDisponible;
     
     const [colorActivo, setColorActivo] = useState(primerColorHex);
     const [imagenActiva, setImagenActiva] = useState(0);
@@ -63,8 +68,8 @@ export default function ProductoDetalle() {
 
     const cambiarCantidad = (nuevaCantidad) => {
         if (nuevaCantidad < 1) return;
-        if (nuevaCantidad > stockDisponible) {
-            setErrorStock(`¡Ups! Solo quedan ${stockDisponible} unidades disponibles.`);
+        if (nuevaCantidad > stockFinal) {
+            setErrorStock(`¡Ups! Solo quedan ${stockFinal} unidades disponibles.`);
             return;
         }
         setErrorStock("");
@@ -74,7 +79,7 @@ export default function ProductoDetalle() {
     // CORRECCIÓN CRÍTICA: Mapeamos el objeto para que el carrito lo entienda de forma nativa
     const añadirAlCarritoOk = () => {
         if (stockDisponible <= 0) return;
-
+        if (cantidadEnCarrito + cantidad > stockDisponible) {
         // 1. Buscamos si este mismo producto (y color si tiene) ya está en el carrito
         const itemEnCarrito = cart.find(
             (item) => item.id === producto.id && (!tieneColores || item.color?.nombre === datosColorActual?.nombre)
@@ -106,7 +111,8 @@ export default function ProductoDetalle() {
             precioOferta: producto.precioOferta,
             descuento: producto.descuento,
             imagen: imagenReal,          
-            categoria: producto.categoria
+            categoria: producto.categoria,
+            modelo: modeloActivo || null  // 👈 NUEVO
         };
 
         // 6. Lo enviamos al context y limpiamos el cartel de error
@@ -245,6 +251,38 @@ export default function ProductoDetalle() {
                         </div>
                     )}
 
+                    {/* Modelos - solo para productos con modelos como el templado */}
+                    {tieneModelos && (
+                        <div className="mt-6 border-b border-gray-100 pb-6">
+                            <p className="text-sm font-medium text-gray-700 mb-3">
+                                Modelo — <span className="text-gray-900 font-semibold">{modeloActivo}</span>
+                            </p>
+                            <div className="flex flex-wrap gap-2">
+                                {Object.entries(producto.modelos).map(([modelo, stock]) => {
+                                    const esSeleccionado = modeloActivo === modelo;
+                                    const sinStock = stock <= 0;
+                                    return (
+                                        <button
+                                            key={modelo}
+                                            onClick={() => { setModeloActivo(modelo); setCantidad(1); setErrorStock(""); }}
+                                            disabled={sinStock}
+                                            className={`px-3 py-1.5 text-xs font-semibold border rounded-lg transition-all ${
+                                                esSeleccionado
+                                                    ? 'border-blue-600 bg-blue-50 text-blue-700'
+                                                    : sinStock
+                                                        ? 'border-gray-200 text-gray-300 line-through cursor-not-allowed'
+                                                        : 'border-gray-300 text-gray-700 hover:border-gray-500'
+                                            }`}
+                                        >
+                                            {modelo}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
+
+
                     {/* Cantidad */}
                     {stockDisponible > 0 && (
                         <div className="mt-6">
@@ -297,4 +335,5 @@ export default function ProductoDetalle() {
             </div>
         </div>
     );
+}
 }
