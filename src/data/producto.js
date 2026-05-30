@@ -150,18 +150,18 @@
         "/images/products/grande/watchUltra2_1Naranja.webp",
         "/images/products/grande/watchUltra2_2.webp",
         "/images/products/grande/watchUltra2_3.webp",
-        "/images/products/grande/watchUltra2_4.webp",
+        /*"/images/products/grande/watchUltra2_4.webp",*/
         ],
         imgMobile: [
         "/images/products/peque/watchUltra2_1Negro.webp",
         "/images/products/peque/watchUltra2_1Naranja.webp",
         "/images/products/peque/watchUltra2_2.webp",
         "/images/products/peque/watchUltra2_3.webp",
-        "/images/products/peque/watchUltra2_4.webp",
+        /*"/images/products/peque/watchUltra2_4.webp",*/
         ],
         colores: {
-        "#1f2324": { nombre: "Malla Negra", stock: 1 },
-        "#e94f1c": { nombre: "Malla Naranja", stock: 2 },
+        "#1f2324": { nombre: "Malla Negra y naranja", stock: 3 },
+        
         }
     },
     {
