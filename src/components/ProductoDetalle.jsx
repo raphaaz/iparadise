@@ -20,8 +20,7 @@ export default function ProductoDetalle() {
     const [colorActivo, setColorActivo] = useState(primerColorHex);
     const [imagenActiva, setImagenActiva] = useState(0);
     const [cantidad, setCantidad] = useState(1);
-    const [errorStock, setErrorStock] = useState("");
-    const [mensajeStock, setMensajeStock] = useState("");
+    const [mensajeError, setMensajeError] = useState("");
 
     // ✅ FIX: stockDisponible definido ANTES de stockFinal (que lo necesita)
     const datosColorActual = tieneColores ? producto?.colores[colorActivo] : null;
@@ -35,7 +34,7 @@ export default function ProductoDetalle() {
             const indiceImagen = datosColorActual.id - 1;
             setImagenActiva(indiceImagen >= 0 ? indiceImagen : 0);
             setCantidad(1);
-            setErrorStock("");
+            setMensajeError("");
         }
     }, [colorActivo, tieneColores, datosColorActual]);
 
@@ -70,10 +69,10 @@ export default function ProductoDetalle() {
     const cambiarCantidad = (nuevaCantidad) => {
         if (nuevaCantidad < 1) return;
         if (nuevaCantidad > stockFinal) {
-            setErrorStock(`¡Ups! Solo quedan ${stockFinal} unidades disponibles.`);
+            setMensajeError("No hay más stock disponible.");
             return;
         }
-        setErrorStock("");
+        setMensajeError("");
         setCantidad(nuevaCantidad);
     };
 
@@ -89,8 +88,8 @@ export default function ProductoDetalle() {
 
         // 2. VALIDACIÓN usando stockFinal (contempla modelos)
         if (cantidadEnCarrito + cantidad > stockFinal) {
-            setMensajeStock("no tenemos mas stock disponible");
-            setTimeout(() => setMensajeStock(""), 4000);
+            setMensajeError("No hay más stock disponible.");
+            setTimeout(() => setMensajeError(""), 4000);
             return;
         }
 
@@ -115,11 +114,11 @@ export default function ProductoDetalle() {
 
         // 6. Enviamos al context y limpiamos error
         addToCart(productoFormateado, cantidad, datosColorActual);
-        setMensajeStock(""); 
+        setMensajeError(""); 
     };
 
     return (
-        <div className="min-h-screen bg-white p-4 md:p-8 pt-24 md:pt-32 relative overflow-x-hidden">
+        <div className="min-h-screen bg-white p-4 md:p-8 pt-4 md:pt-8 relative overflow-x-hidden">
             
             <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-12 items-start">
                 
@@ -258,7 +257,7 @@ export default function ProductoDetalle() {
                                     return (
                                         <button
                                             key={modelo}
-                                            onClick={() => { setModeloActivo(modelo); setCantidad(1); setErrorStock(""); }}
+                                            onClick={() => { setModeloActivo(modelo); setCantidad(1); setMensajeError(""); }}
                                             disabled={sinStock}
                                             className={`px-3 py-1.5 text-xs font-semibold border rounded-lg transition-all ${
                                                 esSeleccionado
@@ -296,15 +295,9 @@ export default function ProductoDetalle() {
                                 >
                                     +
                                 </button>
-                                <span className="text-xs text-gray-400 font-medium ml-2">
-                                    ({stockDisponible} disponibles)
-                                </span>
+
                             </div>
-                            {errorStock && (
-                                <p className="text-red-500 font-medium text-xs mt-2 bg-red-50 p-2 rounded-lg border border-red-100">
-                                    {errorStock}
-                                </p>
-                            )}
+                            
                         </div>
                     )}
 
@@ -322,9 +315,9 @@ export default function ProductoDetalle() {
                             Añadir al carrito
                         </button>
 
-                        {mensajeStock && (
+                        {mensajeError && (
                             <p className="text-red-500 font-medium text-xs mt-2 bg-red-50 p-2 rounded-lg border border-red-100 text-center">
-                                {mensajeStock}
+                                {mensajeError}
                             </p>
                         )}
                     </div>

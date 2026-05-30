@@ -229,7 +229,7 @@ const coloresOpciones = [
     const productosSugeridos = tieneFiltrosActivos ? productos.filter(prod => !cumpleFiltros(prod)) : [];
 
     return (
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 md:pt-24 pb-16">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 md:pt-8 pb-16">
                 {/* ENCABEZADO PRINCIPAL DE LA PÁGINA */}
             <div className="mb-8">
                 <h1 className="text-3xl font-semibold tracking-tight text-foreground ">
