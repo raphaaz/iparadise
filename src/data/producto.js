@@ -9,21 +9,18 @@
         id: 1,
         nombre: "Templado",
         precioOriginal: 4500,
-        descuento: 10,
+        descuento: 0,
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
         return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
         },
         categoria: "Templado",
         descripcion:"Protección total para tu pantalla. Vidrio templado de alta resistencia con tecnología anti-rayones y máxima transparencia. Conserva la sensibilidad táctil original de tu equipo sin sacrificar seguridad.",
-        imgDesktop: [
-        "/images/products/grande/templado1.webp",
+        imgAll: [
+        "/images/products/mediano/templado1.webp",
     
         ],
-        imgMobile: [
-        "/images/products/peque/templado1.webp",
-        
-        ],
+
         modelos: {
         "iPhone 11": 10, "iPhone 11 Pro": 10, "iPhone 11 Pro Max": 10,
         "iPhone 12": 10, "iPhone 12 Pro": 10, "iPhone 12 Pro Max": 10,

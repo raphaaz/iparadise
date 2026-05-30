@@ -205,7 +205,7 @@ function IParadiceLanding() {
       <section className="pb-16">
           <Link to="/catalogo">
               <div className="relative w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-[#f5f5f7]">
-                  <img src="/images/heroImg1.png" alt="iPhone con accesorios premium iParadice" className="w-full h-full object-cover cursor-pointer" loading="eager" />
+                  <img src="/images/heroImg1.webp" alt="iPhone con accesorios premium iParadice" className="w-full h-full object-cover cursor-pointer" loading="eager" />
               </div>
           </Link>
       </section>
