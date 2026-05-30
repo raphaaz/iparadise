@@ -78,7 +78,7 @@ export default function ProductoDetalle() {
     };
 
     const añadirAlCarritoOk = () => {
-        if (stockDisponible <= 0) return;
+        if (stockFinal <= 0) return;
         
         // 1. Buscamos si este mismo producto (y color si tiene) ya está en el carrito
         const itemEnCarrito = cart.find(
