@@ -107,9 +107,27 @@ export default function Catalogo({ soloOfertas = false }) {
         setFiltroOfertas(soloOfertas);
     }, [soloOfertas]);
 
-    const categoriasOpciones = ['funda', 'templado', 'cables', 'adaptador', 'audio', 'relojes', 'batery pack'];
-    const coloresOpciones = ['Rojo', 'Azul', 'Amarillo', 'Verde', 'Naranja', 'Morado', 'Blanco', 'Negro', 'Marrón', 'Gris'];
-    const modelosOpciones = [
+    const categoriasOpciones = ['fundas', 'templado', 'cables', 'adaptador', 'audio', 'relojes', 'batery pack'];
+const coloresOpciones = [
+    { nombre: 'Negro', hex: '#1a1a1a' },
+    { nombre: 'Blanco', hex: '#f4f4f4' },
+    { nombre: 'Azul Marino', hex: '#111d36' },
+    { nombre: 'Azul Francia', hex: '#0046aa' },
+    { nombre: 'Azul Turquesa', hex: '#3fdfcf' },
+    { nombre: 'Celeste', hex: '#acd8e6' },
+    { nombre: 'Verde Militar', hex: '#4b521f' },
+    { nombre: 'Verde Loro', hex: '#31cd31' },
+    { nombre: 'Fucsia', hex: '#ff007e' },
+    { nombre: 'Rosa Pastel', hex: '#ffbfca' },
+    { nombre: 'Naranja', hex: '#ff7e4f' },
+    { nombre: 'Rojo', hex: '#ff0000' },
+    { nombre: 'Violeta', hex: '#492d80' },
+    { nombre: 'Lila', hex: '#d1c3e8' },
+    { nombre: 'Amarillo', hex: '#e1ac01' },
+    { nombre: 'Beige', hex: '#e6d4c3' },
+    { nombre: 'Marrón', hex: '#a0522d' },
+    { nombre: 'Gris', hex: '#3a3b3b' },
+];    const modelosOpciones = [
         'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max',
         'iPhone 12', 'iPhone 12 Pro', 'iPhone 12 Pro Max',
         'iPhone 13', 'iPhone 13 Pro', 'iPhone 13 Pro Max',
@@ -145,7 +163,7 @@ export default function Catalogo({ soloOfertas = false }) {
 
     // --- PRE-PROCESAMIENTO DE FILTROS ---
     const categoriasSeleccionadas = filtroCategoria.map(c => c.toLowerCase());
-    const coloresSeleccionados = filtroColor.map(c => c.toLowerCase());
+    const coloresSeleccionados = filtroColor.map(c => c.toLowerCase().split(' ')[0]);
     const modelosSeleccionados = filtroModelo.map(m => m.toLowerCase());
     
     const palabrasBusqueda = busquedaNavbar.toLowerCase().split(' ').filter(p => p.trim() !== '');
@@ -178,12 +196,12 @@ export default function Catalogo({ soloOfertas = false }) {
         
         // 3. Filtro de Color
         if (coloresSeleccionados.length > 0) {
-            if (!prod.color) return false;
-            const coloresProducto = Array.isArray(prod.color)
-                ? prod.color.map(c => c.toLowerCase())
-                : [prod.color.toLowerCase()];
-            
-            const tieneColorCoincidente = coloresProducto.some(c => coloresSeleccionados.includes(c));
+            if (!prod.colores) return false;
+            const nombresColoresProd = Object.values(prod.colores)
+                .map(c => c.nombre.toLowerCase());
+            const tieneColorCoincidente = coloresSeleccionados.some(colorFiltro =>
+                nombresColoresProd.some(nombreColor => nombreColor.includes(colorFiltro))
+            );
             if (!tieneColorCoincidente) return false;
         }
         
@@ -296,14 +314,18 @@ export default function Catalogo({ soloOfertas = false }) {
                         {openAcordeon.color && (
                             <div className="px-5 pb-4 space-y-2 border-t border-border/40 pt-3 max-h-52 overflow-y-auto">
                                 {coloresOpciones.map((col) => (
-                                    <label key={col} className="flex items-center gap-3 text-sm font-medium text-muted-foreground hover:text-foreground cursor-pointer">
+                                    <label key={col.nombre} className="flex items-center gap-3 text-sm font-medium text-muted-foreground hover:text-foreground cursor-pointer">
                                         <input 
                                             type="checkbox" 
-                                            checked={filtroColor.includes(col)}
-                                            onChange={() => manejarSeleccionMultiple(filtroColor, setFiltroColor, col)}
+                                            checked={filtroColor.includes(col.nombre)}
+                                            onChange={() => manejarSeleccionMultiple(filtroColor, setFiltroColor, col.nombre)}
                                             className="accent-primary h-4 w-4 rounded border-border focus:ring-0 cursor-pointer" 
                                         />
-                                        {col}
+                                        <span 
+                                            className="w-4 h-4 rounded-full border border-black/10 flex-shrink-0"
+                                            style={{ backgroundColor: col.hex }}
+                                        />
+                                        {col.nombre}
                                     </label>
                                 ))}
                             </div>
