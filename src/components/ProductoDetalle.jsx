@@ -312,9 +312,9 @@ export default function ProductoDetalle() {
                     <div className="mt-8">
                         <button
                             onClick={añadirAlCarritoOk}
-                            disabled={stockDisponible <= 0}
+                            disabled={stockFinal <= 0}
                             className={`w-full py-4 rounded-2xl font-bold text-center tracking-wide transition-all ${
-                                stockDisponible > 0
+                                stockFinal > 0
                                     ? "bg-blue-600 text-white hover:bg-blue-700 active:scale-[0.99] shadow-md shadow-blue-200"
                                     : "bg-gray-100 text-gray-400 cursor-not-allowed"
                             }`}
