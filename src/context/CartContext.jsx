@@ -25,11 +25,14 @@ export function CartProvider({ children }) {
 
     // 1. FUNCIÓN PARA AGREGAR CONTROLANDO STOCK MÁXIMO GLOBAL
     const addToCart = (producto, cantidadAAgregar, colorSeleccionado = null) => {
+        
         setCart((prevCart) => {
             // Buscamos si ya existe el producto basándonos en ID y el NOMBRE del color
             const itemExistente = prevCart.find(
-                (item) => item.id === producto.id && item.color?.nombre === colorSeleccionado?.nombre
-            );
+                (item) => item.id === producto.id && 
+                item.color?.nombre === colorSeleccionado?.nombre &&
+                item.modelo === producto.modelo
+);
 
             // Definimos el stock límite real de este producto/color
             const stockLimite = colorSeleccionado?.stock ?? producto.stock ?? 10;
@@ -41,7 +44,9 @@ export function CartProvider({ children }) {
                 if (nuevaCantidadTotal > stockLimite) {
                     alert(`No podés agregar más unidades. El stock máximo disponible es de ${stockLimite}.`);
                     return prevCart.map((item) =>
-                        item.id === producto.id && item.color?.nombre === colorSeleccionado?.nombre
+                        item.id === producto.id && 
+                        item.color?.nombre === colorSeleccionado?.nombre &&
+                        item.modelo === producto.modelo
                             ? { ...item, cantidad: stockLimite }
                             : item
                     );
@@ -49,7 +54,9 @@ export function CartProvider({ children }) {
 
                 // Si no supera el stock, sumamos normalmente
                 return prevCart.map((item) =>
-                    item.id === producto.id && item.color?.nombre === colorSeleccionado?.nombre
+                    item.id === producto.id && 
+                    item.color?.nombre === colorSeleccionado?.nombre &&
+                    item.modelo === producto.modelo
                         ? { ...item, cantidad: nuevaCantidadTotal }
                         : item
                 );
@@ -74,17 +81,17 @@ export function CartProvider({ children }) {
     };
 
     // 2. FUNCIÓN PARA ACTUALIZAR CANTIDADES DESDE EL CARRITO (BOTÓN +)
-    const updateQuantity = (productId, colorNombre, nuevaCantidad) => {
+    const updateQuantity = (productId, colorNombre, nuevaCantidad, modeloNombre = null) => {
         setCart((prevCart) =>
             prevCart.map((item) => {
-                if (item.id === productId && item.color?.nombre === colorNombre) {
+                if (item.id === productId && 
+                    item.color?.nombre === colorNombre &&
+                    item.modelo === modeloNombre) {
                     const stockLimite = item.color?.stock ?? item.stock ?? 10;
-                    
                     if (nuevaCantidad > stockLimite) {
                         alert(`Alcanzaste el límite de stock de este producto (${stockLimite} uds).`);
                         return item; 
                     }
-                    
                     return { ...item, cantidad: nuevaCantidad };
                 }
                 return item;
@@ -107,11 +114,15 @@ export function CartProvider({ children }) {
     };
 
     // 4. FUNCIÓN PARA ELIMINAR UN PRODUCTO POR COMPLETO
-    const removeFromCart = (id, colorNombre) => {
-        setCart((prevCart) => 
-            prevCart.filter((item) => !(item.id === id && item.color?.nombre === colorNombre))
-        );
-    };
+    const removeFromCart = (id, colorNombre, modeloNombre = null) => {
+    setCart((prevCart) => 
+        prevCart.filter((item) => !(
+            item.id === id && 
+            item.color?.nombre === colorNombre &&
+            item.modelo === modeloNombre
+        ))
+    );
+};
 
     // 5. FUNCIÓN PARA VACIAR EL CARRITO
     const clearCart = () => setCart([]);

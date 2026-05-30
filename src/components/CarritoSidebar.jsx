@@ -110,7 +110,7 @@ export default function CarritoSidebar() {
                         const imagenProducto = item.imagen || item.imgAll?.[0] || item.imgDesktop?.[0]; 
                         const stockDisponible = item.color?.stock || item.stock || 10;
                         
-                        const itemKey = `${item.id}-${item.color?.nombre || 'sin-color'}`;
+                        const itemKey = `${item.id}-${item.color?.nombre || 'sin-color'}-${item.modelo || 'sin-modelo'}`;
 
                         return (
                             <div key={itemKey} className="flex gap-4 border-b pb-4 items-start">
@@ -130,7 +130,7 @@ export default function CarritoSidebar() {
                                     <div className="flex justify-between">
                                         <h4 className="text-xs font-bold text-gray-900 uppercase tracking-tight">{item.nombre}</h4>
                                         <button 
-                                            onClick={() => removeFromCart(item.id, item.color?.nombre)} 
+                                            onClick={() => removeFromCart(item.id, item.color?.nombre, item.modelo)}
                                             className="text-gray-400 hover:text-red-500 font-medium text-sm px-1"
                                         >
                                             ✕
@@ -142,15 +142,20 @@ export default function CarritoSidebar() {
                                             Color: {item.color.nombre}
                                         </p>
                                     )}
+                                    {item.modelo && (
+                                        <p className="text-[11px] text-gray-400 uppercase mt-0.5">
+                                            Modelo: {item.modelo}
+                                        </p>
+                                    )}
                                     
                                     <div className="flex justify-between items-center mt-3">
                                         <div className="flex items-center border rounded-md bg-white">
                                             <button 
                                                 onClick={() => {
                                                     if (cantidadActual > 1) {
-                                                        updateQuantity(item.id, item.color?.nombre, cantidadActual - 1);
+                                                        updateQuantity(item.id, item.color?.nombre, cantidadActual - 1, item.modelo);
                                                     } else {
-                                                        removeFromCart(item.id, item.color?.nombre);
+                                                        removeFromCart(item.id, item.color?.nombre, item.modelo);
                                                     }
                                                 }}
                                                 className="px-2 py-0.5 text-gray-600 hover:bg-gray-100 font-bold"
@@ -166,7 +171,7 @@ export default function CarritoSidebar() {
                                                         alert(`¡Ups! Solo quedan ${stockDisponible} unidades disponibles.`);
                                                         return;
                                                     }
-                                                    updateQuantity(item.id, item.color?.nombre, cantidadActual + 1);
+                                                    updateQuantity(item.id, item.color?.nombre, cantidadActual + 1, item.modelo);
                                                 }}
                                                 disabled={cantidadActual >= stockDisponible}
                                                 className={`px-2 py-0.5 font-bold ${
