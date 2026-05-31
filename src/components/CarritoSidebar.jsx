@@ -61,37 +61,17 @@ export default function CarritoSidebar() {
             const data = await res.json();
 
             if (data.init_point) {
-                // Armamos el mensaje de WhatsApp
-                const resumenProductos = cart.map(item => {
-                    const precio = item.descuento > 0 ? item.precioOferta : item.precioOriginal;
-                    return `• ${item.nombre} x${item.cantidad} — $${(precio * item.cantidad).toLocaleString('es-AR')}`;
-                }).join('\n');
+    localStorage.setItem('iparadise_comprador', JSON.stringify({
+        datos: datosComprador,
+        productos: cart.map(item => ({
+            nombre: item.nombre,
+            cantidad: item.cantidad,
+            precio: item.descuento > 0 ? item.precioOferta : item.precioOriginal
+        })),
+        total: subtotalCarrito
+    }));
 
-                const mensaje =
-`🛍️ *Nueva consulta de compra - iParadise*
-
-👤 *Datos del comprador:*
-Nombre: ${datosComprador.nombre} ${datosComprador.apellido}
-Teléfono: ${datosComprador.telefono}
-
-📦 *Dirección de envío:*
-${datosComprador.calle} ${datosComprador.numero}${datosComprador.piso ? `, Piso/Depto: ${datosComprador.piso}` : ''}
-${datosComprador.ciudad}, ${datosComprador.provincia}
-CP: ${datosComprador.codigoPostal}
-
-🛒 *Productos:*
-${resumenProductos}
-
-💰 *Total: $${subtotalCarrito.toLocaleString('es-AR')}*
-
-✅ El pago fue realizado a través de Mercado Pago.`;
-
-                // Primero redirigimos a MP, después abrimos WhatsApp
-                window.location.href = data.init_point;
-
-                setTimeout(() => {
-                    window.open(`https://wa.me/5493454193823?text=${encodeURIComponent(mensaje)}`, '_blank');
-                }, 2000);
+    window.location.href = data.init_point;
 
             } else {
                 alert('Error al crear el pago: ' + JSON.stringify(data));

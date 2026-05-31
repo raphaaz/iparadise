@@ -1,4 +1,4 @@
-"use client"; // Siempre al inicio
+"use client";
 import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { productos } from './data/producto';
@@ -7,7 +7,6 @@ import Catalogo from './components/catalogo';
 import { useCart } from "./context/CartContext"; 
 import CarritoSidebar from './components/CarritoSidebar.jsx';
 
-// Formateador de moneda local
 const formateador = new Intl.NumberFormat('es-AR', {
   style: 'currency',
   currency: 'ARS',
@@ -47,15 +46,11 @@ function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border/50 shadow-sm w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full overflow-hidden">
         <div className="flex items-center justify-between h-16 gap-2 sm:gap-4">
-          
-          {/* Logo */}
           <Link to="/" className="flex items-center group flex-shrink-0">
             <h1 className="text-xl sm:text-2xl md:text-3xl font-medium tracking-tight text-foreground group-hover:text-primary transition-colors">
               iParadise
             </h1>
           </Link>
-
-          {/* Buscador Central (Desktop) */}
           <div className="hidden md:flex flex-1 max-w-xl mx-auto">
             <form onSubmit={manejarBusqueda} className="relative w-full">
               <input
@@ -72,15 +67,12 @@ function Header() {
               </button>
             </form>
           </div>
-
-          {/* Acciones del lado derecho */}
           <div className="flex items-center gap-0.5 sm:gap-2 flex-shrink-0">
             <button onClick={manejarBusquedaMovil} className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </button>
-
             <button onClick={abrirCarrito} className="p-2 relative text-muted-foreground hover:text-foreground transition-colors group" aria-label="Ver carrito">
               <svg className="w-5 h-5 sm:w-6 h-6 transition-transform group-hover:scale-105" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
@@ -91,7 +83,6 @@ function Header() {
                 </span>
               )}
             </button>
-
             <button onClick={() => setMenuAbierto(!menuAbierto)} className="md:hidden p-2 text-foreground rounded-lg hover:bg-muted transition-colors">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {menuAbierto ? (
@@ -105,13 +96,11 @@ function Header() {
         </div>
       </div>
 
-      {/* Menú de Navegación Desktop */}
       <div className="hidden md:block border-t border-border/40 bg-muted/20">
         <div className="max-w-7xl mx-auto px-8">
           <div className="flex items-center justify-center h-11 gap-8 text-xs font-semibold tracking-wider uppercase text-muted-foreground">
             <Link to="/" className="hover:text-foreground transition-colors py-3">Inicio</Link>
             <Link to="/catalogo" className="hover:text-foreground transition-colors py-3">Catálogo</Link>
-            
             <div className="relative" onMouseEnter={() => setDesplegableAccesorios(true)} onMouseLeave={() => setDesplegableAccesorios(false)}>
               <button className="hover:text-foreground transition-colors py-3 flex items-center gap-1 cursor-default uppercase font-bold text-foreground">
                 Accesorios
@@ -159,7 +148,6 @@ function Header() {
                 </div>
               )}
             </div>
-
             <Link to="/ofertas" className="text-red-500 font-bold hover:text-red-600 transition-colors py-3 flex items-center gap-1">
               Ofertas y Promociones 🔥
             </Link>
@@ -169,7 +157,6 @@ function Header() {
         </div>
       </div>
 
-      {/* Menú Móvil */}
       {menuAbierto && (
         <div className="md:hidden bg-background border-t border-border py-4 px-6 space-y-4 max-h-[calc(100vh-4rem)] overflow-y-auto w-full left-0 right-0">
           <div className="flex flex-col gap-3 font-medium text-muted-foreground">
@@ -187,7 +174,62 @@ function Header() {
 }
 
 /* ==========================================================================
-   2. COMPONENTE LANDING (Contenido Principal de la Home)
+   2. COMPONENTE PAGO EXITOSO
+   ========================================================================== */
+function PagoExitoso() {
+  const compra = JSON.parse(localStorage.getItem('iparadise_comprador') || 'null');
+
+  const abrirWhatsApp = () => {
+    if (!compra) return;
+
+    const resumenProductos = compra.productos
+      .map(p => `• ${p.nombre} x${p.cantidad} — $${(p.precio * p.cantidad).toLocaleString('es-AR')}`)
+      .join('\n');
+
+    const d = compra.datos;
+    const mensaje =
+`🛍️ *Nueva compra - iParadise*
+
+👤 *Datos del comprador:*
+Nombre: ${d.nombre} ${d.apellido}
+Teléfono: ${d.telefono}
+
+📦 *Dirección de envío:*
+${d.calle} ${d.numero}${d.piso ? `, Piso/Depto: ${d.piso}` : ''}
+${d.ciudad}, ${d.provincia}
+CP: ${d.codigoPostal}
+
+🛒 *Productos:*
+${resumenProductos}
+
+💰 *Total: $${compra.total.toLocaleString('es-AR')}*
+
+✅ Pago realizado por Mercado Pago.`;
+
+    localStorage.removeItem('iparadise_comprador');
+    window.open(`https://wa.me/5493454193823?text=${encodeURIComponent(mensaje)}`, '_blank');
+  };
+
+  return (
+    <div className="py-16 text-center flex-grow flex flex-col items-center justify-center gap-4">
+      <span className="text-5xl">🎉</span>
+      <h1 className="text-2xl font-semibold text-foreground">¡Pago exitoso!</h1>
+      <p className="text-muted-foreground max-w-sm">Gracias por tu compra. Tocá el botón para coordinar el envío por WhatsApp.</p>
+      <button
+        onClick={abrirWhatsApp}
+        className="mt-2 inline-flex items-center gap-2 px-6 py-3 bg-[#25D366] text-white font-medium rounded-full hover:bg-[#22c55e] transition-colors shadow-md"
+      >
+        📦 Coordinar envío por WhatsApp
+      </button>
+      <a href="/" className="mt-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+        Volver al inicio
+      </a>
+    </div>
+  );
+}
+
+/* ==========================================================================
+   3. COMPONENTE LANDING
    ========================================================================== */
 function IParadiceLanding() {
   const enviarWhatsApp = (producto) => {
@@ -199,9 +241,7 @@ function IParadiceLanding() {
   };
 
   return (
-    // Reemplazamos <main> por un <div> contenedor común para no duplicar etiquetas estructurales en App
     <div className="w-full"> 
-      {/* HERO SECTION */}
       <section className="pb-16">
           <Link to="/catalogo">
               <div className="relative w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-[#f5f5f7]">
@@ -209,7 +249,6 @@ function IParadiceLanding() {
               </div>
           </Link>
       </section>
-      {/* CATEGORÍAS SECTION */}
       <section id="categorias" className="hidden md:block py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-card">
         <div className="max-w-7xl mx-auto">
           <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
@@ -221,7 +260,6 @@ function IParadiceLanding() {
                 <p className="text-white/90 text-sm mt-1 font-medium">Protección completa para tu dispositivo</p>
               </div>
             </Link>
-
             <Link to="/ofertas" className="group relative overflow-hidden rounded-3xl aspect-[4/3] shadow-md hover:shadow-xl transition-shadow duration-300">
               <img src="/images/categories/ofertas.png" alt="Categoría Ofertas y Promociones" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
@@ -234,20 +272,16 @@ function IParadiceLanding() {
         </div>
       </section>
 
-      {/* PRODUCTOS DESTACADOS */}
       <section id="productos" className="py-16 sm:py-24 px-2 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-semibold text-foreground">Productos Destacados</h2>
           </div>
-
-          {/* Cambiado de sm:grid-cols-2 a grid-cols-2 para móviles */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
             {productos.map((producto) => {
               const tieneEstructuraNueva = producto.imgDesktop && producto.imgDesktop.length > 0;
               let srcOriginal = '';
               let srcMovil = '';
-
               if (tieneEstructuraNueva) {
                 srcOriginal = Array.isArray(producto.imgDesktop) ? producto.imgDesktop[0] : producto.imgDesktop;
                 srcMovil = Array.isArray(producto.imgMobile) ? producto.imgMobile[0] : producto.imgMobile;
@@ -258,29 +292,27 @@ function IParadiceLanding() {
                 srcOriginal = Array.isArray(producto.imagenes) ? producto.imagenes[0] : (producto.imagenes || '');
                 srcMovil = srcOriginal;
               }
-
               const tieneDescuento = producto.descuento > 0;
-
               return (
                 <Link to={`/producto/${producto.id}`} key={producto.id} className="block no-underline group">
-<article className="group bg-card rounded-3xl overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300 bg-gray-200 relative flex flex-col md:block h-full md:h-auto">                    {tieneDescuento && (
+                  <article className="group bg-card rounded-3xl overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300 bg-gray-200 relative flex flex-col md:block h-full md:h-auto">
+                    {tieneDescuento && (
                       <div className="absolute top-4 left-4 z-10 bg-red-500 text-white text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-lg shadow-sm">
                         {producto.descuento}% OFF
                       </div>
                     )}
-
                     <div className="relative aspect-square overflow-hidden">
                       <picture>
                         <source media="(max-width: 767px)" srcSet={srcMovil} />
                         <source media="(min-width: 768px)" srcSet={srcOriginal} />
-<img src={srcOriginal} alt={producto.nombre} className={`absolute inset-0 w-full h-full transition-transform duration-500 ${producto.categoria.toLowerCase().includes('funda') ? 'object-cover p-0 scale-95 group-hover:scale-100' : 'object-contain p-6 group-hover:scale-105'}`} decoding="sync" />                      </picture>
+                        <img src={srcOriginal} alt={producto.nombre} className={`absolute inset-0 w-full h-full transition-transform duration-500 ${producto.categoria.toLowerCase().includes('funda') ? 'object-cover p-0 scale-95 group-hover:scale-100' : 'object-contain p-6 group-hover:scale-105'}`} decoding="sync" />
+                      </picture>
                     </div>
-
                     <div className="p-6 flex flex-col flex-grow md:flex-none md:block">
                       <span className="hidden md:block text-xs font-medium text-muted-foreground uppercase tracking-wider">{producto.categoria}</span>
-                        <h3 className="mt-2 text-center md:text-left text-sm sm:text-lg font-semibold text-foreground group-hover:text-blue-500 transition-colors line-clamp-2 md:line-clamp-1 leading-tight">{producto.nombre}</h3>                        
-                          <div className="mt-auto md:mt-2 pt-4 md:pt-0 flex items-baseline justify-center md:justify-start gap-2">
-                          {tieneDescuento ? (
+                      <h3 className="mt-2 text-center md:text-left text-sm sm:text-lg font-semibold text-foreground group-hover:text-blue-500 transition-colors line-clamp-2 md:line-clamp-1 leading-tight">{producto.nombre}</h3>
+                      <div className="mt-auto md:mt-2 pt-4 md:pt-0 flex items-baseline justify-center md:justify-start gap-2">
+                        {tieneDescuento ? (
                           <>
                             <span className="text-xl font-semibold text-foreground">{formateador.format(producto.precioOferta)}</span>
                             <span className="text-sm font-medium text-muted-foreground/70 line-through">{formateador.format(producto.precioOriginal)}</span>
@@ -298,7 +330,6 @@ function IParadiceLanding() {
         </div>
       </section>
 
-      {/* CTA / CONTACTO */}
       <section id="contacto" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-primary">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary-foreground">¿Tienes alguna pregunta?</h2>
@@ -313,12 +344,12 @@ function IParadiceLanding() {
 }
 
 /* ==========================================================================
-   3. COMPONENTE FOOTER OPTIMIZADO PARA MÓVIL
+   4. COMPONENTE FOOTER
    ========================================================================== */
 function Footer() {
   return (
-<footer className="bg-card border-t border-border/60 text-muted-foreground text-xs pt-12 pb-12 px-4 sm:px-6 lg:px-8 w-full">     
-  <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
+    <footer className="bg-card border-t border-border/60 text-muted-foreground text-xs pt-12 pb-12 px-4 sm:px-6 lg:px-8 w-full">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
         <div className="space-y-3">
           <h3 className="text-base font-semibold text-foreground tracking-tight">iParadise</h3>
           <p className="text-sm leading-relaxed text-muted-foreground/80 max-w-sm mx-auto md:mx-0">Tu tienda de confianza para fundas, cargadores y accesorios premium para tus dispositivos Apple favoritos.</p>
@@ -355,7 +386,7 @@ function Footer() {
 }
 
 /* ==========================================================================
-    4. COMPONENTE PRINCIPAL (Manejo de Rutas Globales)
+   5. COMPONENTE PRINCIPAL
    ========================================================================== */
 export default function App() {
   const { pathname, hash } = useLocation();
@@ -375,103 +406,77 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
-      
       <CarritoSidebar />
-      
-      {/* El <main> único global maneja la altura fluida.
-        - pt-28 en resoluciones md: asegura espacio para el header de doble fila.
-        - pt-16 en móvil se ajusta a la barra compacta.
-      */}
       <main className="w-full pt-16 md:pt-28 flex-1">
         <Routes>
           <Route path="/" element={<IParadiceLanding />} />
           <Route path="/producto/:id" element={<ProductoDetalle />} />
           <Route path="/ofertas" element={<Catalogo soloOfertas={true} />} />
           <Route path="/catalogo" element={<Catalogo />} />
-          
+          <Route path="/gracias" element={<PagoExitoso />} />
           <Route path="/como-comprar" element={
-              <div className="max-w-3xl mx-auto px-4 py-12 space-y-10 text-foreground">
-                  
-                  <div>
-                      <h1 className="text-3xl font-semibold tracking-tight">¿Cómo comprar?</h1>
-                      <p className="text-muted-foreground mt-2">Todo lo que necesitás saber para hacer tu compra de forma fácil y segura.</p>
-                  </div>
-
-                  <div className="space-y-3">
-                      <h2 className="text-xl font-semibold">Paso a paso</h2>
-                      <ol className="space-y-4 text-sm text-muted-foreground leading-relaxed list-none">
-                          <li className="flex gap-3"><span className="font-black text-foreground text-base">1.</span> Explorá nuestro catálogo y elegí el producto que más te guste.</li>
-                          <li className="flex gap-3"><span className="font-black text-foreground text-base">2.</span> Seleccioná el color o variante que prefieras y hacé clic en <strong className="text-foreground">Agregar al carrito</strong>.</li>
-                          <li className="flex gap-3"><span className="font-black text-foreground text-base">3.</span> Cuando termines de elegir, abrí el carrito y revisá tu pedido.</li>
-                          <li className="flex gap-3"><span className="font-black text-foreground text-base">4.</span> Hacé clic en <strong className="text-foreground">Pagar con Mercado Pago</strong> y completá el pago de forma segura.</li>
-                          <li className="flex gap-3"><span className="font-black text-foreground text-base">5.</span> Una vez confirmado el pago, nos pondremos en contacto con vos para coordinar el envío.</li>
-                      </ol>
-                  </div>
-
-                  <div className="space-y-3">
-                      <h2 className="text-xl font-semibold">Métodos de pago</h2>
-                      <p className="text-sm text-muted-foreground leading-relaxed">Aceptamos todos los medios de pago disponibles a través de <strong className="text-foreground">Mercado Pago</strong>, incluyendo:</p>
-                      <ul className="text-sm text-muted-foreground space-y-2 leading-relaxed">
-                          <li>💳 Tarjetas de crédito (Visa, Mastercard, American Express, y más)</li>
-                          <li>💳 Tarjetas de débito</li>
-                          <li>💵 Dinero en cuenta de Mercado Pago</li>
-                          <li>🏦 Transferencia bancaria</li>
-                          <li>📱 Mercado Pago app (QR, saldo)</li>
-                      </ul>
-                  </div>
-
-                  <div className="space-y-3">
-                      <h2 className="text-xl font-semibold">¿Es seguro comprar?</h2>
-                      <p className="text-sm text-muted-foreground leading-relaxed">Sí. Todos los pagos se procesan a través de <strong className="text-foreground">Mercado Pago</strong>, una plataforma líder en pagos online en Argentina que protege tus datos y garantiza transacciones seguras. Nunca almacenamos información de tu tarjeta.</p>
-                  </div>
-
-                  <div className="space-y-3">
-                      <h2 className="text-xl font-semibold">¿Tenés dudas?</h2>
-                      <p className="text-sm text-muted-foreground leading-relaxed">Podés contactarnos por WhatsApp y te respondemos al instante.</p>
-                      <a 
-                          href="https://wa.me/3454193823" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#25D366] text-white text-sm font-medium rounded-full hover:bg-[#22c55e] transition-colors"
-                      >
-                          Escribinos por WhatsApp
-                      </a>
-                  </div>
-
+            <div className="max-w-3xl mx-auto px-4 py-12 space-y-10 text-foreground">
+              <div>
+                <h1 className="text-3xl font-semibold tracking-tight">¿Cómo comprar?</h1>
+                <p className="text-muted-foreground mt-2">Todo lo que necesitás saber para hacer tu compra de forma fácil y segura.</p>
               </div>
+              <div className="space-y-3">
+                <h2 className="text-xl font-semibold">Paso a paso</h2>
+                <ol className="space-y-4 text-sm text-muted-foreground leading-relaxed list-none">
+                  <li className="flex gap-3"><span className="font-black text-foreground text-base">1.</span> Explorá nuestro catálogo y elegí el producto que más te guste.</li>
+                  <li className="flex gap-3"><span className="font-black text-foreground text-base">2.</span> Seleccioná el color o variante que prefieras y hacé clic en <strong className="text-foreground">Agregar al carrito</strong>.</li>
+                  <li className="flex gap-3"><span className="font-black text-foreground text-base">3.</span> Cuando termines de elegir, abrí el carrito y revisá tu pedido.</li>
+                  <li className="flex gap-3"><span className="font-black text-foreground text-base">4.</span> Completá tus datos de envío y hacé clic en <strong className="text-foreground">Pagar con Mercado Pago</strong>.</li>
+                  <li className="flex gap-3"><span className="font-black text-foreground text-base">5.</span> Una vez confirmado el pago, coordiná el envío por WhatsApp desde la página de confirmación.</li>
+                </ol>
+              </div>
+              <div className="space-y-3">
+                <h2 className="text-xl font-semibold">Métodos de pago</h2>
+                <p className="text-sm text-muted-foreground leading-relaxed">Aceptamos todos los medios de pago disponibles a través de <strong className="text-foreground">Mercado Pago</strong>, incluyendo:</p>
+                <ul className="text-sm text-muted-foreground space-y-2 leading-relaxed">
+                  <li>💳 Tarjetas de crédito (Visa, Mastercard, American Express, y más)</li>
+                  <li>💳 Tarjetas de débito</li>
+                  <li>💵 Dinero en cuenta de Mercado Pago</li>
+                  <li>🏦 Transferencia bancaria</li>
+                  <li>📱 Mercado Pago app (QR, saldo)</li>
+                </ul>
+              </div>
+              <div className="space-y-3">
+                <h2 className="text-xl font-semibold">¿Es seguro comprar?</h2>
+                <p className="text-sm text-muted-foreground leading-relaxed">Sí. Todos los pagos se procesan a través de <strong className="text-foreground">Mercado Pago</strong>, una plataforma líder en pagos online en Argentina que protege tus datos y garantiza transacciones seguras. Nunca almacenamos información de tu tarjeta.</p>
+              </div>
+              <div className="space-y-3">
+                <h2 className="text-xl font-semibold">¿Tenés dudas?</h2>
+                <p className="text-sm text-muted-foreground leading-relaxed">Podés contactarnos por WhatsApp y te respondemos al instante.</p>
+                <a href="https://wa.me/3454193823" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#25D366] text-white text-sm font-medium rounded-full hover:bg-[#22c55e] transition-colors">
+                  Escribinos por WhatsApp
+                </a>
+              </div>
+            </div>
           } />
           <Route path="/envios" element={
             <div className="py-16 text-center text-foreground flex-grow flex items-center justify-center text-xl font-medium">
               Página de Información de Envíos
             </div>
           } />
-          <Route path="/gracias" element={
-    <div className="py-16 text-center flex-grow flex flex-col items-center justify-center gap-4">
-        <span className="text-5xl">🎉</span>
-        <h1 className="text-2xl font-semibold text-foreground">¡Pago exitoso!</h1>
-        <p className="text-muted-foreground">Gracias por tu compra. Te contactaremos pronto.</p>
-        <a href="/" className="mt-4 px-6 py-2 bg-black text-white rounded-xl">Volver al inicio</a>
-    </div>
-} />
-    <Route path="/error" element={
-        <div className="py-16 text-center flex-grow flex flex-col items-center justify-center gap-4">
-            <span className="text-5xl">❌</span>
-            <h1 className="text-2xl font-semibold text-foreground">Hubo un error en el pago</h1>
-            <p className="text-muted-foreground">Por favor intentá de nuevo.</p>
-            <a href="/" className="mt-4 px-6 py-2 bg-black text-white rounded-xl">Volver al inicio</a>
-        </div>
-    } />
-    <Route path="/pendiente" element={
-        <div className="py-16 text-center flex-grow flex flex-col items-center justify-center gap-4">
-            <span className="text-5xl">⏳</span>
-            <h1 className="text-2xl font-semibold text-foreground">Pago pendiente</h1>
-            <p className="text-muted-foreground">Tu pago está siendo procesado.</p>
-            <a href="/" className="mt-4 px-6 py-2 bg-black text-white rounded-xl">Volver al inicio</a>
-        </div>
-    } />
+          <Route path="/error" element={
+            <div className="py-16 text-center flex-grow flex flex-col items-center justify-center gap-4">
+              <span className="text-5xl">❌</span>
+              <h1 className="text-2xl font-semibold text-foreground">Hubo un error en el pago</h1>
+              <p className="text-muted-foreground">Por favor intentá de nuevo.</p>
+              <a href="/" className="mt-4 px-6 py-2 bg-black text-white rounded-xl">Volver al inicio</a>
+            </div>
+          } />
+          <Route path="/pendiente" element={
+            <div className="py-16 text-center flex-grow flex flex-col items-center justify-center gap-4">
+              <span className="text-5xl">⏳</span>
+              <h1 className="text-2xl font-semibold text-foreground">Pago pendiente</h1>
+              <p className="text-muted-foreground">Tu pago está siendo procesado.</p>
+              <a href="/" className="mt-4 px-6 py-2 bg-black text-white rounded-xl">Volver al inicio</a>
+            </div>
+          } />
         </Routes>
       </main>
-
       <Footer />
     </div>
   );
