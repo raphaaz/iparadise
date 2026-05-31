@@ -11,6 +11,7 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
             items,
+            notification_url: 'https://iparadise.vercel.app/api/webhook-mp',
             back_urls: {
                 success: 'https://iparadise.vercel.app/gracias',
                 failure: 'https://iparadise.vercel.app/error',

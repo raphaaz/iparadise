@@ -4,19 +4,20 @@ import { useCart } from '../context/CartContext';
 
 export default function CarritoSidebar() {
     const { cart, cartAbierto, cerrarCarrito, removeFromCart, updateQuantity } = useCart();
-    const [codigoPostal, setCodigoPostal] = useState('');
-    const [costoEnvio, setCostoEnvio] = useState(0);
+    const [paso, setPaso] = useState(1); // 1 = carrito, 2 = datos del comprador
+    const [datosComprador, setDatosComprador] = useState({
+        nombre: '', apellido: '', telefono: '',
+        calle: '', numero: '', piso: '',
+        ciudad: '', provincia: '', codigoPostal: ''
+    });
+    const [errores, setErrores] = useState({});
 
-    // EFECTO PROFESIONAL: Bloquea el scroll de la página principal al abrir el carrito
     useEffect(() => {
         if (cartAbierto) {
             document.body.style.overflow = 'hidden';
+            setPaso(1); // resetea al abrir
         }
-        
-        // Cleanup: Devuelve el scroll normal cuando el carrito se cierra
-        return () => {
-            document.body.style.overflow = 'unset';
-        };
+        return () => { document.body.style.overflow = 'unset'; };
     }, [cartAbierto]);
 
     const subtotalCarrito = useMemo(() => {
@@ -25,234 +26,245 @@ export default function CarritoSidebar() {
             return acc + (precio * item.cantidad);
         }, 0);
     }, [cart]);
-    
-    const totalGeneral = subtotalCarrito + costoEnvio;
 
-    const handleCodigoPostalChange = (e) => {
-        const valor = e.target.value;
-        setCodigoPostal(valor);
-        if (!valor.trim()) {
-            setCostoEnvio(0);
-        }
+    const validarDatos = () => {
+        const nuevosErrores = {};
+        if (!datosComprador.nombre.trim()) nuevosErrores.nombre = true;
+        if (!datosComprador.apellido.trim()) nuevosErrores.apellido = true;
+        if (!datosComprador.telefono.trim()) nuevosErrores.telefono = true;
+        if (!datosComprador.calle.trim()) nuevosErrores.calle = true;
+        if (!datosComprador.numero.trim()) nuevosErrores.numero = true;
+        if (!datosComprador.ciudad.trim()) nuevosErrores.ciudad = true;
+        if (!datosComprador.provincia.trim()) nuevosErrores.provincia = true;
+        if (!datosComprador.codigoPostal.trim()) nuevosErrores.codigoPostal = true;
+        setErrores(nuevosErrores);
+        return Object.keys(nuevosErrores).length === 0;
     };
-
 
     const handlePagar = async () => {
-    try {
-        const items = cart.map(item => ({
-            title: item.nombre,
-            quantity: item.cantidad,
-            unit_price: item.descuento > 0 ? item.precioOferta : item.precioOriginal,
-            currency_id: 'ARS'
-        }));
+        if (!validarDatos()) return;
 
-        const res = await fetch('/api/crear-preferencia', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ items })
-        });
+        try {
+            const items = cart.map(item => ({
+                title: item.nombre,
+                quantity: item.cantidad,
+                unit_price: item.descuento > 0 ? item.precioOferta : item.precioOriginal,
+                currency_id: 'ARS'
+            }));
 
-        const data = await res.json();
-        console.log('Respuesta MP:', data);
+            const res = await fetch('/api/crear-preferencia', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ items })
+            });
 
-        if (data.init_point) {
-            window.location.href = data.init_point;
-        } else {
-            alert('Error: ' + JSON.stringify(data));
-        }
-    } catch (error) {
-        alert('Error de conexión: ' + error.message);
-    }
-};
+            const data = await res.json();
 
-    const calcularEnvio = () => {
-        if (codigoPostal.trim()) {
-            setCostoEnvio(1500);
+            if (data.init_point) {
+                // Armamos el mensaje de WhatsApp
+                const resumenProductos = cart.map(item => {
+                    const precio = item.descuento > 0 ? item.precioOferta : item.precioOriginal;
+                    return `• ${item.nombre} x${item.cantidad} — $${(precio * item.cantidad).toLocaleString('es-AR')}`;
+                }).join('\n');
+
+                const mensaje =
+`🛍️ *Nueva consulta de compra - iParadise*
+
+👤 *Datos del comprador:*
+Nombre: ${datosComprador.nombre} ${datosComprador.apellido}
+Teléfono: ${datosComprador.telefono}
+
+📦 *Dirección de envío:*
+${datosComprador.calle} ${datosComprador.numero}${datosComprador.piso ? `, Piso/Depto: ${datosComprador.piso}` : ''}
+${datosComprador.ciudad}, ${datosComprador.provincia}
+CP: ${datosComprador.codigoPostal}
+
+🛒 *Productos:*
+${resumenProductos}
+
+💰 *Total: $${subtotalCarrito.toLocaleString('es-AR')}*
+
+✅ El pago fue realizado a través de Mercado Pago.`;
+
+                // Primero redirigimos a MP, después abrimos WhatsApp
+                window.location.href = data.init_point;
+
+                setTimeout(() => {
+                    window.open(`https://wa.me/5493454193823?text=${encodeURIComponent(mensaje)}`, '_blank');
+                }, 2000);
+
+            } else {
+                alert('Error al crear el pago: ' + JSON.stringify(data));
+            }
+        } catch (error) {
+            alert('Error de conexión: ' + error.message);
         }
     };
+
+    const campo = (key, label, placeholder, tipo = 'text', mitad = false) => (
+        <div className={mitad ? 'flex-1' : 'w-full'}>
+            <label className="text-[10px] font-bold uppercase tracking-wider text-gray-500">{label}</label>
+            <input
+                type={tipo}
+                placeholder={placeholder}
+                value={datosComprador[key]}
+                onChange={e => {
+                    setDatosComprador(prev => ({ ...prev, [key]: e.target.value }));
+                    if (errores[key]) setErrores(prev => ({ ...prev, [key]: false }));
+                }}
+                className={`mt-0.5 w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-black ${errores[key] ? 'border-red-400 bg-red-50' : 'border-gray-200 bg-white'}`}
+            />
+        </div>
+    );
 
     if (!cartAbierto) return null;
 
     return createPortal(
         <>
-        {/* Backdrop oscuro */}
-        <div 
-            className="fixed inset-0 bg-black/50 z-[9999]"
-            onClick={cerrarCarrito}
-        />
+        <div className="fixed inset-0 bg-black/50 z-[9999]" onClick={cerrarCarrito} />
 
-        {/* CONTENEDOR PRINCIPAL CORREGIDO:
-            - Usamos h-screen fijo tanto para PC como Celular.
-            - overflow-y-auto asegura que si el contenido supera la altura de la pantalla, 
-                toda la barra scrollea de arriba a abajo de forma independiente y fluida.
-        */}
-        {/* CONTENEDOR PRINCIPAL */}
-        <div className="fixed top-0 right-0 h-[100dvh] w-full sm:w-[450px] bg-white z-[10000] shadow-2xl flex flex-col overflow-hidden">            {/* 1. CABECERA */}
-            <div className="h-16 border-b flex justify-between items-center px-4 bg-white">
-                <h2 className="text-lg font-black text-gray-900 tracking-wide uppercase">Carrito de compras</h2>
-                <button 
-                    onClick={cerrarCarrito}
-                    className="text-gray-400 hover:text-gray-900 text-2xl font-light p-1"
-                >
-                    ✕
-                </button>
+        <div className="fixed top-0 right-0 h-[100dvh] w-full sm:w-[450px] bg-white z-[10000] shadow-2xl flex flex-col overflow-hidden">
+
+            {/* CABECERA */}
+            <div className="h-16 border-b flex justify-between items-center px-4 bg-white flex-shrink-0">
+                <div className="flex items-center gap-3">
+                    {paso === 2 && (
+                        <button onClick={() => setPaso(1)} className="text-gray-400 hover:text-gray-900 text-sm">
+                            ← 
+                        </button>
+                    )}
+                    <h2 className="text-lg font-black text-gray-900 tracking-wide uppercase">
+                        {paso === 1 ? 'Carrito de compras' : 'Datos de envío'}
+                    </h2>
+                </div>
+                <div className="flex items-center gap-3">
+                    {/* Indicador de pasos */}
+                    <div className="flex items-center gap-1.5">
+                        <div className={`w-2 h-2 rounded-full ${paso === 1 ? 'bg-black' : 'bg-gray-300'}`} />
+                        <div className={`w-2 h-2 rounded-full ${paso === 2 ? 'bg-black' : 'bg-gray-300'}`} />
+                    </div>
+                    <button onClick={cerrarCarrito} className="text-gray-400 hover:text-gray-900 text-2xl font-light p-1">✕</button>
+                </div>
             </div>
 
-            {/* 2. LISTA DE PRODUCTOS CON SU PROPIO SCROLL INTERNO
-                Mantenemos los 350px estables por comodidad visual inmediata.
-            */}
-                <div className="flex-grow overflow-y-auto p-4 space-y-4 bg-white border-b scroll-lindo">                {cart.length === 0 ? (
-                    <p className="text-gray-500 text-center py-12">Tu carrito está vacío.</p>
-                ) : (
-                    cart.map((item) => {
-                        const precioBase = item.descuento > 0 ? item.precioOferta : item.precioOriginal;
-                        const cantidadActual = item.cantidad || 1;
-                        const imagenProducto = item.imagen || item.imgAll?.[0] || item.imgDesktop?.[0]; 
-                        const stockDisponible = item.color?.stock || item.stock || 10;
-                        
-                        const itemKey = `${item.id}-${item.color?.nombre || 'sin-color'}-${item.modelo || 'sin-modelo'}`;
+            {/* PASO 1 — PRODUCTOS */}
+            {paso === 1 && (
+                <>
+                <div className="flex-grow overflow-y-auto p-4 space-y-4 bg-white border-b">
+                    {cart.length === 0 ? (
+                        <p className="text-gray-500 text-center py-12">Tu carrito está vacío.</p>
+                    ) : (
+                        cart.map((item) => {
+                            const precioBase = item.descuento > 0 ? item.precioOferta : item.precioOriginal;
+                            const cantidadActual = item.cantidad || 1;
+                            const imagenProducto = item.imagen || item.imgAll?.[0] || item.imgDesktop?.[0];
+                            const stockDisponible = item.color?.stock || item.stock || 10;
+                            const itemKey = `${item.id}-${item.color?.nombre || 'sin-color'}-${item.modelo || 'sin-modelo'}`;
 
-                        return (
-                            <div key={itemKey} className="flex gap-4 border-b pb-4 items-start">
-                                <div className="w-20 h-20 bg-gray-50 rounded-xl border flex-shrink-0 p-1 flex items-center justify-center overflow-hidden">
-                                    {imagenProducto ? (
-                                        <img 
-                                            src={imagenProducto} 
-                                            alt={item.nombre} 
-                                            className="w-full h-full object-contain"
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full bg-gray-200 rounded flex items-center justify-center text-[10px] text-gray-400">Sin foto</div>
-                                    )}
-                                </div>
-                                
-                                <div className="flex-1">
-                                    <div className="flex justify-between">
-                                        <h4 className="text-xs font-bold text-gray-900 uppercase tracking-tight">{item.nombre}</h4>
-                                        <button 
-                                            onClick={() => removeFromCart(item.id, item.color?.nombre, item.modelo)}
-                                            className="text-gray-400 hover:text-red-500 font-medium text-sm px-1"
-                                        >
-                                            ✕
-                                        </button>
+                            return (
+                                <div key={itemKey} className="flex gap-4 border-b pb-4 items-start">
+                                    <div className="w-20 h-20 bg-gray-50 rounded-xl border flex-shrink-0 p-1 flex items-center justify-center overflow-hidden">
+                                        {imagenProducto ? (
+                                            <img src={imagenProducto} alt={item.nombre} className="w-full h-full object-contain" />
+                                        ) : (
+                                            <div className="w-full h-full bg-gray-200 rounded flex items-center justify-center text-[10px] text-gray-400">Sin foto</div>
+                                        )}
                                     </div>
-
-                                    {item.color && (
-                                        <p className="text-[11px] text-gray-400 uppercase mt-0.5">
-                                            Color: {item.color.nombre}
-                                        </p>
-                                    )}
-                                    {item.modelo && (
-                                        <p className="text-[11px] text-gray-400 uppercase mt-0.5">
-                                            Modelo: {item.modelo}
-                                        </p>
-                                    )}
-                                    
-                                    <div className="flex justify-between items-center mt-3">
-                                        <div className="flex items-center border rounded-md bg-white">
-                                            <button 
-                                                onClick={() => {
-                                                    if (cantidadActual > 1) {
-                                                        updateQuantity(item.id, item.color?.nombre, cantidadActual - 1, item.modelo);
-                                                    } else {
-                                                        removeFromCart(item.id, item.color?.nombre, item.modelo);
-                                                    }
-                                                }}
-                                                className="px-2 py-0.5 text-gray-600 hover:bg-gray-100 font-bold"
-                                            >
-                                                -
-                                            </button>
-                                            
-                                            <span className="px-3 text-xs font-bold">{cantidadActual}</span>
-                                            
-                                            <button 
-                                                onClick={() => {
-                                                    if (cantidadActual >= stockDisponible) {
-                                                        alert(`¡Ups! Solo quedan ${stockDisponible} unidades disponibles.`);
-                                                        return;
-                                                    }
-                                                    updateQuantity(item.id, item.color?.nombre, cantidadActual + 1, item.modelo);
-                                                }}
-                                                disabled={cantidadActual >= stockDisponible}
-                                                className={`px-2 py-0.5 font-bold ${
-                                                    cantidadActual >= stockDisponible 
-                                                        ? 'text-gray-300 bg-gray-50 cursor-not-allowed' 
-                                                        : 'text-gray-600 hover:bg-gray-100'
-                                                }`}
-                                            >
-                                                +
-                                            </button>
+                                    <div className="flex-1">
+                                        <div className="flex justify-between">
+                                            <h4 className="text-xs font-bold text-gray-900 uppercase tracking-tight">{item.nombre}</h4>
+                                            <button onClick={() => removeFromCart(item.id, item.color?.nombre, item.modelo)} className="text-gray-400 hover:text-red-500 font-medium text-sm px-1">✕</button>
                                         </div>
-                                        
-                                        <span className="text-sm font-bold text-gray-900">
-                                            ${(precioBase * cantidadActual).toLocaleString('es-AR')}
-                                        </span>
+                                        {item.color && <p className="text-[11px] text-gray-400 uppercase mt-0.5">Color: {item.color.nombre}</p>}
+                                        {item.modelo && <p className="text-[11px] text-gray-400 uppercase mt-0.5">Modelo: {item.modelo}</p>}
+                                        <div className="flex justify-between items-center mt-3">
+                                            <div className="flex items-center border rounded-md bg-white">
+                                                <button onClick={() => {
+                                                    if (cantidadActual > 1) updateQuantity(item.id, item.color?.nombre, cantidadActual - 1, item.modelo);
+                                                    else removeFromCart(item.id, item.color?.nombre, item.modelo);
+                                                }} className="px-2 py-0.5 text-gray-600 hover:bg-gray-100 font-bold">-</button>
+                                                <span className="px-3 text-xs font-bold">{cantidadActual}</span>
+                                                <button onClick={() => {
+                                                    if (cantidadActual >= stockDisponible) { alert(`¡Ups! Solo quedan ${stockDisponible} unidades disponibles.`); return; }
+                                                    updateQuantity(item.id, item.color?.nombre, cantidadActual + 1, item.modelo);
+                                                }} disabled={cantidadActual >= stockDisponible} className={`px-2 py-0.5 font-bold ${cantidadActual >= stockDisponible ? 'text-gray-300 bg-gray-50 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}>+</button>
+                                            </div>
+                                            <span className="text-sm font-bold text-gray-900">${(precioBase * cantidadActual).toLocaleString('es-AR')}</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        );
-                    })
-                )}
-            </div>
+                            );
+                        })
+                    )}
+                </div>
 
-            {/* 3. PANEL INFERIOR DE TOTALES
-                Tiene espacio extra abajo para asegurar comodidad total en pantallas chicas o cortas.
-            */}
                 <div className="flex-shrink-0 p-4 pb-8 bg-gray-50 space-y-4">
                     <div className="flex justify-between items-baseline">
-                    <span className="text-sm font-medium text-gray-800">Subtotal:</span>
-                    <span className="text-lg font-black text-gray-900">
-                        ${subtotalCarrito.toLocaleString('es-AR')}
-                    </span>
-                </div>
-
-                {/* Código Postal */}
-                <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-gray-700 flex items-center gap-1.5 uppercase tracking-wider">
-                        Medios de envío
-                    </label>
-                    <div className="flex gap-2">
-                        <input 
-                            type="text" 
-                            placeholder="Tu código postal"
-                            value={codigoPostal}
-                            onChange={handleCodigoPostalChange}
-                            className="flex-1 px-3 py-2 border rounded-md bg-white text-sm focus:outline-none focus:ring-1 focus:ring-black"
-                        />
-                        <button 
-                            type="button"
-                            onClick={calcularEnvio}
-                            className="px-4 py-2 border border-black text-xs font-bold tracking-widest uppercase hover:bg-black hover:text-white transition-colors"
-                        >
-                            Calcular
-                        </button>
+                        <span className="text-sm font-medium text-gray-800">Subtotal:</span>
+                        <span className="text-lg font-black text-gray-900">${subtotalCarrito.toLocaleString('es-AR')}</span>
                     </div>
-                </div>
-
-                {/* Total Final */}
-                <div className="pt-2 border-t border-gray-200 flex justify-between items-baseline">
-                    <span className="text-base font-black text-gray-900 uppercase">Total:</span>
-                    <span className="text-xl font-black text-gray-900">
-                        ${totalGeneral.toLocaleString('es-AR')}
-                    </span>
-                </div>
-
-                {/* Botones de acción */}
-                <div className="space-y-2.5">
-                    <button 
-                    onClick={handlePagar}
-                    className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-xl transition-colors">
-                    Pagar con Mercado Pago
-                </button>
-                    <button 
-                        type="button"
-                        onClick={cerrarCarrito}
-                        className="w-full text-center text-xs font-bold text-gray-400 uppercase tracking-widest hover:text-gray-900 transition-colors block py-0.5"
+                    <p className="text-xs text-gray-400">El costo de envío se coordinará por WhatsApp luego del pago.</p>
+                    <button
+                        onClick={() => { if (cart.length > 0) setPaso(2); }}
+                        disabled={cart.length === 0}
+                        className="w-full bg-blue-500 hover:bg-blue-600 disabled:opacity-40 text-white font-bold py-3 px-6 rounded-xl transition-colors"
                     >
+                        Continuar con el envío →
+                    </button>
+                    <button onClick={cerrarCarrito} className="w-full text-center text-xs font-bold text-gray-400 uppercase tracking-widest hover:text-gray-900 transition-colors block py-0.5">
                         Ver más productos
                     </button>
                 </div>
-            </div>
+                </>
+            )}
+
+            {/* PASO 2 — DATOS DEL COMPRADOR */}
+            {paso === 2 && (
+                <>
+                <div className="flex-grow overflow-y-auto p-4 bg-white space-y-3">
+
+                    <p className="text-xs text-gray-400 pb-1">Completá tus datos para coordinar el envío después del pago.</p>
+
+                    <div className="space-y-1">
+                        <p className="text-[10px] font-black uppercase tracking-wider text-gray-700 pb-1">Datos personales</p>
+                        <div className="flex gap-2">
+                            {campo('nombre', 'Nombre *', 'Juan', 'text', true)}
+                            {campo('apellido', 'Apellido *', 'García', 'text', true)}
+                        </div>
+                        {campo('telefono', 'Teléfono *', 'Ej: 3454123456', 'tel')}
+                    </div>
+
+                    <div className="space-y-1 pt-2">
+                        <p className="text-[10px] font-black uppercase tracking-wider text-gray-700 pb-1">Dirección de envío</p>
+                        <div className="flex gap-2">
+                            {campo('calle', 'Calle *', 'Av. San Martín', 'text', true)}
+                            {campo('numero', 'Número *', '1234', 'text', true)}
+                        </div>
+                        {campo('piso', 'Piso / Depto (opcional)', 'Ej: 3° B', 'text')}
+                        {campo('ciudad', 'Ciudad *', 'Concordia', 'text')}
+                        <div className="flex gap-2">
+                            {campo('provincia', 'Provincia *', 'Entre Ríos', 'text', true)}
+                            {campo('codigoPostal', 'Código Postal *', '3200', 'text', true)}
+                        </div>
+                    </div>
+
+                    {Object.keys(errores).some(k => errores[k]) && (
+                        <p className="text-xs text-red-500 font-medium">Completá los campos obligatorios marcados en rojo.</p>
+                    )}
+                </div>
+
+                <div className="flex-shrink-0 p-4 pb-8 bg-gray-50 space-y-3">
+                    <div className="flex justify-between items-baseline">
+                        <span className="text-sm font-medium text-gray-800">Total:</span>
+                        <span className="text-lg font-black text-gray-900">${subtotalCarrito.toLocaleString('es-AR')}</span>
+                    </div>
+                    <p className="text-xs text-gray-400">+ envío a coordinar por WhatsApp</p>
+                    <button onClick={handlePagar} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-xl transition-colors">
+                        Pagar con Mercado Pago
+                    </button>
+                </div>
+                </>
+            )}
 
         </div>
         </>,
