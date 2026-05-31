@@ -179,20 +179,23 @@ const coloresOpciones = [
                 ? prod.modelo.map(m => m?.toLowerCase() || '') 
                 : [prod.modelo?.toLowerCase() || ''];
 
-            const similitud = (a, b) => {
-                if (b.includes(a)) return true;
-                if (a.length <= 2) return false;
-                let errores = 0;
-                const maxErrores = Math.floor(a.length / 3);
-                for (let i = 0; i < a.length; i++) {
-                    if (!b.includes(a[i])) errores++;
-                    if (errores > maxErrores) return false;
-                }
-                return true;
+            const similitud = (busqueda, texto) => {
+                if (texto.includes(busqueda)) return true;
+                if (busqueda.length < 3) return false;
+                // Busca la palabra de búsqueda como subcadena en cada palabra del texto
+                const palabrasTexto = texto.split(' ');
+                return palabrasTexto.some(palabra => {
+                    if (Math.abs(palabra.length - busqueda.length) > 2) return false;
+                    let coincidencias = 0;
+                    for (let i = 0; i < busqueda.length; i++) {
+                        if (palabra.includes(busqueda[i])) coincidencias++;
+                    }
+                    return coincidencias >= Math.ceil(busqueda.length * 0.8);
+                });
             };
 
             const coincideTodo = palabrasBusqueda.every(palabra => {
-                const enNombre = nombreProd.split(' ').some(w => similitud(palabra, w)) || nombreProd.includes(palabra);
+                const enNombre = nombreProd.includes(palabra) || similitud(palabra, nombreProd);
                 const enCategoria = catProd.includes(palabra) || similitud(palabra, catProd);
                 const enModelo = modelosArray.some(m => m.includes(palabra) || similitud(palabra, m));
                 return enNombre || enCategoria || enModelo;

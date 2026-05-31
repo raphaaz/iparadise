@@ -66,7 +66,9 @@ export default function CarritoSidebar() {
         productos: cart.map(item => ({
             nombre: item.nombre,
             cantidad: item.cantidad,
-            precio: item.descuento > 0 ? item.precioOferta : item.precioOriginal
+            precio: item.descuento > 0 ? item.precioOferta : item.precioOriginal,
+            color: item.color?.nombre || null,
+            modelo: item.modelo || null
         })),
         total: subtotalCarrito
     }));

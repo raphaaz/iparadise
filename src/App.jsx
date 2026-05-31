@@ -182,8 +182,13 @@ function PagoExitoso() {
   const abrirWhatsApp = () => {
     if (!compra) return;
 
-    const resumenProductos = compra.productos
-      .map(p => `• ${p.nombre} x${p.cantidad} — $${(p.precio * p.cantidad).toLocaleString('es-AR')}`)
+      const resumenProductos = compra.productos
+      .map(p => {
+          let detalle = p.nombre;
+          if (p.color) detalle += ` (${p.color})`;
+          if (p.modelo) detalle += ` - Modelo: ${p.modelo}`;
+          return `• ${detalle} x${p.cantidad} — $${(p.precio * p.cantidad).toLocaleString('es-AR')}`;
+      })
       .join('\n');
 
     const d = compra.datos;

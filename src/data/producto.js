@@ -56,7 +56,7 @@
         "/images/products/peque/airpodsMax4.webp",
         ],
         colores: {
-        "#3f4247": { nombre: "Media noche", stock: 3},
+        "#3f4247": { nombre: "Negro", stock: 3},
         }
     },
     {
