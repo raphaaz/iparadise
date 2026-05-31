@@ -11,6 +11,9 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
             items,
+            shipments: {
+                mode: "me2"
+            },
             back_urls: {
                 success: 'https://iparadise.vercel.app/gracias',
                 failure: 'https://iparadise.vercel.app/error',

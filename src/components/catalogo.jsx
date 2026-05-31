@@ -171,17 +171,30 @@ const coloresOpciones = [
     // --- FUNCIÓN DE EVALUACIÓN DE FILTROS ---
     const cumpleFiltros = (prod) => {
         // 0. Filtro del Navbar Inteligente (Multi-palabra)
+        // 0. Filtro del Navbar con tolerancia a errores de tipeo
         if (palabrasBusqueda.length > 0) {
             const nombreProd = prod.nombre?.toLowerCase() || '';
             const catProd = prod.categoria?.toLowerCase() || '';
             const modelosArray = Array.isArray(prod.modelo) 
                 ? prod.modelo.map(m => m?.toLowerCase() || '') 
                 : [prod.modelo?.toLowerCase() || ''];
-            
+
+            const similitud = (a, b) => {
+                if (b.includes(a)) return true;
+                if (a.length <= 2) return false;
+                let errores = 0;
+                const maxErrores = Math.floor(a.length / 3);
+                for (let i = 0; i < a.length; i++) {
+                    if (!b.includes(a[i])) errores++;
+                    if (errores > maxErrores) return false;
+                }
+                return true;
+            };
+
             const coincideTodo = palabrasBusqueda.every(palabra => {
-                const enNombre = nombreProd.includes(palabra);
-                const enCategoria = catProd.includes(palabra);
-                const enModelo = modelosArray.some(m => m.includes(palabra));
+                const enNombre = nombreProd.split(' ').some(w => similitud(palabra, w)) || nombreProd.includes(palabra);
+                const enCategoria = catProd.includes(palabra) || similitud(palabra, catProd);
+                const enModelo = modelosArray.some(m => m.includes(palabra) || similitud(palabra, m));
                 return enNombre || enCategoria || enModelo;
             });
 
