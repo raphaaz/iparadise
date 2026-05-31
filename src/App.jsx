@@ -207,7 +207,7 @@ ${resumenProductos}
 ✅ Pago realizado por Mercado Pago.`;
 
     localStorage.removeItem('iparadise_comprador');
-    window.open(`https://wa.me/5493454193823?text=${encodeURIComponent(mensaje)}`, '_blank');
+    window.open(`https://wa.me/3454193823?text=${encodeURIComponent(mensaje)}`, '_blank');
   };
 
   return (
