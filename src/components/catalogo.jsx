@@ -274,7 +274,13 @@ const palabrasBusqueda = terminoBusqueda.toLowerCase().split(' ').filter(p => p.
                             type="text"
                             value={busquedaMovil}
                             onChange={(e) => setBusquedaMovil(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    e.target.blur(); // cierra el teclado
+                                }
+                            }}
                             placeholder="¿Qué estás buscando?"
+                            enterKeyHint="search"
                             className="w-full bg-muted/50 text-sm pl-4 pr-12 py-3 border border-border rounded-xl focus:outline-none focus:border-foreground focus:bg-background transition-all"
                         />
                         {busquedaMovil && (
