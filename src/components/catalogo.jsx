@@ -116,7 +116,7 @@ export default function Catalogo({ soloOfertas = false }) {
         setFiltroOfertas(soloOfertas);
     }, [soloOfertas]);
 
-    const categoriasOpciones = ['fundas', 'templado', 'cables', 'adaptador', 'audio', 'relojes', 'batery pack'];
+    const categoriasOpciones = ['funda de silicona', 'templado', 'cables', 'adaptador', 'audio', 'relojes', 'batery pack'];
 const coloresOpciones = [
     { nombre: 'Negro', hex: '#1a1a1a' },
     { nombre: 'Blanco', hex: '#f4f4f4' },
