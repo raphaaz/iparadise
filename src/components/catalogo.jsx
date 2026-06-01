@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { productos } from '../data/producto'; 
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 
@@ -87,6 +87,15 @@ export default function Catalogo({ soloOfertas = false }) {
     // Cambiamos useLocation por useSearchParams para escuchar la URL reactivamente
     const [searchParams] = useSearchParams();
     const busquedaNavbar = searchParams.get('search') || '';
+    const autoFocusBuscar = searchParams.get('buscar') === 'true';
+    const [busquedaMovil, setBusquedaMovil] = useState('');
+    const inputBusquedaRef = useRef(null);
+
+    useEffect(() => {
+        if (autoFocusBuscar && inputBusquedaRef.current) {
+            inputBusquedaRef.current.focus();
+        }
+    }, [autoFocusBuscar]);
 
     // --- ESTADOS DE FILTROS ---
     const [filtroOfertas, setFiltroOfertas] = useState(soloOfertas);
@@ -149,8 +158,7 @@ const coloresOpciones = [
         }
     };
 
-    const tieneFiltrosActivos = busquedaNavbar || filtroOfertas || filtroCategoria.length > 0 || filtroColor.length > 0 || filtroModelo.length > 0 || precioMin || precioMax;
-
+    const tieneFiltrosActivos = busquedaNavbar || busquedaMovil || filtroOfertas || filtroCategoria.length > 0 || filtroColor.length > 0 || filtroModelo.length > 0 || precioMin || precioMax;
     const limpiarFiltros = () => {
         setFiltroOfertas(false);
         setFiltroCategoria([]);
@@ -158,6 +166,7 @@ const coloresOpciones = [
         setFiltroModelo([]);
         setPrecioMin('');
         setPrecioMax('');
+        setBusquedaMovil('');
         navigate('/catalogo');
     };
 
@@ -166,8 +175,8 @@ const coloresOpciones = [
     const coloresSeleccionados = filtroColor.map(c => c.toLowerCase().split(' ')[0]);
     const modelosSeleccionados = filtroModelo.map(m => m.toLowerCase());
     
-    const palabrasBusqueda = busquedaNavbar.toLowerCase().split(' ').filter(p => p.trim() !== '');
-
+const terminoBusqueda = busquedaNavbar || busquedaMovil;
+const palabrasBusqueda = terminoBusqueda.toLowerCase().split(' ').filter(p => p.trim() !== '');
     // --- FUNCIÓN DE EVALUACIÓN DE FILTROS ---
     const cumpleFiltros = (prod) => {
         // 0. Filtro del Navbar Inteligente (Multi-palabra)
@@ -248,15 +257,36 @@ const coloresOpciones = [
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 md:pt-8 pb-16">
                 {/* ENCABEZADO PRINCIPAL DE LA PÁGINA */}
             <div className="mb-8">
-                <h1 className="text-3xl font-semibold tracking-tight text-foreground ">
+                <h1 className="text-3xl font-semibold tracking-tight text-foreground">
                     {filtroOfertas ? "Ofertas y Promociones 🔥" : "Catálogo de Productos"}
                 </h1>
                 <p className="text-sm text-muted-foreground mt-1">
                     {tieneFiltrosActivos 
-                        ? `Encontramos ${productosFiltrados.length}  ${productosFiltrados.length === 1 ? 'coincidencia' : 'coincidencias'} para tu búsqueda`
+                        ? `Encontramos ${productosFiltrados.length} ${productosFiltrados.length === 1 ? 'coincidencia' : 'coincidencias'} para tu búsqueda`
                         : `Explorá nuestra colección completa de ${productos.length} productos`
                     }
                 </p>
+
+                <div className="mt-4 md:hidden">
+                    <div className="relative">
+                        <input
+                            ref={inputBusquedaRef}
+                            type="text"
+                            value={busquedaMovil}
+                            onChange={(e) => setBusquedaMovil(e.target.value)}
+                            placeholder="¿Qué estás buscando?"
+                            className="w-full bg-muted/50 text-sm pl-4 pr-12 py-3 border border-border rounded-xl focus:outline-none focus:border-foreground focus:bg-background transition-all"
+                        />
+                        {busquedaMovil && (
+                            <button
+                                onClick={() => setBusquedaMovil('')}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                            >
+                                ✕
+                            </button>
+                        )}
+                    </div>
+                </div>
             </div>
 
             <div className="flex flex-col md:flex-row gap-8">
