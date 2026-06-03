@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
     if (req.method !== 'POST') return res.status(405).end();
 
-    const { items } = req.body;
+    const { items, itemsConStock } = req.body;
 
     const response = await fetch('https://api.mercadopago.com/checkout/preferences', {
         method: 'POST',
@@ -11,6 +11,9 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
             items,
+            metadata: {
+                items: itemsConStock
+            },
             notification_url: 'https://iparadise.vercel.app/api/webhook-mp',
             back_urls: {
                 success: 'https://iparadise.vercel.app/gracias',

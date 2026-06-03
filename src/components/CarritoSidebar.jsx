@@ -45,18 +45,18 @@ export default function CarritoSidebar() {
         if (!validarDatos()) return;
 
         try {
-            const items = cart.map(item => ({
-                title: item.nombre,
-                quantity: item.cantidad,
-                unit_price: item.descuento > 0 ? item.precioOferta : item.precioOriginal,
-                currency_id: 'ARS'
-            }));
+            const itemsConStock = cart.map(item => ({
+            producto_id: item.id,
+            color_nombre: item.color?.nombre || null,
+            cantidad: item.cantidad,
+            stock_nuevo: (item.color?.stock || item.stock || 10) - item.cantidad
+        }));
 
-            const res = await fetch('/api/crear-preferencia', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ items })
-            });
+        const res = await fetch('/api/crear-preferencia', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items, itemsConStock })
+        });
 
             const data = await res.json();
 
