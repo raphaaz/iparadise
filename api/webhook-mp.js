@@ -23,7 +23,11 @@ export default async function handler(req, res) {
 
         // Actualizar stock en Supabase por cada item
         for (const item of items) {
-            await fetch(`${process.env.SUPABASE_URL}/rest/v1/stock?producto_id=eq.${item.producto_id}&color_nombre=eq.${item.color_nombre || 'null'}`, {
+            const colorParam = item.color_nombre
+                ? `color_nombre=eq.${encodeURIComponent(item.color_nombre)}`
+                : `color_nombre=is.null`;
+
+            await fetch(`${process.env.SUPABASE_URL}/rest/v1/stock?producto_id=eq.${item.producto_id}&${colorParam}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

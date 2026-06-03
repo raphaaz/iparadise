@@ -42,10 +42,17 @@ export default function CarritoSidebar() {
     };
 
     const handlePagar = async () => {
-        if (!validarDatos()) return;
+    if (!validarDatos()) return;
 
-        try {
-            const itemsConStock = cart.map(item => ({
+    try {
+        const items = cart.map(item => ({
+            title: item.nombre,
+            quantity: item.cantidad,
+            unit_price: item.descuento > 0 ? item.precioOferta : item.precioOriginal,
+            currency_id: 'ARS'
+        }));
+
+        const itemsConStock = cart.map(item => ({
             producto_id: item.id,
             color_nombre: item.color?.nombre || null,
             cantidad: item.cantidad,
@@ -58,30 +65,29 @@ export default function CarritoSidebar() {
             body: JSON.stringify({ items, itemsConStock })
         });
 
-            const data = await res.json();
+        const data = await res.json();
 
-            if (data.init_point) {
-    localStorage.setItem('iparadise_comprador', JSON.stringify({
-        datos: datosComprador,
-        productos: cart.map(item => ({
-            nombre: item.nombre,
-            cantidad: item.cantidad,
-            precio: item.descuento > 0 ? item.precioOferta : item.precioOriginal,
-            color: item.color?.nombre || null,
-            modelo: item.modelo || null
-        })),
-        total: subtotalCarrito
-    }));
+        if (data.init_point) {
+            localStorage.setItem('iparadise_comprador', JSON.stringify({
+                datos: datosComprador,
+                productos: cart.map(item => ({
+                    nombre: item.nombre,
+                    cantidad: item.cantidad,
+                    precio: item.descuento > 0 ? item.precioOferta : item.precioOriginal,
+                    color: item.color?.nombre || null,
+                    modelo: item.modelo || null
+                })),
+                total: subtotalCarrito
+            }));
 
-    window.location.href = data.init_point;
-
-            } else {
-                alert('Error al crear el pago: ' + JSON.stringify(data));
-            }
-        } catch (error) {
-            alert('Error de conexión: ' + error.message);
+            window.location.href = data.init_point;
+        } else {
+            alert('Error al crear el pago: ' + JSON.stringify(data));
         }
-    };
+    } catch (error) {
+        alert('Error de conexión: ' + error.message);
+    }
+};
 
     const campo = (key, label, placeholder, tipo = 'text', mitad = false) => (
         <div className={mitad ? 'flex-1' : 'w-full'}>
