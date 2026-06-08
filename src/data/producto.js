@@ -826,7 +826,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     },
     categoria: "Tech Woven Case",
     descripcion: "Funda Tech Woven Case de alta calidad, disponible en diferentes colores.",
-    imgAll: Array.from({ length: 2 }, (_, i) => `/images/products/techWoven/techWoven17promax_${i + 1}.webp`),
+    imgAll: Array.from({ length: 2 }, (_, i) => `/images/products/techWoven/17promax_${i + 1}.webp`),
     colores: {
         "#3e3e3e": { id: 1, nombre: "Gris Oscuro", stock: 1 },
         "#764536": { id: 2, nombre: "Marrón Cuero", stock: 1 }
