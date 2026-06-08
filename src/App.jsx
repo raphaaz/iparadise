@@ -7,11 +7,66 @@ import Catalogo from './components/catalogo';
 import { useCart } from "./context/CartContext"; 
 import CarritoSidebar from './components/CarritoSidebar.jsx';
 
+// =============================================
+// CONSTANTES GLOBALES
+// =============================================
+const WA_NUMBER = '5493454193823';
+const SITE_NAME = 'iParadise';
+const SITE_URL = 'https://iparadise.com.ar';
+const SITE_DESC = 'Tu tienda de accesorios premium para iPhone. Fundas, templados, cables, cargadores y más. Envíos a todo el país.';
+
 const formateador = new Intl.NumberFormat('es-AR', {
   style: 'currency',
   currency: 'ARS',
   minimumFractionDigits: 0,
 });
+
+// =============================================
+// SEO — Meta tags dinámicos
+// =============================================
+function MetaTags({ titulo, descripcion, url }) {
+  useEffect(() => {
+    const t = titulo ? `${titulo} | ${SITE_NAME}` : SITE_NAME;
+    const d = descripcion || SITE_DESC;
+    const u = url ? `${SITE_URL}${url}` : SITE_URL;
+
+    document.title = t;
+
+    const setMeta = (selector, attr, val) => {
+      let el = document.querySelector(selector);
+      if (!el) {
+        el = document.createElement('meta');
+        const parts = selector.match(/\[(.+?)="(.+?)"\]/);
+        if (parts) el.setAttribute(parts[1], parts[2]);
+        document.head.appendChild(el);
+      }
+      el.setAttribute(attr, val);
+    };
+
+    setMeta('meta[name="description"]', 'content', d);
+    setMeta('meta[property="og:title"]', 'content', t);
+    setMeta('meta[property="og:description"]', 'content', d);
+    setMeta('meta[property="og:url"]', 'content', u);
+    setMeta('meta[property="og:site_name"]', 'content', SITE_NAME);
+    setMeta('meta[property="og:type"]', 'content', 'website');
+    setMeta('meta[property="og:image"]', 'content', `${SITE_URL}/images/hero1grande.webp`);
+    setMeta('meta[name="twitter:card"]', 'content', 'summary_large_image');
+    setMeta('meta[name="twitter:title"]', 'content', t);
+    setMeta('meta[name="twitter:description"]', 'content', d);
+    setMeta('meta[name="robots"]', 'content', 'index, follow');
+    setMeta('link[rel="canonical"]', 'href', u);
+  }, [titulo, descripcion, url]);
+
+  return null;
+}
+
+// =============================================
+// UTILIDAD — WhatsApp seguro
+// =============================================
+function abrirWA(mensaje) {
+  const sanitizado = mensaje.slice(0, 2000);
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(sanitizado)}`, '_blank', 'noopener,noreferrer');
+}
 
 /* ==========================================================================
    1. COMPONENTE HEADER
@@ -26,7 +81,7 @@ function Header() {
 
   const manejarBusqueda = (e) => {
     e.preventDefault();
-    const terminoLimpio = busqueda.trim();
+    const terminoLimpio = busqueda.trim().slice(0, 100); // límite de seguridad
     if (terminoLimpio) {
       navigate(`/catalogo?search=${encodeURIComponent(terminoLimpio)}`);
       setBusqueda(''); 
@@ -35,8 +90,8 @@ function Header() {
   };
 
   const manejarBusquedaMovil = () => {
-      navigate('/catalogo?buscar=true');
-      setMenuAbierto(false);
+    navigate('/catalogo?buscar=true');
+    setMenuAbierto(false);
   };
 
   return (
@@ -53,8 +108,9 @@ function Header() {
               <input
                 type="text"
                 value={busqueda}
-                onChange={(e) => setBusqueda(e.target.value)}
+                onChange={(e) => setBusqueda(e.target.value.slice(0, 100))}
                 placeholder="¿Qué estás buscando?"
+                maxLength={100}
                 className="w-full bg-muted/50 text-sm pl-4 pr-12 py-2.5 border border-border focus:outline-none focus:border-foreground focus:bg-background transition-all"
               />
               <button type="submit" className="absolute right-0 top-0 h-full px-4 border-l border-border bg-muted/30 hover:bg-muted text-muted-foreground hover:text-foreground transition-colors" aria-label="Buscar">
@@ -65,7 +121,7 @@ function Header() {
             </form>
           </div>
           <div className="flex items-center gap-0.5 sm:gap-2 flex-shrink-0">
-            <button onClick={manejarBusquedaMovil} className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors">
+            <button onClick={manejarBusquedaMovil} className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors" aria-label="Buscar">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
@@ -76,11 +132,11 @@ function Header() {
               </svg>
               {totalItems > 0 && (
                 <span className="absolute top-0 right-0 bg-black text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-pulse">
-                  {totalItems}
+                  {totalItems > 99 ? '99+' : totalItems}
                 </span>
               )}
             </button>
-            <button onClick={() => setMenuAbierto(!menuAbierto)} className="md:hidden p-2 text-foreground rounded-lg hover:bg-muted transition-colors">
+            <button onClick={() => setMenuAbierto(!menuAbierto)} className="md:hidden p-2 text-foreground rounded-lg hover:bg-muted transition-colors" aria-label="Menú">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {menuAbierto ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
@@ -176,20 +232,19 @@ function Header() {
 function PagoExitoso() {
   const compra = JSON.parse(localStorage.getItem('iparadise_comprador') || 'null');
 
-  const abrirWhatsApp = () => {
-    if (!compra) return;
-
+  const manejarWhatsApp = () => {
+    let mensaje;
+    if (compra) {
       const resumenProductos = compra.productos
-      .map(p => {
+        .map(p => {
           let detalle = p.nombre;
           if (p.color) detalle += ` (${p.color})`;
           if (p.modelo) detalle += ` - Modelo: ${p.modelo}`;
           return `• ${detalle} x${p.cantidad} — $${(p.precio * p.cantidad).toLocaleString('es-AR')}`;
-      })
-      .join('\n');
-
-    const d = compra.datos;
-    const mensaje =
+        })
+        .join('\n');
+      const d = compra.datos;
+      mensaje =
 `🛍️ *Nueva compra - iParadise*
 
 👤 *Datos del comprador:*
@@ -207,26 +262,31 @@ ${resumenProductos}
 💰 *Total: $${compra.total.toLocaleString('es-AR')}*
 
 ✅ Pago realizado por Mercado Pago.`;
-
-    localStorage.removeItem('iparadise_comprador');
-    window.open(`https://wa.me/3454193823?text=${encodeURIComponent(mensaje)}`, '_blank');
+      localStorage.removeItem('iparadise_comprador');
+    } else {
+      mensaje = '¡Hola! Acabo de realizar un pago en iParadise y quiero coordinar el envío.';
+    }
+    abrirWA(mensaje);
   };
 
   return (
-    <div className="py-16 text-center flex-grow flex flex-col items-center justify-center gap-4">
-      <span className="text-5xl">🎉</span>
-      <h1 className="text-2xl font-semibold text-foreground">¡Pago exitoso!</h1>
-      <p className="text-muted-foreground max-w-sm">Gracias por tu compra. Tocá el botón para coordinar el envío por WhatsApp.</p>
-      <button
-        onClick={abrirWhatsApp}
-        className="mt-2 inline-flex items-center gap-2 px-6 py-3 bg-[#25D366] text-white font-medium rounded-full hover:bg-[#22c55e] transition-colors shadow-md"
-      >
-        📦 Coordinar envío por WhatsApp
-      </button>
-      <a href="/" className="mt-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-        Volver al inicio
-      </a>
-    </div>
+    <>
+      <MetaTags titulo="¡Pago exitoso!" descripcion="Tu compra fue procesada correctamente." url="/gracias" />
+      <div className="py-16 text-center flex-grow flex flex-col items-center justify-center gap-4">
+        <span className="text-5xl">🎉</span>
+        <h1 className="text-2xl font-semibold text-foreground">¡Pago exitoso!</h1>
+        <p className="text-muted-foreground max-w-sm">Gracias por tu compra. Tocá el botón para coordinar el envío por WhatsApp.</p>
+        <button
+          onClick={manejarWhatsApp}
+          className="mt-2 inline-flex items-center gap-2 px-6 py-3 bg-[#25D366] text-white font-medium rounded-full hover:bg-[#22c55e] transition-colors shadow-md"
+        >
+          📦 Coordinar envío por WhatsApp
+        </button>
+        <Link to="/" className="mt-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+          Volver al inicio
+        </Link>
+      </div>
+    </>
   );
 }
 
@@ -234,123 +294,126 @@ ${resumenProductos}
    3. COMPONENTE LANDING
    ========================================================================== */
 function IParadiceLanding() {
-  const enviarWhatsApp = (producto) => {
-    const mensaje = producto
-      ? `¡Hola! Me interesa el producto: ${producto.nombre} - $${producto.precioOriginal}`
-      : "¡Hola! Me gustaría más información sobre sus productos.";
-    const url = `https://wa.me/3454193823?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, "_blank");
-  };
-
   return (
-    <div className="w-full"> 
-      <section className="pb-16">
+    <>
+      <MetaTags
+        titulo="Accesorios premium para iPhone"
+        descripcion={SITE_DESC}
+        url="/"
+      />
+      <div className="w-full"> 
+        <section className="pb-16">
           <Link to="/catalogo">
-              <div className="relative w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-[#f5f5f7]">
-                  <picture>
-                      <source media="(max-width: 767px)" srcSet="/images/hero1peque.webp" />
-                      <source media="(min-width: 768px)" srcSet="/images/hero1grande.webp" />
-                      <img
-                          src="/images/hero1grande.webp"
-                          alt="iPhone con accesorios premium iParadise"
-                          className="w-full h-full object-cover cursor-pointer"
-                          loading="eager"
-                      />
-                  </picture>
-              </div>
+            <div className="relative w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-[#f5f5f7]">
+              <picture>
+                <source media="(max-width: 767px)" srcSet="/images/hero1peque.webp" />
+                <source media="(min-width: 768px)" srcSet="/images/hero1grande.webp" />
+                <img
+                  src="/images/hero1grande.webp"
+                  alt="Accesorios premium para iPhone — iParadise"
+                  className="w-full h-full object-cover cursor-pointer"
+                  loading="eager"
+                />
+              </picture>
+            </div>
           </Link>
-      </section>
-      <section id="categorias" className="hidden md:block py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-card">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <Link to="/catalogo" className="group relative overflow-hidden rounded-3xl aspect-[4/3] shadow-md hover:shadow-xl transition-shadow duration-300">
-              <img src="/images/categories/fundasTemplados.jpeg" alt="Categoría Fundas y Templados" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-              <div className="absolute bottom-6 left-6">
-                <h3 className="text-2xl font-semibold text-white tracking-tight">Fundas y Templados</h3>
-                <p className="text-white/90 text-sm mt-1 font-medium">Protección completa para tu dispositivo</p>
-              </div>
-            </Link>
-            <Link to="/ofertas" className="group relative overflow-hidden rounded-3xl aspect-[4/3] shadow-md hover:shadow-xl transition-shadow duration-300">
-              <img src="/images/categories/ofertas.png" alt="Categoría Ofertas y Promociones" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-              <div className="absolute bottom-6 left-6">
-                <h3 className="text-2xl font-semibold text-white tracking-tight">Ofertas y Promociones</h3>
-                <p className="text-white/90 text-sm mt-1 font-medium">Los mejores precios y combos especiales</p>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section id="productos" className="py-16 sm:py-24 px-2 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-semibold text-foreground">Productos Destacados</h2>
+        <section id="categorias" className="hidden md:block py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-card">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              <Link to="/catalogo" className="group relative overflow-hidden rounded-3xl aspect-[4/3] shadow-md hover:shadow-xl transition-shadow duration-300">
+                <img src="/images/categories/fundasTemplados.jpeg" alt="Fundas y Templados para iPhone" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <div className="absolute bottom-6 left-6">
+                  <h3 className="text-2xl font-semibold text-white tracking-tight">Fundas y Templados</h3>
+                  <p className="text-white/90 text-sm mt-1 font-medium">Protección completa para tu dispositivo</p>
+                </div>
+              </Link>
+              <Link to="/ofertas" className="group relative overflow-hidden rounded-3xl aspect-[4/3] shadow-md hover:shadow-xl transition-shadow duration-300">
+                <img src="/images/categories/ofertas.png" alt="Ofertas y Promociones iParadise" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <div className="absolute bottom-6 left-6">
+                  <h3 className="text-2xl font-semibold text-white tracking-tight">Ofertas y Promociones</h3>
+                  <p className="text-white/90 text-sm mt-1 font-medium">Los mejores precios y combos especiales</p>
+                </div>
+              </Link>
+            </div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
-            {productos.map((producto) => {
-              const tieneEstructuraNueva = producto.imgDesktop && producto.imgDesktop.length > 0;
-              let srcOriginal = '';
-              let srcMovil = '';
-              if (tieneEstructuraNueva) {
-                srcOriginal = Array.isArray(producto.imgDesktop) ? producto.imgDesktop[0] : producto.imgDesktop;
-                srcMovil = Array.isArray(producto.imgMobile) ? producto.imgMobile[0] : producto.imgMobile;
-              } else if (producto.imgAll && producto.imgAll.length > 0) {
-                srcOriginal = producto.imgAll[0];
-                srcMovil = producto.imgAll[0];
-              } else {
-                srcOriginal = Array.isArray(producto.imagenes) ? producto.imagenes[0] : (producto.imagenes || '');
-                srcMovil = srcOriginal;
-              }
-              const tieneDescuento = producto.descuento > 0;
-              return (
-                <Link to={`/producto/${producto.id}`} key={producto.id} className="block no-underline group">
-                  <article className="group bg-card rounded-3xl overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300 bg-gray-200 relative flex flex-col md:block h-full md:h-auto">
-                    {tieneDescuento && (
-                      <div className="absolute top-4 left-4 z-10 bg-red-500 text-white text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-lg shadow-sm">
-                        {producto.descuento}% OFF
-                      </div>
-                    )}
-                    <div className="relative aspect-square overflow-hidden">
-                      <picture>
-                        <source media="(max-width: 767px)" srcSet={srcMovil} />
-                        <source media="(min-width: 768px)" srcSet={srcOriginal} />
-                        <img src={srcOriginal} alt={producto.nombre} className={`absolute inset-0 w-full h-full transition-transform duration-500 ${producto.categoria.toLowerCase().includes('funda') ? 'object-cover p-0 scale-95 group-hover:scale-100' : 'object-contain p-6 group-hover:scale-105'}`} decoding="sync" />
-                      </picture>
-                    </div>
-                    <div className="p-6 flex flex-col flex-grow md:flex-none md:block">
-                      <span className="hidden md:block text-xs font-medium text-muted-foreground uppercase tracking-wider">{producto.categoria}</span>
-                      <h3 className="mt-2 text-center md:text-left text-sm sm:text-lg font-semibold text-foreground group-hover:text-blue-500 transition-colors line-clamp-2 md:line-clamp-1 leading-tight">{producto.nombre}</h3>
-                      <div className="mt-auto md:mt-2 pt-4 md:pt-0 flex items-baseline justify-center md:justify-start gap-2">
-                        {tieneDescuento ? (
-                          <>
-                            <span className="text-xl font-semibold text-foreground">{formateador.format(producto.precioOferta)}</span>
-                            <span className="text-sm font-medium text-muted-foreground/70 line-through">{formateador.format(producto.precioOriginal)}</span>
-                          </>
-                        ) : (
-                          <span className="text-xl font-semibold text-foreground">{formateador.format(producto.precioOriginal)}</span>
-                        )}
-                      </div>
-                    </div>
-                  </article>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section id="contacto" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-primary">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary-foreground">¿Tienes alguna pregunta?</h2>
-          <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 max-w-xl mx-auto">Estamos aquí para ayudarte. Contáctanos por WhatsApp y te responderemos al instante.</p>
-          <button onClick={() => enviarWhatsApp(null)} className="mt-8 inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#25D366] text-white font-medium rounded-full hover:bg-[#22c55e] transition-colors shadow-md">
-            Escríbenos por WhatsApp
-          </button>
-        </div>
-      </section>
-    </div>
+        <section id="productos" className="py-16 sm:py-24 px-2 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-semibold text-foreground">Productos Destacados</h2>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
+              {productos.map((producto) => {
+                const tieneEstructuraNueva = producto.imgDesktop && producto.imgDesktop.length > 0;
+                let srcOriginal = '';
+                let srcMovil = '';
+                if (tieneEstructuraNueva) {
+                  srcOriginal = Array.isArray(producto.imgDesktop) ? producto.imgDesktop[0] : producto.imgDesktop;
+                  srcMovil = Array.isArray(producto.imgMobile) ? producto.imgMobile[0] : producto.imgMobile;
+                } else if (producto.imgAll && producto.imgAll.length > 0) {
+                  srcOriginal = producto.imgAll[0];
+                  srcMovil = producto.imgAll[0];
+                } else {
+                  srcOriginal = Array.isArray(producto.imagenes) ? producto.imagenes[0] : (producto.imagenes || '');
+                  srcMovil = srcOriginal;
+                }
+                const tieneDescuento = producto.descuento > 0;
+                return (
+                  <Link to={`/producto/${producto.id}`} key={producto.id} className="block no-underline group">
+                    <article className="group bg-card rounded-3xl overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300 bg-gray-200 relative flex flex-col md:block h-full md:h-auto">
+                      {tieneDescuento && (
+                        <div className="absolute top-4 left-4 z-10 bg-red-500 text-white text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-lg shadow-sm">
+                          {producto.descuento}% OFF
+                        </div>
+                      )}
+                      <div className="relative aspect-square overflow-hidden">
+                        <picture>
+                          <source media="(max-width: 767px)" srcSet={srcMovil} />
+                          <source media="(min-width: 768px)" srcSet={srcOriginal} />
+                          <img src={srcOriginal} alt={producto.nombre} className={`absolute inset-0 w-full h-full transition-transform duration-500 ${producto.categoria.toLowerCase().includes('funda') ? 'object-cover p-0 scale-95 group-hover:scale-100' : 'object-contain p-6 group-hover:scale-105'}`} decoding="sync" loading="lazy" />
+                        </picture>
+                      </div>
+                      <div className="p-6 flex flex-col flex-grow md:flex-none md:block">
+                        <span className="hidden md:block text-xs font-medium text-muted-foreground uppercase tracking-wider">{producto.categoria}</span>
+                        <h3 className="mt-2 text-center md:text-left text-sm sm:text-lg font-semibold text-foreground group-hover:text-blue-500 transition-colors line-clamp-2 md:line-clamp-1 leading-tight">{producto.nombre}</h3>
+                        <div className="mt-auto md:mt-2 pt-4 md:pt-0 flex items-baseline justify-center md:justify-start gap-2">
+                          {tieneDescuento ? (
+                            <>
+                              <span className="text-xl font-semibold text-foreground">{formateador.format(producto.precioOferta)}</span>
+                              <span className="text-sm font-medium text-muted-foreground/70 line-through">{formateador.format(producto.precioOriginal)}</span>
+                            </>
+                          ) : (
+                            <span className="text-xl font-semibold text-foreground">{formateador.format(producto.precioOriginal)}</span>
+                          )}
+                        </div>
+                      </div>
+                    </article>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section id="contacto" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-primary">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary-foreground">¿Tienes alguna pregunta?</h2>
+            <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 max-w-xl mx-auto">Estamos aquí para ayudarte. Contáctanos por WhatsApp y te responderemos al instante.</p>
+            <button
+              onClick={() => abrirWA('¡Hola! Me gustaría más información sobre sus productos.')}
+              className="mt-8 inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#25D366] text-white font-medium rounded-full hover:bg-[#22c55e] transition-colors shadow-md"
+            >
+              Escríbenos por WhatsApp
+            </button>
+          </div>
+        </section>
+      </div>
+    </>
   );
 }
 
@@ -363,7 +426,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
         <div className="space-y-3">
           <h3 className="text-base font-semibold text-foreground tracking-tight">iParadise</h3>
-          <p className="text-sm leading-relaxed text-muted-foreground/80 max-w-sm mx-auto md:mx-0">Tu tienda de confianza para fundas, cargadores y accesorios premium para tus dispositivos Apple favoritos.</p>
+          <p className="text-sm leading-relaxed text-muted-foreground/80 max-w-sm mx-auto md:mx-0">{SITE_DESC}</p>
         </div>
         <div className="space-y-2.5">
           <h4 className="font-bold text-foreground uppercase tracking-wider text-[10px]">Navegación</h4>
@@ -383,7 +446,7 @@ function Footer() {
         </div>
         <div className="space-y-2.5">
           <h4 className="font-bold text-foreground uppercase tracking-wider text-[10px]">Ubicación y Pagos</h4>
-          <p className="text-sm text-muted-foreground/80 max-w-sm mx-auto md:mx-0">Envíos a todo el país. Métodos de pago seguros vía transferencia o efectivo.</p>
+          <p className="text-sm text-muted-foreground/80 max-w-sm mx-auto md:mx-0">Envíos a todo el país. Métodos de pago seguros vía Mercado Pago.</p>
           <div className="pt-2 flex justify-center md:justify-start gap-4 text-lg text-foreground/40">
             <span>💳</span> <span>💵</span> <span>📦</span>
           </div>
@@ -397,7 +460,26 @@ function Footer() {
 }
 
 /* ==========================================================================
-   5. COMPONENTE PRINCIPAL
+   5. PÁGINA 404
+   ========================================================================== */
+function NotFound() {
+  return (
+    <>
+      <MetaTags titulo="Página no encontrada" url="/404" />
+      <div className="py-16 text-center flex-grow flex flex-col items-center justify-center gap-4">
+        <span className="text-6xl">🔍</span>
+        <h1 className="text-2xl font-semibold text-foreground">Página no encontrada</h1>
+        <p className="text-muted-foreground">La página que buscás no existe o fue movida.</p>
+        <Link to="/" className="mt-4 px-6 py-2 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors">
+          Volver al inicio
+        </Link>
+      </div>
+    </>
+  );
+}
+
+/* ==========================================================================
+   6. COMPONENTE PRINCIPAL
    ========================================================================== */
 export default function App() {
   const { pathname, hash } = useLocation();
@@ -426,66 +508,82 @@ export default function App() {
           <Route path="/catalogo" element={<Catalogo />} />
           <Route path="/gracias" element={<PagoExitoso />} />
           <Route path="/como-comprar" element={
-            <div className="max-w-3xl mx-auto px-4 py-12 space-y-10 text-foreground">
-              <div>
-                <h1 className="text-3xl font-semibold tracking-tight">¿Cómo comprar?</h1>
-                <p className="text-muted-foreground mt-2">Todo lo que necesitás saber para hacer tu compra de forma fácil y segura.</p>
+            <>
+              <MetaTags titulo="Cómo comprar" descripcion="Aprendé cómo comprar en iParadise de forma fácil y segura." url="/como-comprar" />
+              <div className="max-w-3xl mx-auto px-4 py-12 space-y-10 text-foreground">
+                <div>
+                  <h1 className="text-3xl font-semibold tracking-tight">¿Cómo comprar?</h1>
+                  <p className="text-muted-foreground mt-2">Todo lo que necesitás saber para hacer tu compra de forma fácil y segura.</p>
+                </div>
+                <div className="space-y-3">
+                  <h2 className="text-xl font-semibold">Paso a paso</h2>
+                  <ol className="space-y-4 text-sm text-muted-foreground leading-relaxed list-none">
+                    <li className="flex gap-3"><span className="font-black text-foreground text-base">1.</span> Explorá nuestro catálogo y elegí el producto que más te guste.</li>
+                    <li className="flex gap-3"><span className="font-black text-foreground text-base">2.</span> Seleccioná el color o variante que prefieras y hacé clic en <strong className="text-foreground">Agregar al carrito</strong>.</li>
+                    <li className="flex gap-3"><span className="font-black text-foreground text-base">3.</span> Cuando termines de elegir, abrí el carrito y revisá tu pedido.</li>
+                    <li className="flex gap-3"><span className="font-black text-foreground text-base">4.</span> Completá tus datos de envío y hacé clic en <strong className="text-foreground">Pagar con Mercado Pago</strong>.</li>
+                    <li className="flex gap-3"><span className="font-black text-foreground text-base">5.</span> Una vez confirmado el pago, coordiná el envío por WhatsApp desde la página de confirmación.</li>
+                  </ol>
+                </div>
+                <div className="space-y-3">
+                  <h2 className="text-xl font-semibold">Métodos de pago</h2>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Aceptamos todos los medios de pago disponibles a través de <strong className="text-foreground">Mercado Pago</strong>, incluyendo:</p>
+                  <ul className="text-sm text-muted-foreground space-y-2 leading-relaxed">
+                    <li>💳 Tarjetas de crédito (Visa, Mastercard, American Express, y más)</li>
+                    <li>💳 Tarjetas de débito</li>
+                    <li>💵 Dinero en cuenta de Mercado Pago</li>
+                    <li>🏦 Transferencia bancaria</li>
+                    <li>📱 Mercado Pago app (QR, saldo)</li>
+                  </ul>
+                </div>
+                <div className="space-y-3">
+                  <h2 className="text-xl font-semibold">¿Es seguro comprar?</h2>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Sí. Todos los pagos se procesan a través de <strong className="text-foreground">Mercado Pago</strong>, una plataforma líder en pagos online en Argentina que protege tus datos y garantiza transacciones seguras. Nunca almacenamos información de tu tarjeta.</p>
+                </div>
+                <div className="space-y-3">
+                  <h2 className="text-xl font-semibold">¿Tenés dudas?</h2>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Podés contactarnos por WhatsApp y te respondemos al instante.</p>
+                  <button
+                    onClick={() => abrirWA('¡Hola! Tengo una consulta sobre cómo comprar en iParadise.')}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#25D366] text-white text-sm font-medium rounded-full hover:bg-[#22c55e] transition-colors"
+                  >
+                    Escribinos por WhatsApp
+                  </button>
+                </div>
               </div>
-              <div className="space-y-3">
-                <h2 className="text-xl font-semibold">Paso a paso</h2>
-                <ol className="space-y-4 text-sm text-muted-foreground leading-relaxed list-none">
-                  <li className="flex gap-3"><span className="font-black text-foreground text-base">1.</span> Explorá nuestro catálogo y elegí el producto que más te guste.</li>
-                  <li className="flex gap-3"><span className="font-black text-foreground text-base">2.</span> Seleccioná el color o variante que prefieras y hacé clic en <strong className="text-foreground">Agregar al carrito</strong>.</li>
-                  <li className="flex gap-3"><span className="font-black text-foreground text-base">3.</span> Cuando termines de elegir, abrí el carrito y revisá tu pedido.</li>
-                  <li className="flex gap-3"><span className="font-black text-foreground text-base">4.</span> Completá tus datos de envío y hacé clic en <strong className="text-foreground">Pagar con Mercado Pago</strong>.</li>
-                  <li className="flex gap-3"><span className="font-black text-foreground text-base">5.</span> Una vez confirmado el pago, coordiná el envío por WhatsApp desde la página de confirmación.</li>
-                </ol>
-              </div>
-              <div className="space-y-3">
-                <h2 className="text-xl font-semibold">Métodos de pago</h2>
-                <p className="text-sm text-muted-foreground leading-relaxed">Aceptamos todos los medios de pago disponibles a través de <strong className="text-foreground">Mercado Pago</strong>, incluyendo:</p>
-                <ul className="text-sm text-muted-foreground space-y-2 leading-relaxed">
-                  <li>💳 Tarjetas de crédito (Visa, Mastercard, American Express, y más)</li>
-                  <li>💳 Tarjetas de débito</li>
-                  <li>💵 Dinero en cuenta de Mercado Pago</li>
-                  <li>🏦 Transferencia bancaria</li>
-                  <li>📱 Mercado Pago app (QR, saldo)</li>
-                </ul>
-              </div>
-              <div className="space-y-3">
-                <h2 className="text-xl font-semibold">¿Es seguro comprar?</h2>
-                <p className="text-sm text-muted-foreground leading-relaxed">Sí. Todos los pagos se procesan a través de <strong className="text-foreground">Mercado Pago</strong>, una plataforma líder en pagos online en Argentina que protege tus datos y garantiza transacciones seguras. Nunca almacenamos información de tu tarjeta.</p>
-              </div>
-              <div className="space-y-3">
-                <h2 className="text-xl font-semibold">¿Tenés dudas?</h2>
-                <p className="text-sm text-muted-foreground leading-relaxed">Podés contactarnos por WhatsApp y te respondemos al instante.</p>
-                <a href="https://wa.me/3454193823" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#25D366] text-white text-sm font-medium rounded-full hover:bg-[#22c55e] transition-colors">
-                  Escribinos por WhatsApp
-                </a>
-              </div>
-            </div>
+            </>
           } />
           <Route path="/envios" element={
-            <div className="py-16 text-center text-foreground flex-grow flex items-center justify-center text-xl font-medium">
-              Página de Información de Envíos
-            </div>
+            <>
+              <MetaTags titulo="Información de Envíos" descripcion="Conocé cómo funcionan los envíos en iParadise." url="/envios" />
+              <div className="py-16 text-center text-foreground flex-grow flex items-center justify-center text-xl font-medium">
+                Página de Información de Envíos
+              </div>
+            </>
           } />
           <Route path="/error" element={
-            <div className="py-16 text-center flex-grow flex flex-col items-center justify-center gap-4">
-              <span className="text-5xl">❌</span>
-              <h1 className="text-2xl font-semibold text-foreground">Hubo un error en el pago</h1>
-              <p className="text-muted-foreground">Por favor intentá de nuevo.</p>
-              <a href="/" className="mt-4 px-6 py-2 bg-black text-white rounded-xl">Volver al inicio</a>
-            </div>
+            <>
+              <MetaTags titulo="Error en el pago" url="/error" />
+              <div className="py-16 text-center flex-grow flex flex-col items-center justify-center gap-4">
+                <span className="text-5xl">❌</span>
+                <h1 className="text-2xl font-semibold text-foreground">Hubo un error en el pago</h1>
+                <p className="text-muted-foreground">Por favor intentá de nuevo.</p>
+                <Link to="/" className="mt-4 px-6 py-2 bg-black text-white rounded-xl">Volver al inicio</Link>
+              </div>
+            </>
           } />
           <Route path="/pendiente" element={
-            <div className="py-16 text-center flex-grow flex flex-col items-center justify-center gap-4">
-              <span className="text-5xl">⏳</span>
-              <h1 className="text-2xl font-semibold text-foreground">Pago pendiente</h1>
-              <p className="text-muted-foreground">Tu pago está siendo procesado.</p>
-              <a href="/" className="mt-4 px-6 py-2 bg-black text-white rounded-xl">Volver al inicio</a>
-            </div>
+            <>
+              <MetaTags titulo="Pago pendiente" url="/pendiente" />
+              <div className="py-16 text-center flex-grow flex flex-col items-center justify-center gap-4">
+                <span className="text-5xl">⏳</span>
+                <h1 className="text-2xl font-semibold text-foreground">Pago pendiente</h1>
+                <p className="text-muted-foreground">Tu pago está siendo procesado.</p>
+                <Link to="/" className="mt-4 px-6 py-2 bg-black text-white rounded-xl">Volver al inicio</Link>
+              </div>
+            </>
           } />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />

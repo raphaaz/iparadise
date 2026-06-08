@@ -241,7 +241,7 @@
 
 
 
-    /*FUNDAS */
+    /*FUNDAS DE SILICONA*/
     {
         id: 11,
         nombre: "Funda iPhone 11",
@@ -611,4 +611,487 @@
             "#492d80": { id: 7, nombre: "Violeta Oscuro", stock: 1 }
         }
     },
+    
+
+// CRYSTAL CASE
+{
+    id: 27,
+    nombre: "Crystal Case iPhone 17",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Crystal Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 3 }, (_, i) => `/images/producto/crystal/crystal17_${i + 1}.webp`),
+    colores: {
+        "#eeeadd": { id: 1, nombre: "Beige Pálido", stock: 1 },
+        "#c8c4db": { id: 2, nombre: "Lavanda Grisáceo", stock: 1 },
+        "#938d81": { id: 3, nombre: "Gris Cálido", stock: 0 }
+    }
+},
+{
+    id: 28,
+    nombre: "Crystal Case iPhone 17 Pro",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Crystal Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 3 }, (_, i) => `/images/producto/crystal/crystal17pro_${i + 1}.webp`),
+    colores: {
+        "#fbaac1": { id: 1, nombre: "Rosa Pastel", stock: 1 },
+        "#8c4b2d": { id: 2, nombre: "Marrón Arcilla", stock: 1 },
+        "#adb8b2": { id: 3, nombre: "Verde Grisáceo", stock: 0 }
+    }
+},
+
+// MAGSAFE MATE CASE
+{
+    id: 29,
+    nombre: "Magsafe Mate Case iPhone 13",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Magsafe Mate Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 5 }, (_, i) => `/images/producto/magSafe/magSafe13_${i + 1}.webp`),
+    colores: {
+        "#87a78f": { id: 1, nombre: "Verde Salvia", stock: 1 },
+        "#9b9fa1": { id: 2, nombre: "Gris Medio", stock: 1 },
+        "#c3bcdd": { id: 3, nombre: "Lavanda Claro", stock: 4 },
+        "#465f7d": { id: 4, nombre: "Azul Profundo", stock: 4 },
+        "#e5d3d1": { id: 5, nombre: "Rosa Pálido", stock: 10 }
+    }
+},
+{
+    id: 30,
+    nombre: "Magsafe Mate Case iPhone 15 Pro",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Magsafe Mate Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 4 }, (_, i) => `/images/producto/magSafe/magSafe15pro_${i + 1}.webp`),
+    colores: {
+        "#88a68e": { id: 1, nombre: "Verde Salvia", stock: 1 },
+        "#9a9da0": { id: 2, nombre: "Gris Medio", stock: 1 },
+        "#d4bcb8": { id: 3, nombre: "Rosa Viejo", stock: 2 },
+        "#47607b": { id: 4, nombre: "Azul Profundo", stock: 4 }
+    }
+},
+{
+    id: 31,
+    nombre: "Magsafe Mate Case iPhone 16 Pro",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Magsafe Mate Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 1 }, (_, i) => `/images/producto/magSafe/magSafe16pro_${i + 1}.webp`),
+    colores: {
+        "#9ca0a2": { id: 1, nombre: "Gris Plata", stock: 1 }
+    }
+},
+
+// SPACE CASE
+{
+    id: 32,
+    nombre: "Space Case iPhone 16",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Space Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 4 }, (_, i) => `/images/producto/space/space16_${i + 1}.webp`),
+    colores: {
+        "#c9e47d": { id: 1, nombre: "Verde Lima", stock: 1 },
+        "#4d8ab6": { id: 2, nombre: "Azul Acero", stock: 1 },
+        "#ff9adc": { id: 3, nombre: "Rosa Chicle", stock: 0 },
+        "#f1f5f8": { id: 4, nombre: "Blanco Hielo", stock: 1 }
+    }
+},
+{
+    id: 33,
+    nombre: "Space Case iPhone 15 Pro",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Space Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 2 }, (_, i) => `/images/producto/space/space15pro_${i + 1}.webp`),
+    colores: {
+        "#ff9adc": { id: 1, nombre: "Rosa Chicle", stock: 1 },
+        "#f1f5f8": { id: 2, nombre: "Blanco Hielo", stock: 1 }
+    }
+},
+{
+    id: 34,
+    nombre: "Space Case iPhone 16 Pro",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Space Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 2 }, (_, i) => `/images/producto/space/space16pro_${i + 1}.webp`),
+    colores: {
+        "#eff3f6": { id: 1, nombre: "Blanco Humo", stock: 1 },
+        "#5d5f62": { id: 2, nombre: "Gris Grafito", stock: 1 }
+    }
+},
+
+// TECH WOVEN CASE
+{
+    id: 35,
+    nombre: "Tech Woven Case iPhone 17",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Tech Woven Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 3 }, (_, i) => `/images/producto/techWoven/techWoven17_${i + 1}.webp`),
+    colores: {
+        "#333f4d": { id: 1, nombre: "Azul Noche", stock: 1 },
+        "#764536": { id: 2, nombre: "Marrón Cuero", stock: 1 },
+        "#58643e": { id: 3, nombre: "Verde Musgo", stock: 2 }
+    }
+},
+{
+    id: 36,
+    nombre: "Tech Woven Case iPhone 17 Pro",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Tech Woven Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 4 }, (_, i) => `/images/producto/techWoven/techWoven17pro_${i + 1}.webp`),
+    colores: {
+        "#333f4d": { id: 1, nombre: "Azul Noche", stock: 1 },
+        "#764536": { id: 2, nombre: "Marrón Cuero", stock: 1 },
+        "#58643e": { id: 3, nombre: "Verde Musgo", stock: 0 },
+        "#3e3e3e": { id: 4, nombre: "Gris Oscuro", stock: 1 }
+    }
+},
+{
+    id: 37,
+    nombre: "Tech Woven Case iPhone 17 Pro Max",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Tech Woven Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 2 }, (_, i) => `/images/producto/techWoven/techWoven17promax_${i + 1}.webp`),
+    colores: {
+        "#3e3e3e": { id: 1, nombre: "Gris Oscuro", stock: 1 },
+        "#764536": { id: 2, nombre: "Marrón Cuero", stock: 1 }
+    }
+},
+
+// HADA CASE
+{
+    id: 38,
+    nombre: "Hada Case iPhone 13/14",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Hada Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 3 }, (_, i) => `/images/producto/hada/hada1314_${i + 1}.webp`),
+    colores: {
+        "#8a2285": { id: 1, nombre: "Violeta Intenso", stock: 1 },
+        "#3c3a39": { id: 2, nombre: "Gris Carbón", stock: 1 },
+        "#6da8d9": { id: 3, nombre: "Azul Cielo", stock: 2 }
+    }
+},
+{
+    id: 39,
+    nombre: "Hada Case iPhone 13 Pro",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Hada Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 3 }, (_, i) => `/images/producto/hada/hada13pro_${i + 1}.webp`),
+    colores: {
+        "#92308f": { id: 1, nombre: "Violeta", stock: 1 },
+        "#393834": { id: 2, nombre: "Gris Carbón", stock: 1 },
+        "#ea96b0": { id: 3, nombre: "Rosa Coral", stock: 1 }
+    }
+},
+{
+    id: 40,
+    nombre: "Hada Case iPhone 15 Pro",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Hada Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 3 }, (_, i) => `/images/producto/hada/hada15pro_${i + 1}.webp`),
+    colores: {
+        "#dd668b": { id: 1, nombre: "Rosa Frambuesa", stock: 1 },
+        "#d0cecf": { id: 2, nombre: "Gris Claro", stock: 1 },
+        "#912c8e": { id: 3, nombre: "Violeta Oscuro", stock: 4 }
+    }
+},
+
+// SWEET CASE
+{
+    id: 41,
+    nombre: "Sweet Case iPhone 14 Pro",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Sweet Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 2 }, (_, i) => `/images/producto/sweet/sweet14pro_${i + 1}.webp`),
+    colores: {
+        "#798f8d": { id: 1, nombre: "Verde Azulado", stock: 1 },
+        "#252525": { id: 2, nombre: "Negro Mate", stock: 1 }
+    }
+},
+{
+    id: 42,
+    nombre: "Sweet Case iPhone 15 Pro",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Sweet Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 3 }, (_, i) => `/images/producto/sweet/sweet15pro_${i + 1}.webp`),
+    colores: {
+        "#c08e59": { id: 1, nombre: "Marrón Arena", stock: 0 },
+        "#272226": { id: 2, nombre: "Negro Carbón", stock: 0 },
+        "#8d6870": { id: 3, nombre: "Rosa Viejo", stock: 1 }
+    }
+},
+{
+    id: 43,
+    nombre: "Sweet Case iPhone 16 Pro",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Sweet Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 3 }, (_, i) => `/images/producto/sweet/sweet16pro_${i + 1}.webp`),
+    colores: {
+        "#c9c9c7": { id: 1, nombre: "Gris Piedra", stock: 0 },
+        "#8e6971": { id: 2, nombre: "Rosa Viejo", stock: 0 },
+        "#798f8d": { id: 3, nombre: "Verde Azulado", stock: 1 }
+    }
+},
+
+// MAT CASE
+{
+    id: 44,
+    nombre: "Mat Case iPhone 11",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Mat Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 3 }, (_, i) => `/images/producto/mat/mat11_${i + 1}.webp`),
+    colores: {
+        "#222953": { id: 1, nombre: "Azul Marino", stock: 1 },
+        "#d6bebf": { id: 2, nombre: "Rosa Pálido", stock: 1 },
+        "#807c72": { id: 3, nombre: "Taupe", stock: 1 }
+    }
+},
+{
+    id: 45,
+    nombre: "Mat Case iPhone 12/12 Pro",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Mat Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 3 }, (_, i) => `/images/producto/mat/mat12_${i + 1}.webp`),
+    colores: {
+        "#222953": { id: 1, nombre: "Azul Marino", stock: 1 },
+        "#d6bebf": { id: 2, nombre: "Rosa Pálido", stock: 1 },
+        "#e4e2e0": { id: 3, nombre: "Gris Perla", stock: 1 }
+    }
+},
+{
+    id: 46,
+    nombre: "Mat Case iPhone 14",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Mat Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 3 }, (_, i) => `/images/producto/mat/mat14_${i + 1}.webp`),
+    colores: {
+        "#0c0c0c": { id: 1, nombre: "Negro Azabache", stock: 1 },
+        "#dcc0c5": { id: 2, nombre: "Rosa Viejo", stock: 1 },
+        "#e6e5e1": { id: 3, nombre: "Blanco Hueso", stock: 1 }
+    }
+},
+{
+    id: 47,
+    nombre: "Mat Case iPhone 15",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Mat Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 2 }, (_, i) => `/images/producto/mat/mat15_${i + 1}.webp`),
+    colores: {
+        "#222953": { id: 1, nombre: "Azul Marino", stock: 1 },
+        "#807c72": { id: 2, nombre: "Taupe", stock: 1 }
+    }
+},
+{
+    id: 48,
+    nombre: "Mat Case iPhone 15 Pro Max",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Mat Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 3 }, (_, i) => `/images/producto/mat/mat15promax_${i + 1}.webp`),
+    colores: {
+        "#0c0c0c": { id: 1, nombre: "Negro Azabache", stock: 1 },
+        "#dcc0c5": { id: 2, nombre: "Rosa Viejo", stock: 1 },
+        "#e6e5e1": { id: 3, nombre: "Blanco Hueso", stock: 1 }
+    }
+},
+{
+    id: 49,
+    nombre: "Mat Case iPhone 16",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Mat Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 3 }, (_, i) => `/images/producto/mat/mat16_${i + 1}.webp`),
+    colores: {
+        "#222953": { id: 1, nombre: "Azul Marino", stock: 1 },
+        "#0c0c0c": { id: 2, nombre: "Negro Azabache", stock: 1 },
+        "#e6e5e1": { id: 3, nombre: "Blanco Hueso", stock: 1 }
+    }
+},
+{
+    id: 50,
+    nombre: "Mat Case iPhone 16 Pro Max",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Mat Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 2 }, (_, i) => `/images/producto/mat/mat16promax_${i + 1}.webp`),
+    colores: {
+        "#222953": { id: 1, nombre: "Azul Marino", stock: 1 },
+        "#e4e2e0": { id: 2, nombre: "Gris Perla", stock: 1 }
+    }
+},
+
+// METALIC CASE
+{
+    id: 51,
+    nombre: "Metalic Case iPhone 13",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Metalic Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 3 }, (_, i) => `/images/producto/metalic/metalic13_${i + 1}.webp`),
+    colores: {
+        "#8fcfcf": { id: 1, nombre: "Turquesa Metálico", stock: 1 },
+        "#465b8e": { id: 2, nombre: "Azul Eléctrico", stock: 1 },
+        "#454643": { id: 3, nombre: "Gris Oliva", stock: 1 }
+    }
+},
+{
+    id: 52,
+    nombre: "Metalic Case iPhone 13 Pro Max",
+    precioOriginal: 10000,
+    descuento: 0,
+    get precioOferta() {
+        if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
+        return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
+    },
+    categoria: "Funda de silicona",
+    descripcion: "Funda Metalic Case de alta calidad, disponible en diferentes colores.",
+    imgAll: Array.from({ length: 3 }, (_, i) => `/images/producto/metalic/metalic13promax_${i + 1}.webp`),
+    colores: {
+        "#c7accb": { id: 1, nombre: "Lavanda Metálico", stock: 1 },
+        "#6f5573": { id: 2, nombre: "Violeta Metálico", stock: 1 },
+        "#434441": { id: 3, nombre: "Gris Oliva", stock: 1 }
+    }
+},
+
     ];
