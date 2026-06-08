@@ -1065,7 +1065,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     },
     categoria: "Mat case",
     descripcion: "Funda Mat Case de alta calidad, disponible en diferentes colores.",
-    imgAll: Array.from({ length: 2 }, (_, i) => `/images/products/mat/mat16promax_${i + 1}.webp`),
+    imgAll: Array.from({ length: 2 }, (_, i) => `/images/products/mat/16promax_${i + 1}.webp`),
     colores: {
         "#222953": { id: 1, nombre: "Azul Marino", stock: 1 },
         "#e4e2e0": { id: 2, nombre: "Blanco Perla", stock: 1 }
