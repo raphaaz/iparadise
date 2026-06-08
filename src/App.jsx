@@ -291,7 +291,7 @@ ${resumenProductos}
 }
 
 /* ==========================================================================
-   3. COMPONENTE LANDING
+    3. COMPONENTE LANDING
    ========================================================================== */
 function IParadiceLanding() {
   return (
