@@ -375,7 +375,7 @@ function IParadiceLanding() {
                         <picture>
                           <source media="(max-width: 767px)" srcSet={srcMovil} />
                           <source media="(min-width: 768px)" srcSet={srcOriginal} />
-                          <img src={srcOriginal} alt={producto.nombre} className={`absolute inset-0 w-full h-full transition-transform duration-500 ${producto.categoria.toLowerCase().includes('funda') ? 'object-cover p-0 scale-95 group-hover:scale-100' : 'object-contain p-6 group-hover:scale-105'}`} decoding="sync" loading="lazy" />
+                          <img src={srcOriginal} alt={producto.nombre} className={`absolute inset-0 w-full h-full transition-transform duration-500 ${producto.categoria.toLowerCase().includes('funda','crystal','hada','magsafe','mat','metalic','space','sweet','tech woven') ? 'object-cover p-0 scale-95 group-hover:scale-100' : 'object-contain p-6 group-hover:scale-105'}`} decoding="sync" loading="lazy" />
                         </picture>
                       </div>
                       <div className="p-6 flex flex-col flex-grow md:flex-none md:block">
