@@ -960,7 +960,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     colores: {
         "#222953": { id: 1, nombre: "Azul Marino", stock: 1 },
         "#d6bebf": { id: 2, nombre: "Rosa Pálido", stock: 1 },
-        "#807c72": { id: 3, nombre: "Taupe", stock: 1 }
+        "#807c72": { id: 3, nombre: "Gris", stock: 1 }
     }
 },
 {
@@ -974,7 +974,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     },
     categoria: "Mat case",
     descripcion: "Funda Mat Case de alta calidad, disponible en diferentes colores.",
-    imgAll: Array.from({ length: 3 }, (_, i) => `/images/products/mat/mat12_${i + 1}.webp`),
+    imgAll: Array.from({ length: 3 }, (_, i) => `/images/products/mat/12_${i + 1}.webp`),
     colores: {
         "#222953": { id: 1, nombre: "Azul Marino", stock: 1 },
         "#d6bebf": { id: 2, nombre: "Rosa Pálido", stock: 1 },
@@ -992,11 +992,11 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     },
     categoria: "Mat case",
     descripcion: "Funda Mat Case de alta calidad, disponible en diferentes colores.",
-    imgAll: Array.from({ length: 3 }, (_, i) => `/images/products/mat/mat14_${i + 1}.webp`),
+    imgAll: Array.from({ length: 3 }, (_, i) => `/images/products/mat/14_${i + 1}.webp`),
     colores: {
-        "#0c0c0c": { id: 1, nombre: "Negro Azabache", stock: 1 },
+        "#0c0c0c": { id: 1, nombre: "Negro", stock: 1 },
         "#dcc0c5": { id: 2, nombre: "Rosa Viejo", stock: 1 },
-        "#e6e5e1": { id: 3, nombre: "Blanco Hueso", stock: 1 }
+        "#e6e5e1": { id: 3, nombre: "Blanco", stock: 1 }
     }
 },
 {
@@ -1010,12 +1010,13 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     },
     categoria: "Mat case",
     descripcion: "Funda Mat Case de alta calidad, disponible en diferentes colores.",
-    imgAll: Array.from({ length: 2 }, (_, i) => `/images/products/mat/mat15_${i + 1}.webp`),
+    imgAll: Array.from({ length: 2 }, (_, i) => `/images/products/mat/15_${i + 1}.webp`),
     colores: {
         "#222953": { id: 1, nombre: "Azul Marino", stock: 1 },
-        "#807c72": { id: 2, nombre: "Taupe", stock: 1 }
+        "#807c72": { id: 2, nombre: "Gris", stock: 1 }
     }
 },
+/*  ME FALTA LAS IMAGENES
 {
     id: 48,
     nombre: "Mat Case iPhone 15 Pro Max",
@@ -1027,13 +1028,14 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     },
     categoria: "Mat case",
     descripcion: "Funda Mat Case de alta calidad, disponible en diferentes colores.",
-    imgAll: Array.from({ length: 3 }, (_, i) => `/images/products/mat/mat15promax_${i + 1}.webp`),
+    imgAll: Array.from({ length: 3 }, (_, i) => `/images/products/mat/  15promax_${i + 1}.webp`),
     colores: {
         "#0c0c0c": { id: 1, nombre: "Negro Azabache", stock: 1 },
         "#dcc0c5": { id: 2, nombre: "Rosa Viejo", stock: 1 },
         "#e6e5e1": { id: 3, nombre: "Blanco Hueso", stock: 1 }
     }
 },
+*/
 {
     id: 49,
     nombre: "Mat Case iPhone 16",
@@ -1045,11 +1047,11 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     },
     categoria: "Mat case",
     descripcion: "Funda Mat Case de alta calidad, disponible en diferentes colores.",
-    imgAll: Array.from({ length: 3 }, (_, i) => `/images/products/mat/mat16_${i + 1}.webp`),
+    imgAll: Array.from({ length: 3 }, (_, i) => `/images/products/mat/16_${i + 1}.webp`),
     colores: {
         "#222953": { id: 1, nombre: "Azul Marino", stock: 1 },
-        "#0c0c0c": { id: 2, nombre: "Negro Azabache", stock: 1 },
-        "#e6e5e1": { id: 3, nombre: "Blanco Hueso", stock: 1 }
+        "#0c0c0c": { id: 2, nombre: "Negro", stock: 1 },
+        "#e6e5e1": { id: 3, nombre: "Blanco", stock: 1 }
     }
 },
 {
@@ -1066,7 +1068,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     imgAll: Array.from({ length: 2 }, (_, i) => `/images/products/mat/mat16promax_${i + 1}.webp`),
     colores: {
         "#222953": { id: 1, nombre: "Azul Marino", stock: 1 },
-        "#e4e2e0": { id: 2, nombre: "Gris Perla", stock: 1 }
+        "#e4e2e0": { id: 2, nombre: "Blanco Perla", stock: 1 }
     }
 },
 
