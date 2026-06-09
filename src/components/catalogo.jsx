@@ -27,7 +27,7 @@ const TarjetaProducto = ({ producto }) => {
     }
 
     const tieneDescuento = producto.descuento > 0;
-    const esFunda = producto.categoria?.toLowerCase().includes('funda');
+    const esFunda = producto.categoria?.toLowerCase().includes('funda') || producto.imgAll != null;
 
     return (
         <Link to={`/producto/${producto.id}`} className="block no-underline group">
