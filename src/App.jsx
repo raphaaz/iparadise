@@ -440,13 +440,13 @@ function Footer() {
         <div className="space-y-2.5">
           <h4 className="font-bold text-foreground uppercase tracking-wider text-[10px]">Soporte y Envíos</h4>
           <ul className="space-y-1.5 text-sm">
-            <li><Link to="/envios" className="hover:text-foreground transition-colors block py-0.5">Información de Envíos</Link></li>
+            {/* <li><Link to="/envios" className="hover:text-foreground transition-colors block py-0.5">Información de Envíos</Link></li> */}
             <li><a href="#contacto" className="hover:text-foreground transition-colors block py-0.5">Contacto directo</a></li>
           </ul>
         </div>
         <div className="space-y-2.5">
           <h4 className="font-bold text-foreground uppercase tracking-wider text-[10px]">Ubicación y Pagos</h4>
-          <p className="text-sm text-muted-foreground/80 max-w-sm mx-auto md:mx-0">Envíos a todo el país. Métodos de pago seguros vía Mercado Pago.</p>
+          <p className="text-sm text-muted-foreground/80 max-w-sm mx-auto md:mx-0">Envíos a todo el país, el envio se coordina mediante mensajes por whatsapp. Métodos de pago seguros vía Mercado Pago.</p>
           <div className="pt-2 flex justify-center md:justify-start gap-4 text-lg text-foreground/40">
             <span>💳</span> <span>💵</span> <span>📦</span>
           </div>
