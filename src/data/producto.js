@@ -218,8 +218,8 @@
     {
         id: 10,
         nombre: "Cable Usb-c",
-        precioOriginal: 6000,
-        descuento: 10,
+        precioOriginal: 5000,
+        descuento: 0,
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
         return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
