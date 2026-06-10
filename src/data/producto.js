@@ -800,7 +800,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
 {
     id: 36,
     nombre: "Tech Woven iPhone 17 Pro",
-    precioOriginal: 10000,
+    precioOriginal: 20000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -819,7 +819,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
 {
     id: 37,
     nombre: "Tech Woven iPhone 17 Pro Max",
-    precioOriginal: 10000,
+    precioOriginal: 20000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
