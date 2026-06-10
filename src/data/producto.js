@@ -42,7 +42,7 @@
         return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
         },
         categoria: "Audio",
-        descripcion: "Auriculares inalámbricos de diseño minimalista, ligeros y compatibles con iOS y Android, ideales para música, llamadas y home office. Cuentan con control intuitivo de 2 botones (volumen, reproducción y llamadas) y una batería de hasta 6 horas de uso continuo. La caja incluye el auricular premium, estuche protector, cable de carga USB a USB-C y cable auxiliar Jack 3.5mm. Se realizan envíos a todo el país, con entregas en el día en CABA/GBA y punto de retiro en Caballito. Cuenta con 30 días de garantia (válida solo si se entrega en las mismas condiciones recibidas, excluyendo daños por mal uso o caídas).",
+        descripcion: "Auriculares inalámbricos de diseño minimalista, ligeros y compatibles con iOS y Android, ideales para música, llamadas y home office. Cuentan con control intuitivo de 2 botones (volumen, reproducción y llamadas) y una batería de hasta 6 horas de uso continuo. La caja incluye el auricular premium, estuche protector, cable de carga USB a USB-C y cable auxiliar Jack 3.5mm.",
         imgDesktop: [
         "/images/products/grande/airpodsMax1.webp",
         "/images/products/grande/airpodsMax2.webp",
@@ -97,8 +97,8 @@
         return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
         },
         categoria: "Adaptador",
-        descripcion: "Cargador de pared alternativo de alta calidad, diseñado con componentes certificados para ofrecer una carga turbo, rápida y eficiente en el hogar, la oficina o durante viajes. Cuenta con puerto de salida USB-C y es plenamente compatible con iPhone, iPad y cualquier dispositivo que admita esta conectividad, garantizando un rendimiento óptimo y seguro para tu batería.La caja incluye únicamente el adaptador de corriente USB-C de 20W (no incluye cable). Cuenta con 30 días de garantia (válida solo si se entrega en las mismas condiciones recibidas, excluyendo daños por mal uso o caídas).",
-        imgDesktop: [
+        descripcion: "Cargador de pared alternativo de alta calidad, diseñado con componentes certificados para ofrecer una carga turbo, rápida y eficiente en el hogar, la oficina o durante viajes. Cuenta con puerto de salida USB-C y es plenamente compatible con iPhone, iPad y cualquier dispositivo que admita esta conectividad, garantizando un rendimiento óptimo y seguro para tu batería.La caja incluye únicamente el adaptador de corriente USB-C de 20W (no incluye cable).",
+        imgDesktop: [       
         "/images/products/grande/adaptRepli1.webp",
         "/images/products/grande/adaptRepli2.webp",
         "/images/products/grande/adaptRepli3.webp",
@@ -122,7 +122,7 @@
         return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
         },
         categoria: "Audio",
-        descripcion: "Auriculares alternativos de alta fidelidad con diseño idéntico de tamaño 1:1, ideales para disfrutar de tu música y llamadas con total comodidad y libertad de movimiento. Este modelo inalámbrico cuenta con micrófono incorporado, conectividad automática instantánea al abrir el estuche, sensores táctiles para el control de reproducción y una autonomía de batería de hasta 5 horas de uso continuo. No incluye luz LED ni posee resistencia al agua. La caja incluye los auriculares inalámbricos, el estuche de carga, el cable de carga correspondiente y un par extra de almohadillas de silicona adaptables para el oído. Cuenta con 30 días de garantia (válida únicamente si el producto se entrega en las mismas condiciones recibidas, excluyendo daños por mal uso, mojaduras o caídas).",
+        descripcion: "Auriculares alternativos de alta fidelidad con diseño idéntico de tamaño 1:1, ideales para disfrutar de tu música y llamadas con total comodidad y libertad de movimiento. Este modelo inalámbrico cuenta con micrófono incorporado, conectividad automática instantánea al abrir el estuche, sensores táctiles para el control de reproducción y una autonomía de batería de hasta 5 horas de uso continuo. No incluye luz LED ni posee resistencia al agua. La caja incluye los auriculares inalámbricos, el estuche de carga, el cable de carga correspondiente y un par extra de almohadillas de silicona adaptables para el oído.",
         imgDesktop: [
         "/images/products/grande/airpods2daGen1.webp",
         "/images/products/grande/airpods2daGen2.webp",
@@ -145,7 +145,7 @@
         return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
         },
         categoria: "Batery pack",
-        descripcion: "Cargador portátil alternativo de alta calidad, diseñado para ofrecer una solución de carga inalámbrica eficiente, compacta y de alta velocidad. Con una capacidad de 5000 mAh, este modelo ligero y fácil de transportar cuenta con conector Lightning integrado para asegurar una conexión perfecta y segura, ideal para viajes, jornadas laborales o actividades al aire libre gracias a su diseño elegante y funcional. La caja incluye únicamente el cargador portátil tipo Battery Pack. Cuenta con 30 días de garantia (válida únicamente si el producto se entrega en las mismas condiciones recibidas, excluyendo daños por mal uso, golpes o caídas).",
+        descripcion: "Cargador portátil alternativo de alta calidad, diseñado para ofrecer una solución de carga inalámbrica eficiente, compacta y de alta velocidad. Con una capacidad de 5000 mAh, este modelo ligero y fácil de transportar cuenta con conector Lightning integrado para asegurar una conexión perfecta y segura, ideal para viajes, jornadas laborales o actividades al aire libre gracias a su diseño elegante y funcional. La caja incluye únicamente el cargador portátil tipo Battery Pack.",
         imgDesktop: [
         "/images/products/grande/bateryPack1.webp",
         "/images/products/grande/bateryPack2.webp",
@@ -172,7 +172,7 @@
         return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
         },
         categoria: "Relojes",
-        descripcion: "Reloj inteligente alternativo de estilo premium que combina diseño avanzado y funcionalidad para el día a día. Ofrece compatibilidad universal con todos los modelos de iPhone, permitiendo atender y realizar llamadas al instante, así como recibir notificaciones inteligentes de aplicaciones como WhatsApp e Instagram. Cuenta con funciones de cuidado personal para el monitoreo del ritmo cardíaco y la temperatura corporal, herramientas prácticas como calculadora integrada y opciones de personalización completa (fondos de pantalla, bloqueo y vibraciones). Su estructura es resistente al polvo y a salpicaduras. La caja incluye el smartwatch y una malla de estilo premium. Cuenta con 30 días de garantia (válida únicamente si el producto se entrega en las mismas condiciones recibidas, excluyendo daños por mal uso, inmersiones prolongadas o impactos).",
+        descripcion: "Reloj inteligente alternativo de estilo premium que combina diseño avanzado y funcionalidad para el día a día. Ofrece compatibilidad universal con todos los modelos de iPhone, permitiendo atender y realizar llamadas al instante, así como recibir notificaciones inteligentes de aplicaciones como WhatsApp e Instagram. Cuenta con funciones de cuidado personal para el monitoreo del ritmo cardíaco y la temperatura corporal, herramientas prácticas como calculadora integrada y opciones de personalización completa (fondos de pantalla, bloqueo y vibraciones). Su estructura es resistente al polvo y a salpicaduras. La caja incluye el smartwatch y una malla de estilo premium.",
         imgDesktop: [
         "/images/products/grande/watchUltra2_1Negro.webp",
         "/images/products/grande/watchUltra2_1Naranja.webp",
@@ -202,7 +202,7 @@
         return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
         },
         categoria: "Cables",
-        descripcion: "Cable alternativo de alta calidad diseñado para ofrecer una carga eficiente y una transferencia de datos rápida y segura. Es plenamente compatible con todos los modelos de iPhone, iPad y accesorios con puerto Lightning, garantizando una conexión estable y un rendimiento óptimo en el hogar, la oficina o durante viajes gracias a su diseño ligero y resistente. La caja incluye únicamente el cable de carga (no incluye el adaptador). Cuenta con 30 días de garantía del vendedor (válida únicamente si el producto se entrega en las mismas condiciones recibidas, excluyendo daños por tirones, mal uso o manipulación indebida).",
+        descripcion: "Cable alternativo de alta calidad diseñado para ofrecer una carga eficiente y una transferencia de datos rápida y segura. Es plenamente compatible con todos los modelos de iPhone, iPad y accesorios con puerto Lightning, garantizando una conexión estable y un rendimiento óptimo en el hogar, la oficina o durante viajes gracias a su diseño ligero y resistente. La caja incluye únicamente el cable de carga (no incluye el adaptador).",
         imgDesktop: [
         "/images/products/grande/cableL1.webp",
         "/images/products/grande/cableL2.webp",
@@ -225,7 +225,7 @@
         return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
         },
         categoria: "Cables",
-        descripcion: "Cable alternativo de alta calidad diseñado para soportar carga rápida y una transferencia de datos de alta velocidad de manera eficiente y segura. Es plenamente compatible con todos los modelos de iPhone (series 15 y superiores), iPad, MacBook y cualquier dispositivo con puerto USB-C, garantizando una conectividad estable y un rendimiento óptimo tanto en el hogar como en la oficina o durante viajes. La caja incluye únicamente el cable de carga(no incluye el adaptador). Cuenta con 30 días de garantía del vendedor (válida únicamente si el producto se entrega en las mismas condiciones recibidas, excluyendo daños por tirones, mal uso o manipulación indebida).",
+        descripcion: "Cable alternativo de alta calidad diseñado para soportar carga rápida y una transferencia de datos de alta velocidad de manera eficiente y segura. Es plenamente compatible con todos los modelos de iPhone (series 15 y superiores), iPad, MacBook y cualquier dispositivo con puerto USB-C, garantizando una conectividad estable y un rendimiento óptimo tanto en el hogar como en la oficina o durante viajes. La caja incluye únicamente el cable de carga(no incluye el adaptador).",
         imgDesktop: [
         "/images/products/grande/cableC1.webp",
         "/images/products/grande/cableC2.webp",
