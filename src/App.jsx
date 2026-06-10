@@ -233,41 +233,59 @@ function PagoExitoso() {
   const compra = JSON.parse(localStorage.getItem('iparadise_comprador') || 'null');
 
   const manejarWhatsApp = () => {
-    let mensaje;
-    if (compra) {
-      const resumenProductos = compra.productos
-        .map(p => {
-          let detalle = p.nombre;
-          if (p.color) detalle += ` (${p.color})`;
-          if (p.modelo) detalle += ` - Modelo: ${p.modelo}`;
-          return `• ${detalle} x${p.cantidad} — $${(p.precio * p.cantidad).toLocaleString('es-AR')}`;
-        })
-        .join('\n');
-      const d = compra.datos;
-      mensaje =
-`🛍️ *Nueva compra - iParadise*
+      let mensaje;
+      if (compra) {
+        const resumenProductos = compra.productos
+          .map(p => {
+            let detalle = p.nombre;
+            if (p.color) detalle += ` (${p.color})`;
+            if (p.modelo) detalle += ` - Modelo: ${p.modelo}`;
+            return `• ${detalle} x${p.cantidad} — $${(p.precio * p.cantidad).toLocaleString('es-AR')}`;
+          })
+          .join('\n');
+        const d = compra.datos;
+        const esRetiro = compra.metodoEntrega === 'retiro';
 
-👤 *Datos del comprador:*
-Nombre: ${d.nombre} ${d.apellido}
-Teléfono: ${d.telefono}
+        mensaje = esRetiro
+  ? `🛍️ *Nueva compra - iParadise*
 
-📦 *Dirección de envío:*
-${d.calle} ${d.numero}${d.piso ? `, Piso/Depto: ${d.piso}` : ''}
-${d.ciudad}, ${d.provincia}
-CP: ${d.codigoPostal}
+  👤 *Datos del comprador:*
+  Nombre: ${d.nombre} ${d.apellido}
+  Teléfono: ${d.telefono}
 
-🛒 *Productos:*
-${resumenProductos}
+  🏪 *Retiro en local:*
+  3 de Febrero 181 bis
 
-💰 *Total: $${compra.total.toLocaleString('es-AR')}*
+  🛒 *Productos:*
+  ${resumenProductos}
 
-✅ Pago realizado por Mercado Pago.`;
-      localStorage.removeItem('iparadise_comprador');
-    } else {
-      mensaje = '¡Hola! Acabo de realizar un pago en iParadise y quiero coordinar el envío.';
-    }
-    abrirWA(mensaje);
-  };
+  💰 *Total: $${compra.total.toLocaleString('es-AR')}*
+
+  ✅ Pago realizado por Mercado Pago.`
+  : `🛍️ *Nueva compra - iParadise*
+
+  👤 *Datos del comprador:*
+  Nombre: ${d.nombre} ${d.apellido}
+  Teléfono: ${d.telefono}
+
+  📦 *Dirección de envío:*
+  ${d.calle} ${d.numero}${d.piso ? `, Piso/Depto: ${d.piso}` : ''}
+  ${d.ciudad}, ${d.provincia}
+  CP: ${d.codigoPostal}
+
+  🛒 *Productos:*
+  ${resumenProductos}
+
+  💰 *Total: $${compra.total.toLocaleString('es-AR')}*
+
+  ✅ Pago realizado por Mercado Pago.`;
+
+        localStorage.removeItem('iparadise_comprador');
+      } else {
+        mensaje = '¡Hola! Acabo de realizar un pago en iParadise y quiero coordinar la entrega.';
+      }
+      abrirWA(mensaje);
+    };
 
   return (
     <>

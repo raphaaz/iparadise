@@ -11,6 +11,8 @@ export default function CarritoSidebar() {
         ciudad: '', provincia: '', codigoPostal: ''
     });
     const [errores, setErrores] = useState({});
+    const [metodoEntrega, setMetodoEntrega] = useState('envio'); // 'envio' o 'retiro'
+
 
     useEffect(() => {
         if (cartAbierto) {
@@ -28,18 +30,20 @@ export default function CarritoSidebar() {
     }, [cart]);
 
     const validarDatos = () => {
-        const nuevosErrores = {};
-        if (!datosComprador.nombre.trim()) nuevosErrores.nombre = true;
-        if (!datosComprador.apellido.trim()) nuevosErrores.apellido = true;
-        if (!datosComprador.telefono.trim()) nuevosErrores.telefono = true;
+    const nuevosErrores = {};
+    if (!datosComprador.nombre.trim()) nuevosErrores.nombre = true;
+    if (!datosComprador.apellido.trim()) nuevosErrores.apellido = true;
+    if (!datosComprador.telefono.trim()) nuevosErrores.telefono = true;
+    if (metodoEntrega === 'envio') {
         if (!datosComprador.calle.trim()) nuevosErrores.calle = true;
         if (!datosComprador.numero.trim()) nuevosErrores.numero = true;
         if (!datosComprador.ciudad.trim()) nuevosErrores.ciudad = true;
         if (!datosComprador.provincia.trim()) nuevosErrores.provincia = true;
         if (!datosComprador.codigoPostal.trim()) nuevosErrores.codigoPostal = true;
-        setErrores(nuevosErrores);
-        return Object.keys(nuevosErrores).length === 0;
-    };
+    }
+    setErrores(nuevosErrores);
+    return Object.keys(nuevosErrores).length === 0;
+};
 
     const handlePagar = async () => {
     if (!validarDatos()) return;
@@ -70,6 +74,7 @@ export default function CarritoSidebar() {
         if (data.init_point) {
             localStorage.setItem('iparadise_comprador', JSON.stringify({
                 datos: datosComprador,
+                metodoEntrega, // 👈 agregá esto
                 productos: cart.map(item => ({
                     nombre: item.nombre,
                     cantidad: item.cantidad,
@@ -211,9 +216,26 @@ export default function CarritoSidebar() {
                 <>
                 <div className="flex-grow overflow-y-auto p-4 bg-white space-y-3">
 
-                    <p className="text-xs text-gray-400 pb-1">Completá tus datos para coordinar el envío después del pago.</p>
+                    <p className="text-xs text-gray-400 pb-1">Completá tus datos para coordinar la entrega después del pago.</p>
 
-                    <div className="space-y-1">
+                    {/* SELECTOR DE MÉTODO */}
+                    <div className="grid grid-cols-2 gap-2 pt-1">
+                        <button
+                            onClick={() => setMetodoEntrega('envio')}
+                            className={`py-3 px-3 rounded-xl border-2 text-xs font-bold uppercase tracking-wide transition-all ${metodoEntrega === 'envio' ? 'border-black bg-black text-white' : 'border-gray-200 text-gray-500 hover:border-gray-400'}`}
+                        >
+                            📦 Envío a domicilio
+                        </button>
+                        <button
+                            onClick={() => setMetodoEntrega('retiro')}
+                            className={`py-3 px-3 rounded-xl border-2 text-xs font-bold uppercase tracking-wide transition-all ${metodoEntrega === 'retiro' ? 'border-black bg-black text-white' : 'border-gray-200 text-gray-500 hover:border-gray-400'}`}
+                        >
+                            🏪 Retiro en local
+                        </button>
+                    </div>
+
+                    {/* DATOS PERSONALES — siempre */}
+                    <div className="space-y-1 pt-1">
                         <p className="text-[10px] font-black uppercase tracking-wider text-gray-700 pb-1">Datos personales</p>
                         <div className="flex gap-2">
                             {campo('nombre', 'Nombre *', 'Juan', 'text', true)}
@@ -222,19 +244,31 @@ export default function CarritoSidebar() {
                         {campo('telefono', 'Teléfono *', 'Ej: 3454123456', 'tel')}
                     </div>
 
-                    <div className="space-y-1 pt-2">
-                        <p className="text-[10px] font-black uppercase tracking-wider text-gray-700 pb-1">Dirección de envío</p>
-                        <div className="flex gap-2">
-                            {campo('calle', 'Calle *', 'Av. San Martín', 'text', true)}
-                            {campo('numero', 'Número *', '1234', 'text', true)}
+                    {/* DIRECCIÓN — solo si elige envío */}
+                    {metodoEntrega === 'envio' && (
+                        <div className="space-y-1 pt-2">
+                            <p className="text-[10px] font-black uppercase tracking-wider text-gray-700 pb-1">Dirección de envío</p>
+                            <div className="flex gap-2">
+                                {campo('calle', 'Calle *', 'Av. San Martín', 'text', true)}
+                                {campo('numero', 'Número *', '1234', 'text', true)}
+                            </div>
+                            {campo('piso', 'Piso / Depto (opcional)', 'Ej: 3° B', 'text')}
+                            {campo('ciudad', 'Ciudad *', 'Concordia', 'text')}
+                            <div className="flex gap-2">
+                                {campo('provincia', 'Provincia *', 'Entre Ríos', 'text', true)}
+                                {campo('codigoPostal', 'Código Postal *', '3200', 'text', true)}
+                            </div>
                         </div>
-                        {campo('piso', 'Piso / Depto (opcional)', 'Ej: 3° B', 'text')}
-                        {campo('ciudad', 'Ciudad *', 'Concordia', 'text')}
-                        <div className="flex gap-2">
-                            {campo('provincia', 'Provincia *', 'Entre Ríos', 'text', true)}
-                            {campo('codigoPostal', 'Código Postal *', '3200', 'text', true)}
+                    )}
+
+                    {/* INFO RETIRO — solo si elige retiro */}
+                    {metodoEntrega === 'retiro' && (
+                        <div className="mt-2 p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-1">
+                            <p className="text-xs font-black uppercase tracking-wide text-gray-700">📍 Dirección del local</p>
+                            <p className="text-sm font-semibold text-gray-900">3 de Febrero 181 bis</p>
+                            <p className="text-xs text-gray-500">Coordiná el horario de retiro por WhatsApp después del pago.</p>
                         </div>
-                    </div>
+                    )}
 
                     {Object.keys(errores).some(k => errores[k]) && (
                         <p className="text-xs text-red-500 font-medium">Completá los campos obligatorios marcados en rojo.</p>
@@ -246,7 +280,9 @@ export default function CarritoSidebar() {
                         <span className="text-sm font-medium text-gray-800">Total:</span>
                         <span className="text-lg font-black text-gray-900">${subtotalCarrito.toLocaleString('es-AR')}</span>
                     </div>
-                    <p className="text-xs text-gray-400">+ envío a coordinar por WhatsApp</p>
+                    <p className="text-xs text-gray-400">
+                        {metodoEntrega === 'envio' ? '+ envío a coordinar por WhatsApp' : '🏪 Retiro en 3 de Febrero 181 bis'}
+                    </p>
                     <button onClick={handlePagar} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-xl transition-colors">
                         Pagar con Mercado Pago
                     </button>
