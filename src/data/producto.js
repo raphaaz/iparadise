@@ -122,7 +122,7 @@
         return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
         },
         categoria: "Audio",
-        descripcion: "Auriculares alternativos de alta fidelidad con diseño idéntico de tamaño 1:1, ideales para disfrutar de tu música y llamadas con total comodidad y libertad de movimiento. Este modelo inalámbrico cuenta con micrófono incorporado, conectividad automática instantánea al abrir el estuche, sensores táctiles para el control de reproducción y una autonomía de batería de hasta 5 horas de uso continuo. No incluye luz LED ni posee resistencia al agua. La caja incluye los auriculares inalámbricos, el estuche de carga, el cable de carga correspondiente y un par extra de almohadillas de silicona adaptables para el oído.",
+        descripcion: "Auriculares alternativos de alta fidelidad, ideales para disfrutar de tu música y llamadas con total comodidad y libertad de movimiento. Este modelo inalámbrico cuenta con micrófono incorporado, conectividad automática instantánea al abrir el estuche, sensores táctiles para el control de reproducción y una autonomía de batería de hasta 5 horas de uso continuo. La caja incluye los auriculares inalámbricos, el estuche de carga, el cable de carga correspondiente y un par extra de almohadillas de silicona adaptables para el oído.",
         imgDesktop: [
         "/images/products/grande/airpods2daGen1.webp",
         "/images/products/grande/airpods2daGen2.webp",
@@ -172,7 +172,7 @@
         return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
         },
         categoria: "Relojes",
-        descripcion: "Reloj inteligente alternativo de estilo premium que combina diseño avanzado y funcionalidad para el día a día. Ofrece compatibilidad universal con todos los modelos de iPhone, permitiendo atender y realizar llamadas al instante, así como recibir notificaciones inteligentes de aplicaciones como WhatsApp e Instagram. Cuenta con funciones de cuidado personal para el monitoreo del ritmo cardíaco y la temperatura corporal, herramientas prácticas como calculadora integrada y opciones de personalización completa (fondos de pantalla, bloqueo y vibraciones). Su estructura es resistente al polvo y a salpicaduras. La caja incluye el smartwatch y una malla de estilo premium.",
+        descripcion: "Reloj inteligente alternativo de estilo premium que combina diseño avanzado y funcionalidad para el día a día. Ofrece compatibilidad universal con todos los modelos de iPhone, permitiendo atender y realizar llamadas al instante, así como recibir notificaciones inteligentes de aplicaciones como WhatsApp e Instagram. Cuenta con funciones de cuidado personal para el monitoreo del ritmo cardíaco y la temperatura corporal. La caja incluye el smartwatch y dos mallas de estilo premium.",
         imgDesktop: [
         "/images/products/grande/watchUltra2_1Negro.webp",
         "/images/products/grande/watchUltra2_1Naranja.webp",
@@ -218,7 +218,7 @@
     {
         id: 10,
         nombre: "Cable Usb-c",
-        precioOriginal: 5000,
+        precioOriginal: 6000,
         descuento: 10,
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
