@@ -8,7 +8,7 @@
         {
         id: 1,
         nombre: "Templado",
-        precioOriginal: 4500,
+        precioOriginal: 5000,
         descuento: 0,
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -35,8 +35,8 @@
         {
         id: 3,
         nombre: "Airpods Max",
-        precioOriginal: 70000,
-        descuento: 50, // <--- Modificá este número cuando quieras ponerle oferta (ej: 26)
+        precioOriginal: 77000,
+        descuento: 40, // <--- Modificá este número cuando quieras ponerle oferta (ej: 26)
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
         return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
@@ -62,8 +62,8 @@
     {
         id: 4,
         nombre: "Adaptador original",
-        precioOriginal: 45000,
-        descuento: 10,
+        precioOriginal: 49500,  /*49500*/
+        descuento: 0,  
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
         return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
@@ -90,7 +90,7 @@
     {
         id: 5,
         nombre: "Adaptador Replica",
-        precioOriginal: 12999,
+        precioOriginal: 14300,
         descuento: 0,
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -115,7 +115,7 @@
     {
         id: 6,
         nombre: "Airpods Segunda Generacion ",
-        precioOriginal: 19999,
+        precioOriginal: 22000,
         descuento: 0,
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -138,7 +138,7 @@
     {
         id: 7,
         nombre: "Batery Pack",
-        precioOriginal: 19999,
+        precioOriginal: 22000,
         descuento: 0,
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -165,7 +165,7 @@
     {
         id: 8,
         nombre: "Watch Ultra 2 ",
-        precioOriginal: 42000,
+        precioOriginal: 46200,
         descuento: 0,
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -195,7 +195,7 @@
     {
         id: 9,
         nombre: "Cable Lightning",
-        precioOriginal: 4500,
+        precioOriginal: 5000,
         descuento: 0,
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -218,7 +218,7 @@
     {
         id: 10,
         nombre: "Cable Usb-c",
-        precioOriginal: 4500,
+        precioOriginal: 5000,
         descuento: 10,
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -245,7 +245,7 @@
     {
         id: 11,
         nombre: "Funda iPhone 11",
-        precioOriginal: 7000,
+        precioOriginal: 7700,
         descuento: 0,
         get precioOferta() {
             if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -271,7 +271,7 @@
     {
         id: 12,
         nombre: "Funda iPhone 12-12 Pro",
-        precioOriginal: 7000,
+        precioOriginal: 7700,
         descuento: 0,
         get precioOferta() {
             if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -290,7 +290,7 @@
     {
         id: 13,
         nombre: "Funda iPhone 13",
-        precioOriginal: 7000,
+        precioOriginal: 7700,
         descuento: 0,
         get precioOferta() {
             if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -315,7 +315,7 @@
     {
         id: 14,
         nombre: "Funda iPhone 13 Pro",
-        precioOriginal: 7000,
+        precioOriginal: 7700,
         descuento: 0,
         get precioOferta() {
             if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -340,7 +340,7 @@
     {
         id: 15,
         nombre: "Funda iPhone 13 Pro Max",
-        precioOriginal: 7000,
+        precioOriginal: 7700,
         descuento: 0,
         get precioOferta() {
             if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -357,7 +357,7 @@
     {
         id: 16,
         nombre: "Funda iPhone 14 Pro",
-        precioOriginal: 7000,
+        precioOriginal: 7700,
         descuento: 0,
         get precioOferta() {
             if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -382,7 +382,7 @@
     {
         id: 17,
         nombre: "Funda iPhone 14 Pro Max",
-        precioOriginal: 7000,
+        precioOriginal: 7700,
         descuento: 0,
         get precioOferta() {
             if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -404,7 +404,7 @@
     {
         id: 18,
         nombre: "Funda iPhone 15",
-        precioOriginal: 7000,
+        precioOriginal: 7700,
         descuento: 0,
         get precioOferta() {
             if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -429,7 +429,7 @@
     {
         id: 19,
         nombre: "Funda iPhone 15 Pro",
-        precioOriginal: 7000,
+        precioOriginal: 7700,
         descuento: 0,
         get precioOferta() {
             if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -453,7 +453,7 @@
     {
         id: 20,
         nombre: "Funda iPhone 15 Pro Max",
-        precioOriginal: 7000,
+        precioOriginal: 7700,
         descuento: 0,
         get precioOferta() {
             if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -469,7 +469,7 @@
 
         id: 21,
         nombre: "Funda iPhone 16",
-        precioOriginal: 7000,
+        precioOriginal: 7700,
         descuento: 0,
         get precioOferta() {
             if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -494,7 +494,7 @@
     {
         id: 22,
         nombre: "Funda iPhone 16 Pro",
-        precioOriginal: 7000,
+        precioOriginal: 7700,
         descuento: 0,
         get precioOferta() {
             if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -519,7 +519,7 @@
     {
         id: 23,
         nombre: "Funda iPhone 16 Pro Max",
-        precioOriginal: 7000,
+        precioOriginal: 7700,
         descuento: 0,
         get precioOferta() {
             if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -544,7 +544,7 @@
     {
         id: 24,
         nombre: "Funda iPhone 17",
-        precioOriginal: 7000,
+        precioOriginal: 7700,
         descuento: 0,
         get precioOferta() {
             if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -567,7 +567,7 @@
     {
         id: 25,
         nombre: "Funda iPhone 17 Pro",
-        precioOriginal: 7000,
+        precioOriginal: 7700,
         descuento: 0,
         get precioOferta() {
             if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -592,7 +592,7 @@
     {
         id: 26,
         nombre: "Funda iPhone 17 Pro Max",
-        precioOriginal: 7000,
+        precioOriginal: 7700,
         descuento: 0,
         get precioOferta() {
             if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -628,7 +628,7 @@
 {
     id: 27,
     nombre: "Crystal Case iPhone 17",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -646,7 +646,7 @@
 {
     id: 28,
     nombre: "Crystal Case iPhone 17 Pro",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -666,7 +666,7 @@
 {
     id: 29,
     nombre: "Magsafe Mate iPhone 13",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -686,7 +686,7 @@
 {
     id: 30,
     nombre: "Magsafe Mate iPhone 15 Pro",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -706,7 +706,7 @@
 {
     id: 31,
     nombre: "Magsafe Mate iPhone 16 Pro",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -724,7 +724,7 @@
 {
     id: 32,
     nombre: "Space Case iPhone 16",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -743,7 +743,7 @@
 {
     id: 33,
     nombre: "Space Case iPhone 15 Pro",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -760,7 +760,7 @@
 {
     id: 34,
     nombre: "Space Case iPhone 16 Pro",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -781,7 +781,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
 {
     id: 35,
     nombre: "Tech Woven iPhone 17",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -838,7 +838,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
 {
     id: 38,
     nombre: "Hada Case iPhone 13-14",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -856,7 +856,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
 {
     id: 39,
     nombre: "Hada Case iPhone 13 Pro",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -874,7 +874,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
 {
     id: 40,
     nombre: "Hada Case iPhone 15 Pro",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -894,7 +894,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
 {
     id: 41,
     nombre: "Sweet Case iPhone 14 Pro",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -911,7 +911,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
 {
     id: 42,
     nombre: "Sweet Case iPhone 15 Pro",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -929,7 +929,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
 {
     id: 43,
     nombre: "Sweet Case iPhone 16 Pro",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -949,7 +949,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
 {
     id: 44,
     nombre: "Mat Case iPhone 11",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -967,7 +967,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
 {
     id: 45,
     nombre: "Mat Case iPhone 12-12 Pro",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -985,7 +985,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
 {
     id: 46,
     nombre: "Mat Case iPhone 14",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -1003,7 +1003,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
 {
     id: 47,
     nombre: "Mat Case iPhone 15",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -1021,7 +1021,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
 {
     id: 48,
     nombre: "Mat Case iPhone 15 Pro Max",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -1040,7 +1040,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
 {
     id: 49,
     nombre: "Mat Case iPhone 16",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -1058,7 +1058,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
 {
     id: 50,
     nombre: "Mat Case iPhone 16 Pro Max",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -1078,7 +1078,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
 {
     id: 51,
     nombre: "Metalic Case iPhone 13",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -1096,7 +1096,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
 {
     id: 52,
     nombre: "Metalic Case iPhone 13 Pro Max",
-    precioOriginal: 10000,
+    precioOriginal: 11000,
     descuento: 0,
     get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
