@@ -22,13 +22,13 @@
         ],
 
         modelos: {
-        "iPhone 11": 10, "iPhone 11 Pro": 10, "iPhone 11 Pro Max": 10,
-        "iPhone 12": 10, "iPhone 12 Pro": 10, "iPhone 12 Pro Max": 10,
-        "iPhone 13": 10, "iPhone 13 Pro": 10, "iPhone 13 Pro Max": 10,
-        "iPhone 14": 10, "iPhone 14 Pro": 10, "iPhone 14 Pro Max": 10,
-        "iPhone 15": 10, "iPhone 15 Pro": 10, "iPhone 15 Pro Max": 10,
-        "iPhone 16": 10, "iPhone 16 Pro": 10, "iPhone 16 Pro Max": 10,
-        "iPhone 17": 10, "iPhone 17 Pro": 10, "iPhone 17 Pro Max": 10
+        "iPhone XR-11": 14, 
+        "iPhone 12-12 Pro": 10,  
+        "iPhone 13 Pro Max": 10,
+        "iPhone 14 Pro Max": 10,
+        "iPhone 15-15 Pro": 10, "iPhone 15 Pro Max": 11,
+        "iPhone 16 Pro": 11, "iPhone 16 Pro Max": 18,
+        "iPhone 17": 8, "iPhone 17 Pro": 13, "iPhone 17 Pro Max": 16
     }
     },
 
@@ -640,7 +640,7 @@
     colores: {
         "#eeeadd": { id: 1, nombre: "Beige Pálido", stock: 1 },
         "#c8c4db": { id: 2, nombre: "Lavanda Grisáceo", stock: 1 },
-        "#938d81": { id: 3, nombre: "Gris Cálido", stock: 0 }
+        "#938d81": { id: 3, nombre: "Gris Cálido", stock: 1 }
     }
 },
 {
@@ -658,7 +658,7 @@
     colores: {
         "#fbaac1": { id: 1, nombre: "Rosa Pastel", stock: 1 },
         "#8c4b2d": { id: 2, nombre: "Marrón Arcilla", stock: 1 },
-        "#adb8b2": { id: 3, nombre: "Verde Grisáceo", stock: 0 }
+        "#adb8b2": { id: 3, nombre: "Verde Grisáceo", stock: 1 }
     }
 },
 
@@ -677,10 +677,10 @@
     imgAll: Array.from({ length: 5 }, (_, i) => `/images/products/magSafe/13_${i + 1}.webp`),
     colores: {
         "#87a78f": { id: 1, nombre: "Verde Salvia", stock: 1 },
-        "#9b9fa1": { id: 2, nombre: "Gris Medio", stock: 1 },
-        "#c3bcdd": { id: 3, nombre: "Lavanda Claro", stock: 4 },
-        "#465f7d": { id: 4, nombre: "Azul Profundo", stock: 4 },
-        "#e5d3d1": { id: 5, nombre: "Rosa Pálido", stock: 10 }
+        "#9b9fa1": { id: 2, nombre: "Gris Medio", stock: 0 },
+        "#c3bcdd": { id: 3, nombre: "Lavanda Claro", stock: 0 },
+        "#465f7d": { id: 4, nombre: "Azul Profundo", stock: 0 },
+        "#e5d3d1": { id: 5, nombre: "Rosa Pálido", stock: 0 }
     }
 },
 {
@@ -696,12 +696,13 @@
     descripcion: "Funda Magsafe Mate Case de alta calidad, disponible en diferentes colores.",
     imgAll: Array.from({ length: 4 }, (_, i) => `/images/products/magSafe/15pro_${i + 1}.webp`),
     colores: {
-        "#88a68e": { id: 1, nombre: "Verde Salvia", stock: 1 },
+        "#88a68e": { id: 1, nombre: "Verde Salvia", stock: 2 },
         "#9a9da0": { id: 2, nombre: "Gris Medio", stock: 1 },
-        "#d4bcb8": { id: 3, nombre: "Rosa Viejo", stock: 2 },
-        "#47607b": { id: 4, nombre: "Azul Profundo", stock: 4 }
+        "#d4bcb8": { id: 3, nombre: "Rosa Viejo", stock: 1 },
+        "#47607b": { id: 4, nombre: "Azul Profundo", stock: 2 }
     }
 },
+/* NO HAY STOCK
 {
     id: 31,
     nombre: "Magsafe Mate iPhone 16 Pro",
@@ -715,10 +716,10 @@
     descripcion: "Funda Magsafe Mate Case de alta calidad, disponible en diferentes colores.",
     imgAll: Array.from({ length: 1 }, (_, i) => `/images/products/magSafe/16pro_${i + 1}.webp`),
     colores: {
-        "#9ca0a2": { id: 1, nombre: "Gris Plata", stock: 1 }
+        "#9ca0a2": { id: 1, nombre: "Gris Plata", stock: 0 }
     }
 },
-
+*/
 // SPACE CASE
 {
     id: 32,
@@ -735,7 +736,7 @@
     colores: {
         "#c9e47d": { id: 1, nombre: "Verde Lima", stock: 1 },
         "#4d8ab6": { id: 2, nombre: "Azul Acero", stock: 1 },
-        "#ff9adc": { id: 3, nombre: "Rosa Chicle", stock: 0 },
+        "#ff9adc": { id: 3, nombre: "Rosa Chicle", stock: 1 },
         "#f1f5f8": { id: 4, nombre: "Blanco Hielo", stock: 1 }
     }
 },
@@ -752,8 +753,8 @@
     descripcion: "Funda Space Case de alta calidad, disponible en diferentes colores.",
     imgAll: Array.from({ length: 2 }, (_, i) => `/images/products/space/15pro_${i + 1}.webp`),
     colores: {
-        "#ff9adc": { id: 1, nombre: "Rosa Chicle", stock: 1 },
-        "#f1f5f8": { id: 2, nombre: "Blanco Hielo", stock: 1 }
+        "#ff9adc": { id: 1, nombre: "Rosa Chicle", stock: 3 },
+        "#f1f5f8": { id: 2, nombre: "Blanco Hielo", stock: 2 }
     }
 },
 {
@@ -770,7 +771,7 @@
     imgAll: Array.from({ length: 2 }, (_, i) => `/images/products/space/16pro_${i + 1}.webp`),
     colores: {
         "#eff3f6": { id: 1, nombre: "Blanco Humo", stock: 1 },
-        "#5d5f62": { id: 2, nombre: "Gris Grafito", stock: 1 }
+        "#5d5f62": { id: 2, nombre: "Gris Grafito", stock: 0 }
     }
 },
 
@@ -809,9 +810,9 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     descripcion: "Funda Tech Woven Case de alta calidad, disponible en diferentes colores.",
     imgAll: Array.from({ length: 4 }, (_, i) => `/images/products/techWoven/17pro_${i + 1}.webp`),
     colores: {
-        "#333f4d": { id: 1, nombre: "Azul Noche", stock: 1 },
+        "#333f4d": { id: 1, nombre: "Azul Noche", stock: 0 },
         "#764536": { id: 2, nombre: "Marrón Cuero", stock: 1 },
-        "#58643e": { id: 3, nombre: "Verde Musgo", stock: 0 },
+        "#58643e": { id: 3, nombre: "Verde Musgo", stock: 2 },
         "#3e3e3e": { id: 4, nombre: "Gris Oscuro", stock: 1 }
     }
 },
@@ -828,7 +829,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     descripcion: "Funda Tech Woven Case de alta calidad, disponible en diferentes colores.",
     imgAll: Array.from({ length: 2 }, (_, i) => `/images/products/techWoven/17promax_${i + 1}.webp`),
     colores: {
-        "#3e3e3e": { id: 1, nombre: "Gris Oscuro", stock: 1 },
+        "#3e3e3e": { id: 1, nombre: "Gris Oscuro", stock: 3 },
         "#764536": { id: 2, nombre: "Marrón Cuero", stock: 1 }
     }
 },
@@ -849,7 +850,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     colores: {
         "#8a2285": { id: 1, nombre: "Violeta Intenso", stock: 1 },
         "#3c3a39": { id: 2, nombre: "Gris Carbón", stock: 1 },
-        "#6da8d9": { id: 3, nombre: "Azul Cielo", stock: 2 }
+        "#6da8d9": { id: 3, nombre: "Azul Cielo", stock: 1 }
     }
 },
 {
@@ -866,7 +867,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     imgAll: Array.from({ length: 3 }, (_, i) => `/images/products/hada/13pro_${i + 1}.webp`),
     colores: {
         "#92308f": { id: 1, nombre: "Violeta", stock: 1 },
-        "#393834": { id: 2, nombre: "Gris Carbón", stock: 1 },
+        "#393834": { id: 2, nombre: "Gris Carbón", stock: 0 },
         "#ea96b0": { id: 3, nombre: "Rosa Coral", stock: 1 }
     }
 },
@@ -883,9 +884,9 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     descripcion: "Funda Hada Case de alta calidad, disponible en diferentes colores.",
     imgAll: Array.from({ length: 3 }, (_, i) => `/images/products/hada/15pro_${i + 1}.webp`),
     colores: {
-        "#dd668b": { id: 1, nombre: "Rosa Frambuesa", stock: 1 },
-        "#d0cecf": { id: 2, nombre: "Gris Claro", stock: 1 },
-        "#912c8e": { id: 3, nombre: "Violeta Oscuro", stock: 4 }
+        "#dd668b": { id: 1, nombre: "Rosa Frambuesa", stock: 0 },
+        "#d0cecf": { id: 2, nombre: "Gris Claro", stock: 0 },
+        "#912c8e": { id: 3, nombre: "Violeta Oscuro", stock: 1 }
     }
 },
 
@@ -903,8 +904,8 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     descripcion: "Funda Sweet Case de alta calidad, disponible en diferentes colores.",
     imgAll: Array.from({ length: 2 }, (_, i) => `/images/products/sweet/14pro_${i + 1}.webp`),
     colores: {
-        "#798f8d": { id: 1, nombre: "Verde Azulado", stock: 1 },
-        "#252525": { id: 2, nombre: "Negro Mate", stock: 1 }
+        "#798f8d": { id: 1, nombre: "Verde Azulado", stock: 0 },
+        "#252525": { id: 2, nombre: "Negro Mate", stock: 2 }
     }
 },
 {
@@ -920,8 +921,8 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     descripcion: "Funda Sweet Case de alta calidad, disponible en diferentes colores.",
     imgAll: Array.from({ length: 3 }, (_, i) => `/images/products/sweet/15pro_${i + 1}.webp`),
     colores: {
-        "#c08e59": { id: 1, nombre: "Marrón Arena", stock: 0 },
-        "#272226": { id: 2, nombre: "Negro Carbón", stock: 0 },
+        "#c08e59": { id: 1, nombre: "Marrón Arena", stock: 1 },
+        "#272226": { id: 2, nombre: "Negro Carbón", stock: 1 },
         "#8d6870": { id: 3, nombre: "Rosa Viejo", stock: 1 }
     }
 },
@@ -938,8 +939,8 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     descripcion: "Funda Sweet Case de alta calidad, disponible en diferentes colores.",
     imgAll: Array.from({ length: 3 }, (_, i) => `/images/products/sweet/16pro_${i + 1}.webp`),
     colores: {
-        "#c9c9c7": { id: 1, nombre: "Gris Piedra", stock: 0 },
-        "#8e6971": { id: 2, nombre: "Rosa Viejo", stock: 0 },
+        "#c9c9c7": { id: 1, nombre: "Gris Piedra", stock: 1 },
+        "#8e6971": { id: 2, nombre: "Rosa Viejo", stock: 1 },
         "#798f8d": { id: 3, nombre: "Verde Azulado", stock: 1 }
     }
 },
@@ -959,8 +960,8 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     imgAll: Array.from({ length: 3 }, (_, i) => `/images/products/mat/11_${i + 1}.webp`),
     colores: {
         "#222953": { id: 1, nombre: "Azul Marino", stock: 1 },
-        "#d6bebf": { id: 2, nombre: "Rosa Pálido", stock: 1 },
-        "#807c72": { id: 3, nombre: "Gris", stock: 1 }
+        "#d6bebf": { id: 2, nombre: "Rosa Pálido", stock: 0 },
+        "#807c72": { id: 3, nombre: "Gris Marron", stock: 1 }
     }
 },
 {
@@ -978,7 +979,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     colores: {
         "#222953": { id: 1, nombre: "Azul Marino", stock: 1 },
         "#d6bebf": { id: 2, nombre: "Rosa Pálido", stock: 1 },
-        "#e4e2e0": { id: 3, nombre: "Gris Perla", stock: 1 }
+        "#e4e2e0": { id: 3, nombre: "Blanco Perla", stock: 1 }
     }
 },
 {
@@ -1012,7 +1013,7 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     descripcion: "Funda Mat Case de alta calidad, disponible en diferentes colores.",
     imgAll: Array.from({ length: 2 }, (_, i) => `/images/products/mat/15_${i + 1}.webp`),
     colores: {
-        "#222953": { id: 1, nombre: "Azul Marino", stock: 1 },
+        "#222953": { id: 1, nombre: "Azul Marino", stock: 2 },
         "#807c72": { id: 2, nombre: "Gris", stock: 1 }
     }
 },
@@ -1067,8 +1068,8 @@ HAY UN ERROR CON ESTAS, ME FALTAN LAS IMAGENES
     descripcion: "Funda Mat Case de alta calidad, disponible en diferentes colores.",
     imgAll: Array.from({ length: 2 }, (_, i) => `/images/products/mat/16promax_${i + 1}.webp`),
     colores: {
-        "#222953": { id: 1, nombre: "Azul Marino", stock: 1 },
-        "#e4e2e0": { id: 2, nombre: "Blanco Perla", stock: 1 }
+        "#222953": { id: 1, nombre: "Azul Marino", stock: 0 },
+        "#e4e2e0": { id: 2, nombre: "Blanco Perla", stock: 2 }
     }
 },
 
