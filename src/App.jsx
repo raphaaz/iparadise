@@ -6,6 +6,7 @@ import ProductoDetalle from './components/ProductoDetalle.jsx';
 import Catalogo from './components/catalogo'; 
 import { useCart } from "./context/CartContext"; 
 import CarritoSidebar from './components/CarritoSidebar.jsx';
+import { Analytics } from "@vercel/analytics/next"
 
 // =============================================
 // CONSTANTES GLOBALES
