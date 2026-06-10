@@ -1,4 +1,5 @@
 "use client";
+import { Analytics } from '@vercel/analytics/react';
 import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { productos } from './data/producto';
@@ -6,7 +7,7 @@ import ProductoDetalle from './components/ProductoDetalle.jsx';
 import Catalogo from './components/catalogo'; 
 import { useCart } from "./context/CartContext"; 
 import CarritoSidebar from './components/CarritoSidebar.jsx';
-import { Analytics } from '@vercel/analytics/react';
+
 
 // =============================================
 // CONSTANTES GLOBALES
@@ -608,4 +609,5 @@ export default function App() {
       <Footer />
     </div>
   );
+  <Analytics />
 }
