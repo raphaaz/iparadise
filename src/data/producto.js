@@ -113,7 +113,7 @@
         }
     },
     {
-        id: 0,
+        id: 6,
         nombre: "Airpods Segunda Generacion ",
         precioOriginal: 22000,
         descuento: 0,
@@ -132,7 +132,7 @@
         "/images/products/peque/airpods2daGen2.webp",
         ],
         colores: {
-        "#FFFFFF": { nombre: "Blanco", stock: 5},
+        "#FFFFFF": { nombre: "Blanco", stock: 0},
         }
     },
     {
