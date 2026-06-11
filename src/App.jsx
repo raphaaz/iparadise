@@ -7,7 +7,7 @@ import ProductoDetalle from './components/ProductoDetalle.jsx';
 import Catalogo from './components/catalogo'; 
 import { useCart } from "./context/CartContext"; 
 import CarritoSidebar from './components/CarritoSidebar.jsx';
-
+import Admin from './components/Admin.jsx';
 
 // =============================================
 // CONSTANTES GLOBALES
@@ -602,6 +602,8 @@ export default function App() {
             </>
           } />
           <Route path="*" element={<NotFound />} />
+          <Route path="/admin" element={<Admin />} />
+
         </Routes>
       </main>
       <Footer />
