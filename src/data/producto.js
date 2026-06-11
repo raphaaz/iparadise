@@ -113,7 +113,7 @@
         }
     },
     {
-        id: 6,
+        id: 0,
         nombre: "Airpods Segunda Generacion ",
         precioOriginal: 22000,
         descuento: 0,

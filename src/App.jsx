@@ -164,40 +164,38 @@ function Header() {
                 </svg>
               </button>
               {desplegableAccesorios && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 w-[90vw] max-w-5xl bg-background border border-border shadow-xl p-8 grid grid-cols-5 gap-6 text-left animate-fadeIn">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 w-[90vw] max-w-5xl bg-background border border-border shadow-xl p-8 grid grid-cols-4 gap-6 text-left animate-fadeIn">
                   <div>
                     <h3 className="font-bold text-foreground border-b border-border pb-1.5 mb-2 text-[11px]">Protección</h3>
                     <ul className="space-y-1.5 font-normal normal-case text-muted-foreground text-sm">
-                      <li><Link to="/catalogo?categoria=pantalla" className="hover:text-primary">Fundas</Link></li>
-                      <li><Link to="/catalogo?categoria=trasero" className="hover:text-primary">Templados</Link></li>
+                      <li><Link to="/catalogo?search=funda" onClick={() => setDesplegableAccesorios(false)} className="hover:text-primary">Fundas</Link></li>
+                      <li><Link to="/producto/1" onClick={() => setDesplegableAccesorios(false)} className="hover:text-primary">Templados</Link></li>
                     </ul>
                     <h3 className="font-bold text-foreground border-b border-border pb-1.5 mb-2 mt-4 text-[11px]">Auriculares</h3>
                     <ul className="space-y-1.5 font-normal normal-case text-muted-foreground text-sm">
-                      <li><Link to="/catalogo?categoria=inalambricos" className="hover:text-primary">Airpods Max</Link></li>
-                      <li><Link to="/catalogo?categoria=cables" className="hover:text-primary">Airpods segunda generacion</Link></li>
-                      <li><Link to="/catalogo?categoria=cables" className="hover:text-primary">Earpods</Link></li>
+                      <li><Link to="/producto/3" onClick={() => setDesplegableAccesorios(false)} className="hover:text-primary">Airpods Max</Link></li>
+                      <li><Link to="/producto/6" onClick={() => setDesplegableAccesorios(false)} className="hover:text-primary">Airpods 2da generación</Link></li>
                     </ul>
                   </div>
                   <div>
                     <h3 className="font-bold text-foreground border-b border-border pb-1.5 mb-2 text-[11px]">Cargadores</h3>
                     <ul className="space-y-1.5 font-normal normal-case text-muted-foreground text-sm">
-                      <li><Link to="/catalogo?categoria=cargador-pared" className="hover:text-primary">Adaptador original</Link></li>
-                      <li><Link to="/catalogo?categoria=cargador-auto" className="hover:text-primary">Adaptador para auto</Link></li>
-                      <li><Link to="/catalogo?categoria=cargador-portatil" className="hover:text-primary">Adaptador replica</Link></li>
+                      <li><Link to="/producto/4" onClick={() => setDesplegableAccesorios(false)} className="hover:text-primary">Adaptador original</Link></li>
+                      <li><Link to="/producto/5" onClick={() => setDesplegableAccesorios(false)} className="hover:text-primary">Adaptador replica</Link></li>
+                      <li><Link to="/producto/7" onClick={() => setDesplegableAccesorios(false)} className="hover:text-primary">Batery Pack</Link></li>
                     </ul>
                   </div>
                   <div>
                     <h3 className="font-bold text-foreground border-b border-border pb-1.5 mb-2 text-[11px]">Cables</h3>
                     <ul className="space-y-1.5 font-normal normal-case text-muted-foreground text-sm">
-                      <li><Link to="/catalogo?categoria=cable-iphone" className="hover:text-primary">Cables tipo Lightning</Link></li>
-                      <li><Link to="/catalogo?categoria=cable-tipo-c" className="hover:text-primary">Cables tipo C</Link></li>
+                      <li><Link to="/producto/9" onClick={() => setDesplegableAccesorios(false)} className="hover:text-primary">Cable Lightning</Link></li>
+                      <li><Link to="/producto/10" onClick={() => setDesplegableAccesorios(false)} className="hover:text-primary">Cable USB-C</Link></li>
                     </ul>
                   </div>
                   <div>
                     <h3 className="font-bold text-foreground border-b border-border pb-1.5 mb-2 text-[11px]">Otros</h3>
                     <ul className="space-y-1.5 font-normal normal-case text-muted-foreground text-sm">
-                      <li><Link to="/catalogo?categoria=soportes" className="hover:text-primary">Apple Watch Ultra 2</Link></li>
-                      <li><Link to="/catalogo?categoria=correas" className="hover:text-primary">Batery Pack</Link></li>
+                      <li><Link to="/producto/8" onClick={() => setDesplegableAccesorios(false)} className="hover:text-primary">Apple Watch Ultra 2</Link></li>
                     </ul>
                   </div>
                 </div>
@@ -607,7 +605,8 @@ export default function App() {
         </Routes>
       </main>
       <Footer />
+      <Analytics />
     </div>
   );
-  <Analytics />
+  
 }
