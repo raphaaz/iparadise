@@ -14,11 +14,12 @@ export default async function handler(req, res) {
             metadata: {
                 items: itemsConStock
             },
-            notification_url: 'https://iparadise.vercel.app/api/webhook-mp',
+            external_reference: `iparadise-${Date.now()}`,
+            notification_url: 'https://iparadise.com.ar/api/webhook-mp',
             back_urls: {
-                success: 'https://iparadise.vercel.app/gracias',
-                failure: 'https://iparadise.vercel.app/error',
-                pending: 'https://iparadise.vercel.app/pendiente'
+                success: 'https://iparadise.com.ar/gracias',
+                failure: 'https://iparadise.com.ar/error',
+                pending: 'https://iparadise.com.ar/pendiente'
             },
             auto_return: 'approved'
         })
