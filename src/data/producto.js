@@ -35,8 +35,8 @@
         {
         id: 3,
         nombre: "Airpods Max",
-        precioOriginal: 77000,
-        descuento: 40, // <--- Modificá este número cuando quieras ponerle oferta (ej: 26)
+        precioOriginal: 40099.99,
+        descuento: 0, // <--- Modificá este número cuando quieras ponerle oferta (ej: 26)
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
         return this.precioOriginal - (this.precioOriginal * (this.descuento / 100));
@@ -62,7 +62,7 @@
     {
         id: 4,
         nombre: "Adaptador original",
-        precioOriginal: 49500,  /*49500*/
+        precioOriginal: 52299.99,  /*49500*/
         descuento: 0,  
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -90,7 +90,7 @@
     {
         id: 5,
         nombre: "Adaptador Replica",
-        precioOriginal: 14300,
+        precioOriginal: 14199.99,
         descuento: 0,
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -115,7 +115,7 @@
     {
         id: 6,
         nombre: "Airpods Segunda Generacion ",
-        precioOriginal: 22000,
+        precioOriginal: 26499.99,
         descuento: 0,
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -138,7 +138,7 @@
     {
         id: 7,
         nombre: "Batery Pack",
-        precioOriginal: 22000,
+        precioOriginal: 22999.99,
         descuento: 0,
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -165,7 +165,7 @@
     {
         id: 8,
         nombre: "Watch Ultra 2 ",
-        precioOriginal: 46200,
+        precioOriginal: 48599.99,
         descuento: 0,
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -195,7 +195,7 @@
     {
         id: 9,
         nombre: "Cable Lightning",
-        precioOriginal: 5000,
+        precioOriginal: 5299.99,
         descuento: 0,
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
@@ -218,7 +218,7 @@
     {
         id: 10,
         nombre: "Cable Usb-c",
-        precioOriginal: 5000,
+        precioOriginal: 5299.99,
         descuento: 0,
         get precioOferta() {
         if (!this.descuento || this.descuento <= 0) return this.precioOriginal;
